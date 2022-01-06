@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <object th:replace="fragments/includes_top :: top" th:remove="tag" ></object>
+</head>
+<body style="overflow: hidden">
+<div class="bg-image-blur"></div>
+
+<div class="auth-wrapper aut-bg-img" style="background: #00000073">
+    <div class="text-center" style="position: absolute; margin-top: -22%">
+        <h2 class="mb-4 text-white" style="margin: inherit"  ><span>Мультимедиали алоқа <br> тармоқлари кабинети</span></h2>
+    </div>
+    <div class="auth-content">
+        <div class="text-white">
+            <form action="" method="POST" autocomplete="off">
+                <div class="card-body text-center">
+                    <div class="mb-4">
+                        <i class="feather icon-unlock auth-icon"></i>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input style="background: white" type="text" class="form-control" name="username" th:placeholder="#{sys_login}" autofocus="">
+                    </div>
+                    <div class="input-group mb-3">
+                        <input style="background: white" type="password" class="form-control" name="password" th:placeholder="#{sys_password}" autofocus="">
+                    </div>
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                    <button class="btn btn-primary mb-4 shadow-2" >Кабинетга кириш</button>
+                    <a class="mb-4 text-white" href="#register">Руйхатдан утиш</a>
+                </div>
+            </form>
+            <div class="alert alert-danger alert-dismissible text-center" th:unless="${param.error==null}" >Wrong username or password. </div>
+        </div>
+    </div>
+</div>
+
+
+<object th:replace="fragments/includes_bottom :: bottom" th:remove="tag" ></object>
+</body>
+</html>

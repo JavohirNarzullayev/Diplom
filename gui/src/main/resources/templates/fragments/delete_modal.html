@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" />
+
+</head>
+<body th:fragment="deleteModal">
+<div class="modal fade" tabindex="-1" role="dialog" id="delete_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" th:text="#{delete_modal_title}"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <p th:text="#{delete_modal_title}"></p>
+                <p id="delete_modal_content"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{sys_cancel}"></button>
+                <a class="btn btn-primary modal-btn-delete" th:text="#{sys_ok}"></a>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script th:inline="javascript">
+    function deleteModalMethod(url, id, text) {
+        if(id==null){
+            $(".modal-btn-delete").attr("href", url);
+        }else{
+            $(".modal-btn-delete").attr("href", url+"?id="+id);
+        }
+        $("#delete_modal_content").text(text);
+        $("#delete_modal").modal();
+    }
+</script>
+</body>
+</html>
