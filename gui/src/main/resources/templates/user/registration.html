@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <object th:replace="fragments/includes_top :: top" th:remove="tag" ></object>
+    <style>
+        .centering{
+            float: none;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 text-center col-md-offset-3 centering" style="">
+            <h1>Руйхатдан утказиш</h1>
+            <form  autocomplete="on" th:action="@{/registration}" th:object="${user}"  method="post">
+                <div class="form-group"
+                     th:classappend="${#fields.hasErrors('fio')}? 'has-error':''">
+                    <div class="input-group">
+                         <span class="input-group-addon">
+                             <i class="glyphicon glyphicon-user"></i>
+                         </span>
+                        <input id="fio"
+                               class="form-control"
+                               placeholder="ФИО"
+                               th:field="*{fio}"/>
+                    </div>
+                    <p class="error-message"
+                       th:each="error: ${#fields.errors('fio')}"
+                       th:text="${error}">Validation error</p>
+                </div>
+                <!--phone-->
+                <div class="form-group"
+                     th:classappend="${#fields.hasErrors('phone')}? 'has-error':''">
+                    <div class="input-group">
+                         <span class="input-group-addon">
+                             <i class="glyphicon glyphicon-earphone"></i>
+                         </span>
+                        <input id="phone"
+                               class="form-control"
+                               type="tel"
+                               placeholder="Телефон"
+                               th:field="*{phone}"/>
+                    </div>
+                    <p class="error-message"
+                       th:each="error: ${#fields.errors('phone')}"
+                       th:text="${error}"></p>
+                </div>
+                <!--email-->
+                <div class="form-group"
+                     th:classappend="${#fields.hasErrors('email')}? 'has-error':''">
+                    <div class="input-group">
+                         <span class="input-group-addon">
+                             <i class="glyphicon glyphicon-earphone"></i>
+                         </span>
+                        <input id="phone"
+                               class="form-control"
+                               type="email"
+                               placeholder="Почта"
+                               th:field="*{email}"/>
+                    </div>
+                    <p class="error-message"
+                       th:each="error: ${#fields.errors('email')}"
+                       th:text="${error}"></p>
+                </div>
+                <!--username-->
+                <div class="form-group"
+                     th:classappend="${#fields.hasErrors('username')}? 'has-error':''">
+                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="glyphicon glyphicon-user"></i>
+                                        </span>
+                        <input id="username"
+                               class="form-control"
+                               placeholder="Логин"
+                               th:field="*{username}"/>
+                    </div>
+                    <p class="error-message"
+                       th:each="error: ${#fields.errors('username')}"
+                       th:text="${error}"></p>
+                </div>
+                <!--password-->
+                <div class="form-group"
+                     th:classappend="${#fields.hasErrors('password')}? 'has-error':''">
+                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="glyphicon glyphicon-lock"></i>
+                                        </span>
+                        <input id="password"
+                               class="form-control"
+                               type="password"
+                               placeholder="Парол"
+                               th:field="*{password}"/>
+                    </div>
+                    <p class="error-message"
+                       th:each="error: ${#fields.errors('password')}"
+                       th:text="${error}"></p>
+                </div>
+                <!--confirm password-->
+                <div class="form-group"
+                     th:classappend="${#fields.hasErrors('confirmPassword')}? 'has-error':''">
+                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="glyphicon glyphicon-lock"></i>
+                                        </span>
+                        <input id="confirmPassword"
+                               type="password"
+                               class="form-control"
+                               placeholder="Повторите пароль"
+                               th:field="*{confirmPassword}"/>
+                    </div>
+                    <p class="error-message"
+                       th:each="error: ${#fields.errors('confirmPassword')}"
+                       th:text="${error}"></p>
+                </div>
+                <div class="form-group">
+                    <button type="submit"  class="btn btn-group-justified btn-success">Register</button>
+                    <span>Агар аллакочон руйхатдан утган булсаиз <a href="/"  th:href="@{/login}">шуни босинг</a></span>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript"  src="/static/js/jquery-ui.js"></script>
+<script type="text/javascript"  src="/static/plugins/bootstrap/bootstrap.min.js"></script>
+
+</body>
+</html>

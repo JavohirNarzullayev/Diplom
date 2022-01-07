@@ -18,14 +18,14 @@
                         <i class="feather icon-unlock auth-icon"></i>
                     </div>
                     <div class="input-group mb-3">
-                        <input style="background: white" type="text" class="form-control" name="username" th:placeholder="#{sys_login}" autofocus="">
+                        <input style="background: white" type="text" class="form-control" name="username" placeholder="Логин" autofocus="">
                     </div>
                     <div class="input-group mb-3">
-                        <input style="background: white" type="password" class="form-control" name="password" th:placeholder="#{sys_password}" autofocus="">
+                        <input style="background: white" type="password" class="form-control" name="password" placeholder="Пароль" autofocus="">
                     </div>
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-                    <button class="btn btn-primary mb-4 shadow-2" >Кабинетга кириш</button>
-                    <a class="mb-4 text-white" href="#register">Руйхатдан утиш</a>
+                    <button class="btn btn-primary mb-4  shadow-2" >Кабинетга кириш</button>
+                    <a href="/registration" class=" btn btn-outline-primary mb-4 shadow-2  text-white">Руйхатдан утиш</a>
                 </div>
             </form>
             <div class="alert alert-danger alert-dismissible text-center" th:unless="${param.error==null}" >Wrong username or password. </div>
