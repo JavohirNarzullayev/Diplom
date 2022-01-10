@@ -14,6 +14,7 @@ public class UniqueUsernameValidator implements ConstraintValidator<UserValidity
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
+
         return !userService.isUserAlreadyPresent(s) && !userService.existByEmail(s);
     }
 }

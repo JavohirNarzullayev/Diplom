@@ -4,9 +4,10 @@ package uz.narzullayev.javohir.service;/*
   Time: 9:41 PM*/
 
 import uz.narzullayev.javohir.dto.UserDto;
+import uz.narzullayev.javohir.entity.UserEntity;
 
 public interface UserService {
-    void save(UserDto user);
+    UserEntity save(UserDto user);
 
     boolean isUserAlreadyPresent(String username);
 

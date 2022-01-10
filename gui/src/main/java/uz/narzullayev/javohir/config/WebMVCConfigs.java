@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
@@ -17,13 +19,16 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import uz.narzullayev.javohir.sys.SysUrls;
+import uz.narzullayev.javohir.util.AuthUtil;
 
 import java.util.Locale;
+import java.util.UUID;
 
 
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "uz.narzullayev.javohir")
+@EnableJpaAuditing
 public class WebMVCConfigs implements WebMvcConfigurer {
 
 
@@ -92,6 +97,13 @@ public class WebMVCConfigs implements WebMvcConfigurer {
         resolver.setCharacterEncoding("UTF-8");
         resolver.setCacheable(true);
         return resolver;
+    }
+
+
+    //for createdBy,updatedBy
+    @Bean
+    public AuditorAware<UUID> auditorAware(){
+        return AuthUtil::getUserId;
     }
 
 
