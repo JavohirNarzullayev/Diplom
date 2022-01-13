@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <object th:replace="fragments/includes_top :: top" th:remove="tag" ></object>
+
+</head>
+<body class="layout-6" style="background: rgba(0, 0, 0, 0) linear-gradient(to right, rgb(79, 172, 254) 0%, rgb(0, 242, 254) 100%) repeat scroll 0% 0%;">
+
+<!-- [ Pre-loader ] start -->
+<object th:replace="fragments/preloader :: body" th:remove="tag"></object>
+<!-- [ Pre-loader ] End -->
+
+<!-- [ navigation menu ] start -->
+<object th:include="fragments/navbar :: body" th:remove="tag"></object>
+<!-- [ navigation menu ] end -->
+
+<!-- [ Header ] start -->
+<object th:include="fragments/topbar :: body" th:remove="tag"></object>
+<!-- [ Header ] end -->
+
+
+<!-- [ Main Content ] start -->
+<div class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ breadcrumb ] start -->
+                <div th:replace="fragments/breadcrumb :: breadcrumb"></div>
+                <!-- [ breadcrumb ] end -->
+
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <!-- [ light-layout ] start -->
+                            <div class="col-sm-12">
+                                <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
+                                    <a href="/admin/dashboard" class="nav-link" style="padding: 5px 15px">
+                                        <span class="pcoded-micon"><i class="fas fa-envelope-open"></i></span>
+                                        <span class="pcoded-mtext text-wrap"> Меню </span>
+                                    </a>
+                                </li>
+                            </div>
+                            <!-- [ light-layout ] end -->
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ Main Content ] end -->
+
+
+
+<div th:replace="fragments/includes_bottom :: bottom" th:remove="tag"></div>
+
+</body>
+</html>

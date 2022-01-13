@@ -4,6 +4,8 @@ package uz.narzullayev.javohir.util;/*
   Time: 1:52 PM*/
 
 import lombok.experimental.UtilityClass;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import uz.narzullayev.javohir.dto.ProjectUserDetails;
 
 import java.util.Optional;
@@ -12,7 +14,7 @@ import java.util.UUID;
 @UtilityClass
 public class AuthUtil {
 
-    public static Optional<UUID> getUserId(){
+    public static Optional<Long> getUserId(){
         ProjectUserDetails projectUserDetails = getUserDetails();
         if (projectUserDetails!=null){
             return Optional.ofNullable(projectUserDetails.getUserId());
@@ -23,10 +25,10 @@ public class AuthUtil {
 
     public static ProjectUserDetails getUserDetails(){
         try {
-            /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication.getPrincipal() instanceof ProjectUserDetails){
                 return (ProjectUserDetails) authentication.getPrincipal();
-            }*/
+            }
         }catch (Exception e){
             return null;
         }

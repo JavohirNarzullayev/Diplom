@@ -22,7 +22,6 @@ import uz.narzullayev.javohir.sys.SysUrls;
 import uz.narzullayev.javohir.util.AuthUtil;
 
 import java.util.Locale;
-import java.util.UUID;
 
 
 @Configuration
@@ -93,7 +92,7 @@ public class WebMVCConfigs implements WebMvcConfigurer {
         SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
         resolver.setPrefix("classpath:/templates/");
         resolver.setSuffix(".html");
-        resolver.setTemplateMode("HTML5");
+        resolver.setTemplateMode("html");
         resolver.setCharacterEncoding("UTF-8");
         resolver.setCacheable(true);
         return resolver;
@@ -102,7 +101,7 @@ public class WebMVCConfigs implements WebMvcConfigurer {
 
     //for createdBy,updatedBy
     @Bean
-    public AuditorAware<UUID> auditorAware(){
+    public AuditorAware<Long> auditorAware(){
         return AuthUtil::getUserId;
     }
 

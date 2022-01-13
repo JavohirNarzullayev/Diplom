@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+</head>
+<body>
+<!-- [ breadcrumb ] start -->
+<div class="page-header" th:if="${breadcrumb}" th:fragment="breadcrumb">  <!--th:if="${breadcrumb}"-->
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <!--<h5 class="m-b-10">Layout</h5>-->
+                </div>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="/dashboard">
+                        <i class="feather icon-home"></i></a>
+                    </li>
+                    <li th:each="link : ${breadcrumb.links}" class="breadcrumb-item">
+                        <a th:href="${link.url}" th:text="${link.label}"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ breadcrumb ] end -->
+</body>
+</html>

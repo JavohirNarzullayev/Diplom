@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import uz.narzullayev.javohir.entity.UserEntity;
 
 import java.util.Collection;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -23,7 +22,7 @@ import java.util.stream.Collectors;
 public class ProjectUserDetails implements UserDetails {
 
     private UserEntity userEntity;
-    private UUID userId;
+    private Long userId;
 
 
 
@@ -70,7 +69,7 @@ public class ProjectUserDetails implements UserDetails {
         return userEntity;
     }
 
-    public UUID getUserId() {
+    public Long getUserId() {
         return userId;
     }
 

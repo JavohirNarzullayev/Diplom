@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body th:fragment="body">
+<div class="modal fade" id="confirm-modals" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="text-center">
+                <br class="mb-4"/>
+                <i class="feather icon-alert-circle f-60 text-c-yellow"></i>
+                <i class="ti-alert f-70 text-c-yellow"></i>
+                <br class="mb-4"/>
+            </div>
+
+            <div class="modal-body mb-4">
+
+            </div>
+
+            <div class="text-center mb-4">
+                <button type="button" class="btn btn-light" data-dismiss="modal">
+                    <i class="feather icon-x"></i> &nbsp; <span th:text="#{action.cancel}"></span>
+                </button>
+                <button type="button" class="btn btn-success">
+                    <i class="feather icon-check"></i> &nbsp; <span th:text="#{action.confirm}"></span>
+                </button>
+            </div>
+            <!--<div class="modal-footer">
+
+            </div>-->
+        </div>
+    </div>
+</div>
+<script type="text/javascript" th:inline="javascript">
+
+    var jModal = $('#confirm-modals');
+
+    function showConfirmModal(modalData, confirmType) {
+        if (modalData == null) modalData = {};
+        if (modalData.content == null) {
+            modalData.content = '';
+        } else {
+            if (confirmType == 'delete') {
+                modalData.content = [[#{message.confirmDelete}]] + '<br/>' + modalData.content;
+            } else if (confirmType == 'active') {
+                modalData.content = [[#{message.confirmActiveChange}]] + '<br/>' + modalData.content;
+            }else if (confirmType == 'unblock') {
+                modalData.content = '<div class="text-center">' + [[#{message.confirmUnblockChange}]] + '</div>';
+            } else if (confirmType == 'block') {
+                modalData.content = '<div class="text-center">' + [[#{message.confirmBlockChange}]] + '</div>';
+            }
+        }
+        if (modalData.confirmCallback == null) {
+            console.log('confirmCallback param is not set. Delete Modal will not work.');
+        }
+        jModal.find('.modal-body').html(modalData.content);
+        jModal.find('.btn-success').unbind('click').click(modalData.confirmCallback);
+        jModal.modal();
+    }
+
+</script>
+</body>
+</html>

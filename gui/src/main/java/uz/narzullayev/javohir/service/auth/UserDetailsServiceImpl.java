@@ -40,6 +40,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         ProjectUserDetails userDetails = new ProjectUserDetails(userEntity, userEntity.getId());
         log.info("Logged in at : " + LocalDateTime.now() + " | " + userEntity);
+        userEntity.setLastVisit(LocalDateTime.now());
         userRepository.save(userEntity);
 
         return userDetails;

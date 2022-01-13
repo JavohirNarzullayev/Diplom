@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <object th:replace="fragments/includes_top :: top" th:remove="tag"></object>
+</head>
+<body class="layout-6" style="background: rgba(0, 0, 0, 0) linear-gradient(to right, rgb(79, 172, 254) 0%, rgb(0, 242, 254) 100%) repeat scroll 0% 0%;">
+
+<!-- [ Pre-loader ] start -->
+<object th:replace="fragments/preloader :: body" th:remove="tag"></object>
+<!-- [ Pre-loader ] End -->
+
+<!-- [ navigation menu ] start -->
+<object th:replace="fragments/navbar :: body" th:remove="tag"></object>
+<!-- [ navigation menu ] end -->
+
+<!-- [ Header ] start -->
+<object th:replace="fragments/topbar :: body" th:remove="tag"></object>
+<!-- [ Header ] end -->
+
+
+<!-- [ Main Content ] start -->
+<div class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ breadcrumb ] start -->
+                <div th:replace="fragments/breadcrumb :: breadcrumb"></div>
+                <!-- [ breadcrumb ] end -->
+
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <!-- [ light-layout ] start -->
+                            <div class="col-sm-12">
+
+                                <div class="card">
+
+                                    <div class="card-header">
+                                        <h5 th:text="#{menu.users.title}">Responsive</h5>
+                                    </div>
+
+                                    <div class="card-block">
+
+                                        <div class="table table-responsive">
+
+                                            <table class="tablesaw table-bordered table-hover table" data-tablesaw-mode="swipe" th:object="${object}">
+                                                <tr>
+                                                    <td class="text-right title" style="width: 50%;"><h5 th:text="#{label.id}"/></td>
+                                                    <td class="text-left" th:text="*{id}"> 1</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="text-right title" style="width: 50%;"><h5 th:text="#{label.role}"/></td>
+                                                    <td class="text-left">
+                                                        <!--th:text="#{*{role}}"-->
+                                                        <span th:if="*{role != null}" th:text="#{*{role}}"> </span>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="text-right title" style="width: 50%;"><h5 th:text="#{label.username}"/></td>
+                                                    <td class="text-left" th:text="*{username}"> username</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="text-right title" style="width: 50%;"><h5 th:text="#{label.fullname}"/></td>
+                                                    <!--<td class="text-left" th:text="*{#strings.defaultString(firstname,' ') + ' ' + #strings.defaultString(lastname,' ') + ' ' + #strings.defaultString(middlename,' ') }"> username</td>-->
+                                                    <td class="text-left" th:text="*{fio}"> username</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="text-right title" style="width: 50%;"><h5 th:text="#{label.phone}"/></td>
+                                                    <td class="text-left" th:text="*{phone}"> phone</td>
+                                                </tr>
+
+
+
+                                                <tr>
+                                                    <td class="text-right title" style="width: 50%;"><h5 th:text="#{label.last.visit}"/></td>
+                                                    <td class="text-left" th:text="*{lastVisit}"> </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="text-right title" style="width: 50%;"><h5 th:text="#{label.active}"/></td>
+                                                    <td class="text-left">  <!--th:text="*{enabled}"-->
+                                                        <span th:if="*{enabled == true}" th:text="#{label.yes}"></span>
+                                                        <span th:if="*{enabled == false}" th:text="#{label.no}"></span>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="text-right title" style="width: 50%;"><h5 th:text="#{label.deleted}"/></td>
+                                                    <td class="text-left"> <!--th:text="*{deleted}"-->
+                                                        <span th:if="*{deleted == true}" th:text="#{label.yes}"></span>
+                                                        <span th:if="*{deleted == false}" th:text="#{label.no}"></span>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="text-right title" style="width: 50%;"><h5 th:text="#{label.registered.at}"/></td>
+                                                    <td class="text-left" th:text="*{registeredAt}"> </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="text-right title" style="width: 50%;"><h5 th:text="#{label.updated.at}"/></td>
+                                                    <td class="text-left" th:text="*{updatedAt}"> </td>
+                                                </tr>
+                                            </table>
+
+                                            <div class="text-left">
+                                                <a class="btn btn-light" onclick="goBack()">
+                                                    <i class="feather icon-skip-back"></i> <span th:text="#{action.back}"></span>
+                                                </a>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <!-- [ light-layout ] end -->
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ Main Content ] end -->
+
+
+
+<div th:include="fragments/includes_bottom :: bottom" th:remove="tag"></div>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+
+
+
+    /*]]>*/
+</script>
+</body>
+</html>

@@ -5,6 +5,7 @@ package uz.narzullayev.javohir.entity.info;/*
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -19,9 +20,6 @@ import java.util.UUID;
 public class ExtraInfo {
 
 
-    @Id
-    @Column(name = "id", nullable = false)
-    private UUID id=UUID.randomUUID();
 
     @CreatedDate
     @Column( updatable = false)
@@ -41,6 +39,9 @@ public class ExtraInfo {
     protected  UUID updatedBy;
 
     private Boolean deleted;
+
+
+
 
     @PrePersist
     void persist(){

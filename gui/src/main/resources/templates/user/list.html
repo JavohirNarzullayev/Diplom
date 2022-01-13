@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <object th:include="fragments/includes_top :: top" th:remove="tag" />
+</head>
+<body class="layout-6" style="background: rgba(0, 0, 0, 0) linear-gradient(to right, rgb(79, 172, 254) 0%, rgb(0, 242, 254) 100%) repeat scroll 0% 0%;">
+
+<!-- [ Pre-loader ] start -->
+<object th:include="fragments/preloader :: body" th:remove="tag" />
+<!-- [ Pre-loader ] End -->
+
+<!-- [ navigation menu ] start -->
+<object th:include="fragments/navbar :: body" th:remove="tag" />
+<!-- [ navigation menu ] end -->
+
+<!-- [ Header ] start -->
+<object th:include="fragments/topbar :: body" th:remove="tag" />
+<!-- [ Header ] end -->
+
+
+<!-- [ Main Content ] start -->
+<div class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ breadcrumb ] start -->
+                <div th:replace="fragments/breadcrumb :: breadcrumb"/>
+                <!-- [ breadcrumb ] end -->
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+
+                            <!-- [ Filter ] start -->
+                            <div class="col-sm-12">
+
+                                <div class="card">
+
+                                    <div class="card-header">
+                                        <h5 >Фойдаланучилар руйхати</h5>
+                                    </div>
+
+                                    <div class="card-block">
+                                        <form th:object="${filter}">
+                                            <div class="row">
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="role">Фойдаланувчи роли</label>
+                                                        <select class="form-control" id="role" th:field="*{role}">
+                                                            <option value="">Рол ни танланг</option>
+                                                            <option th:value="'STUDENT'">Талаба</option>
+                                                            <option th:value="'TEACHER'">Устоз муррабий</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="fio" >ФИО</label>
+                                                        <input type="text" class="form-control" id="fio" th:field="*{fio}"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="username" >Логини</label>
+                                                        <input type="text" class="form-control" id="username" th:field="*{username}"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <br/>
+                                                        <div class="mb-2"> &nbsp; </div>
+                                                        <button class="btn btn-outline-primary" id="search" href="#" onclick="getDatatableConnect();return false;">
+                                                            <i class="feather icon-search"></i>
+                                                            <span>Кидиш</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 >Руйхат</h5>
+                                    </div>
+                                    <div class="card-block">
+                                        <div class="text-right align-self-end">
+                                            <span id="total">
+                                            </span>
+                                        </div>
+                                        <div class="table table-responsive">
+                                            <table id="userList" class="display table nowrap table-striped table-hover" style="width:100%">
+                                                <thead>
+                                                <tr>
+                                                    <th class="text-center" >Логин</th>
+                                                    <th class="text-center" >ФИО</th>
+                                                    <th class="text-center" >Активлиги</th>
+                                                    <th class="text-center" >Охирги ташриф</th>
+                                                    <th class="text-center" >Телефон</th>
+                                                    <th class="text-center" >Роли</th>
+                                                    <th></th>
+                                                </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <!-- [ Datatable ] end -->
+
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ Main Content ] end -->
+
+
+
+<div th:replace="fragments/includes_bottom :: bottom" th:remove="tag"/>
+<div th:replace="fragments/modals/confirm_modal :: body" th:remove="tag"/>
+<!--
+<script src="/static/plugins/print-js/printThis.js"></script>
+-->
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+
+    var ajaxRequestLink = '/user/list_ajax';
+
+    var editLink = '/user/edit';
+    var viewLink = '/user/view';
+    var deleteLink = '/user/delete';
+    var userActionLink = '/user/action';
+    var labelView = [[#{action.view}]];
+    var labelEdit = [[#{action.edit}]];
+    var labelDelete = [[#{action.delete}]];
+    var labelBlock = [[#{action.block}]];
+    var labelUnblock = [[#{action.unblock}]];
+    var active = {true: "Актив", false: "Ноактив"};
+
+
+
+    var roles = {
+        admin: 'Админ',
+        teacher: 'Устоз',
+        student: 'Талаба'
+    };
+
+    $(document).ready(function () {
+        dataTableSelector = $('#userList');
+        thead = dataTableSelector.html();
+        dataTableConnect();
+    });
+
+    function dataTableConnect() {
+        console.log(' logger function ');
+        $('#userList').DataTable({
+            ajax: function (dataToSend, callback, settings) {
+                dataToSend.role = $("#role").val();
+                dataToSend.fio= $("#fio").val();
+                dataToSend.username= $("#username").val();
+                $.get(ajaxRequestLink, dataToSend, function(data){
+                    callback(data);
+                });
+            },
+            "serverSide": true,
+            "searching": true,
+            "columns": [
+                {
+                    "data": "username"
+                },
+                {
+                    "data": "fio"
+                },
+                {
+                    "render": renderStatusColumn,
+                    className: "text-center",
+                    "orderable": false,
+                    "searchable": false
+                },
+                {
+                    "data": "lastVisit",
+                    "render" : renderLocalDateTime,
+                    className: "text-right"
+                },
+                {
+                    "data": "phone",
+                    "render" : renderSampColumnPhone,
+                    className: "text-right"
+                },
+                {
+                    "data" : "role",
+                    "render" : function(data, type, row){
+                        return row['role'] ? row['role'].map(function (role) {
+                            if (role == 'ADMIN') {
+                                return roles.admin;
+                            } else if (role == 'STUDENT') {
+                                return roles.student;
+                            } else if (role == 'TEACHER') {
+                                return roles.teacher;
+                            } else {
+                                return roles;
+                            }
+                        }).join(',') : '';
+                    },
+                    className: "text-right",
+                    "orderable": true,
+                    "searchable": false
+                },
+                {
+                    "data": "id",
+                    "className": "text-right",
+                    "fnCreatedCell": function (data, type, row, meta) {
+                        var actionsField = '';
+                        if(row.enabled == true){
+                           actionsField += `<a class="btn-sm badge badge-warning" data-toggle="tooltip" onclick='blockUser(\""${row.id}"\")' href='javascript: void(0);' data-original-title="${labelBlock}"><i class="feather icon-lock"></i></a>`;
+                        }else{
+                           actionsField += ` <a class="btn-sm badge badge-primary"  data-toggle="tooltip" onclick='unblockUser(\""${row.id}"\")' href='javascript: void(0);' data-original-title="${labelUnblock}"><i class="feather icon-unlock"></i></a>`;
+                       }
+                        actionsField    += ' <a class="btn-sm badge badge-light" href="'+viewLink+'?id='+row.id+'" data-toggle="tooltip" data-original-title="'+labelView+'"><i class="feather icon-eye"></i></a>';
+                        actionsField    += ' <a class="btn-sm badge badge-info" href="'+editLink+'?id='+row.id+'" data-toggle="tooltip" data-original-title="'+labelEdit+'"><i class="feather icon-edit-1"></i></a>';
+
+                        $(data).html(actionsField);
+                    },
+                    orderable: false,
+                    searchable: false
+                }
+            ],
+            "drawCallback": function (settings) {
+                $('[data-toggle="tooltip"]').tooltip();
+            }
+        });
+    };
+
+    function renderStatusColumn(data, type, row, meta) {
+        if(row['enabled'] == true){
+            return '<span class="badge btn-sm badge-success text-white">'+active.true+'</span>';
+        }else{
+            return '<span class="badge btn-sm badge-warning text-white">'+active.false+'</span>';
+        }
+    }
+
+    function getDatatableConnect() {
+        dataTableSelector.DataTable().destroy();
+        dataTableSelector.html(thead);
+        dataTableConnect();
+    }
+
+
+    function blockUser(id) {
+        showConfirmModal(
+            {
+                content: 'ID : ',
+                confirmCallback: function () {
+                    console.log("block")
+                    window.location.href = userActionLink + "/" + id;;
+                }
+            },
+            'block'
+        );
+    }
+    function unblockUser(id) {
+        showConfirmModal(
+            {
+                content: 'ID : ',
+                confirmCallback: function () {
+                    console.log("unblock")
+                    window.location.href = userActionLink + "/" + id;
+                }
+            },
+            'unblock'
+        );
+    }
+
+    function getCurrentLanguage() {
+        return [[__${#locale}__]];
+    }
+</script>
+</body>
+</html>

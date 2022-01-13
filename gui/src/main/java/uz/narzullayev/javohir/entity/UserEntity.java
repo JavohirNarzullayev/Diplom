@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.GenericGenerator;
 import uz.narzullayev.javohir.constant.UserType;
 import uz.narzullayev.javohir.entity.info.ExtraInfo;
 
@@ -16,6 +17,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -27,6 +29,19 @@ import java.util.Objects;
 @Table(name = "users", indexes = {@Index(columnList = "username")}, uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
 @JsonIgnoreProperties({"password", "hibernateLazyInitializer", "handler"})
 public class UserEntity extends ExtraInfo implements Serializable {
+    @Id
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(generator = "sequence-generator")
+    @GenericGenerator(
+            name = "sequence-generator",
+            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+            parameters = {
+                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "user_sequence"),
+                    @org.hibernate.annotations.Parameter(name = "initial_value", value = "4"),
+                    @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
+            }
+    )
+    private Long id;
 
     @NotNull
     @NotEmpty
@@ -43,6 +58,7 @@ public class UserEntity extends ExtraInfo implements Serializable {
     private Collection<UserType> role;
 
     private Boolean enabled;
+    private LocalDateTime lastVisit;
 
 
     @Override

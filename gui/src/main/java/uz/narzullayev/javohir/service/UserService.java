@@ -3,7 +3,10 @@ package uz.narzullayev.javohir.service;/*
   Date: 1/7/2022
   Time: 9:41 PM*/
 
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import uz.narzullayev.javohir.dto.UserDto;
+import uz.narzullayev.javohir.dto.UserFilterDto;
 import uz.narzullayev.javohir.entity.UserEntity;
 
 public interface UserService {
@@ -12,4 +15,10 @@ public interface UserService {
     boolean isUserAlreadyPresent(String username);
 
     boolean existByEmail(String email);
+
+    DataTablesOutput<UserEntity> findAllBySpecific(DataTablesInput input, UserFilterDto filterDto);
+
+    Boolean userBlockOrUnblockById(Long id);
+
+    UserEntity findById(Long id);
 }

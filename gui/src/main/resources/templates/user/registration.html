@@ -15,7 +15,7 @@
     <div class="row">
         <div class="col-md-6 text-center col-md-offset-3 centering" style="">
             <h1>Руйхатдан утказиш</h1>
-            <form  autocomplete="on" th:action="@{/registration}" th:object="${user}"  method="post">
+            <form  autocomplete="on" th:action="@{/user/registration}" th:object="${user}"  method="post">
                 <div class="form-group"
                      th:classappend="${#fields.hasErrors('fio')}? 'has-error':''">
                     <div class="input-group">
@@ -70,7 +70,7 @@
                     <select class="form-control selectpicker"  th:field="*{userType}"  required >
                         <option value="">Рол ни танланг</option>
                         <option th:value="'STUDENT'">Талаба</option>
-                        <option th:value="'TEACHEER'">Устоз муррабий</option>
+                        <option th:value="'TEACHER'">Устоз муррабий</option>
 
 
                         <option th:each="role: ${roles}" th:text="${role.name}" th:value="${role}"></option>
@@ -127,6 +127,7 @@
                        th:each="error: ${#fields.errors('confirmPassword')}"
                        th:text="${error}"></p>
                 </div>
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                 <div class="form-group">
                     <button type="submit"  class="btn btn-group-justified btn-success">Register</button>
                     <span>Агар аллакочон руйхатдан утган булсаиз <a href="/"  th:href="@{/login}">шуни босинг</a></span>

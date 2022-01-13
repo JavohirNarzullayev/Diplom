@@ -5,7 +5,6 @@
 </head>
 <body style="overflow: hidden">
 <div class="bg-image-blur"></div>
-
 <div class="auth-wrapper aut-bg-img" style="background: #00000073">
     <div class="text-center" style="position: absolute; margin-top: -22%">
         <h2 class="mb-4 text-white" style="margin: inherit"  ><span>Мультимедиали алоқа <br> тармоқлари кабинети</span></h2>
@@ -18,14 +17,14 @@
                         <i class="feather icon-unlock auth-icon"></i>
                     </div>
                     <div class="input-group mb-3">
-                        <input style="background: white" type="text" class="form-control" name="username" placeholder="Логин" autofocus="">
+                       <input style="background: white" type="text" class="form-control" name="username" placeholder="Логин" autofocus="">
                     </div>
                     <div class="input-group mb-3">
-                        <input style="background: white" type="password" class="form-control" name="password" placeholder="Пароль" autofocus="">
+                       <input style="background: white" type="password" class="form-control" name="password" placeholder="Пароль" autofocus="">
                     </div>
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                     <button class="btn btn-primary mb-4  shadow-2" >Кабинетга кириш</button>
-                    <a href="/registration" class=" btn btn-outline-primary mb-4 shadow-2  text-white">Руйхатдан утиш</a>
+                    <a th:href="@{/user/registration}" class=" btn btn-outline-primary mb-4 shadow-2  text-white">Руйхатдан утиш</a>
                 </div>
             </form>
             <div class="alert alert-danger alert-dismissible text-center" th:unless="${param.error==null}" >Wrong username or password. </div>
