@@ -6,13 +6,12 @@ package uz.narzullayev.javohir.specification;/*
 import lombok.experimental.UtilityClass;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
-import uz.narzullayev.javohir.constant.UserType;
 import uz.narzullayev.javohir.dto.UserFilterDto;
 import uz.narzullayev.javohir.entity.UserEntity;
 
 import javax.persistence.criteria.Predicate;
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 
 @UtilityClass
 public class UserSpecification {
