@@ -15,13 +15,12 @@
 
 <script type="text/javascript" src="/static/js/jquery-ui.js"></script>
 <script th:src="@{/static/plugins/toast/js/jquery.toast.js}"></script>
-<script th:src="@{/static/plugins/js/jquery.min.js}"></script>
 
 <script src="/static/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
 <script src="/static/sweetalert/js/sweetalert.min.js" type="application/javascript" ></script>
 
 <script type="text/javascript" th:inline="javascript">
-    var toasterNotifications = [[${toaster_notifications}]];
+    let toasterNotifications = [[${toaster_notifications}]];
     console.log(' notification : ' + toasterNotifications);
     if (!toasterNotifications)
         $.each(toasterNotifications, function (idx, elem) {

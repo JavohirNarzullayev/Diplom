@@ -28,7 +28,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException(" Username cannot be empty ");
         }
 
-        UserEntity userEntity = userRepository.findByUsernameAndFetchRolesEarly(username);
+        UserEntity userEntity = userRepository.findByUsername(username);
         if (userEntity == null) {
             log.info(" User [" + username + "] not found ");
             throw new UsernameNotFoundException(" User [" + username + "] not found ");

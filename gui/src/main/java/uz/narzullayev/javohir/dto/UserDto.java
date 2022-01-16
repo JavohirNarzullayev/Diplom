@@ -4,60 +4,96 @@ package uz.narzullayev.javohir.dto;/*
   Time: 9:42 PM*/
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.util.StringUtils;
 import uz.narzullayev.javohir.constant.UserType;
 import uz.narzullayev.javohir.entity.UserEntity;
-import uz.narzullayev.javohir.validation.FieldMatch;
-import uz.narzullayev.javohir.validation.UserValidity;
+import uz.narzullayev.javohir.validation.anontation.EmailValidity;
+import uz.narzullayev.javohir.validation.anontation.FieldMatch;
+import uz.narzullayev.javohir.validation.anontation.UserValidity;
 
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
 
 @FieldMatch(
-        first = "password",second = "confirmPassword",message = "Password and confirm password not match"
+        first = "password",second = "confirmPassword",message = "Пароллар мос емас",
+        groups = UserDto.Create.class
 )
+@EmailValidity(
+        message = "Бу почта аллакочон мавжуд!",
+        groups = {UserDto.Create.class, UserDto.Update.class})
+@UserValidity(
+        message = "Бу фойдаланувчи руйхатдан утган",
+        groups = {UserDto.Create.class, UserDto.Update.class})
+
 @Data
+@NoArgsConstructor
 public class UserDto {
+    public interface Create{};
+    public interface Update{};
+
+    private Long id;
     @Size(min = 4,max = 12)
-    @UserValidity(message = "Бу фойдаланувчи руйхатдан утган")
     private String username;
 
-    @NotBlank(message = "Парол ёзиш талаб етилади!")
+    @NotBlank(message = "Парол ёзиш талаб етилади!",groups = {Create.class})
     private String password;
 
-    @Size(min = 4,max = 12)
+    @Size(min = 4,max = 12,groups = {Create.class,Update.class})
     private String fio;
-    @NotNull
-    @NotBlank
+
+    @NotNull(groups = Create.class)
+    @NotBlank(groups = Create.class)
     private String phone;
 
-    @NotNull
+    @NotNull(groups = {Create.class,Update.class})
     private UserType userType;
 
-    @NotBlank
-    @Email
-    @UserValidity(message = "Бу почта аллакочон мавжуд!")
+    @NotBlank(groups = Create.class)
+    @Email(message = "Илтимо почтани тугри киритинг",groups = {Create.class,Update.class})
     private String email;
 
     @Transient
     private String confirmPassword;
 
+    private Boolean enabled;
 
 
-    public UserEntity merge(){
-        UserEntity user=new UserEntity();
+
+    public UserEntity merge(UserEntity user){
+        user.setId(this.id);
         user.setUsername(this.username);
-        user.setPassword(new BCryptPasswordEncoder().encode(this.password));
-        user.setEnabled(Boolean.TRUE);
-        user.setRole(List.of(this.userType));
+        if (StringUtils.hasText(this.password)) {
+            user.setPassword(new BCryptPasswordEncoder().encode(this.password));
+        }
+
+        if (this.enabled == null) {
+            user.setEnabled(Boolean.TRUE);
+        } else {
+            user.setEnabled(this.enabled);
+        }
+        user.setRole(this.userType);
         user.setFio(this.fio);
         user.setPhone(this.phone);
         user.setEmail(this.email);
         return user;
+    }
+    public UserDto(UserEntity user){
+        this.email=user.getEmail();
+        this.fio=user.getFio();
+        this.userType=user.getRole();
+        this.username=user.getUsername();
+        this.phone=user.getPhone();
+        this.id=user.getId();
+        this.enabled=user.getEnabled();
+    }
+
+    public Boolean emptyId(){
+        return this.getId()==null;
     }
 }
 

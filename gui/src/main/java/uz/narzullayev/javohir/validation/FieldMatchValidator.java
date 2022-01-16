@@ -1,9 +1,13 @@
 package uz.narzullayev.javohir.validation;
-import org.springframework.beans.BeanWrapperImpl;
+
 import org.springframework.stereotype.Component;
+import uz.narzullayev.javohir.validation.anontation.FieldMatch;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+
+import static uz.narzullayev.javohir.util.ReflectionUtils.extractFieldValue;
+
 @Component
 public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Object> {
 
@@ -22,15 +26,13 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
     @Override
     public boolean isValid(final Object value, final ConstraintValidatorContext context) {
         boolean valid = true;
-        try
-        {
-            final Object firstObj =  new BeanWrapperImpl(value).getPropertyType(firstFieldName);
-            final Object secondObj =  new BeanWrapperImpl(value).getPropertyType(secondFieldName);
+        try {
+            final String firstObj = extractFieldValue(value, firstFieldName,String.class);
+            final String secondObj = extractFieldValue(value, secondFieldName,String.class);
+            valid = firstObj == null && secondObj == null || firstObj != null && firstObj.equals(secondObj);
 
-            valid =  firstObj == null && secondObj == null || firstObj != null && firstObj.equals(secondObj);
-        }
-        catch (final Exception ignore)
-        {
+        } catch (final Exception ignore) {
+            ignore.printStackTrace();
             // ignore
         }
 
@@ -43,4 +45,8 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
 
         return valid;
     }
+
+
+
+
 }

@@ -13,9 +13,7 @@ import uz.narzullayev.javohir.entity.UserEntity;
 @Repository
 public interface UserRepository  extends DataTablesRepository<UserEntity, Long>,  JpaRepository<UserEntity,Long> {
 
-    /*@EntityGraph(attributePaths = {"organization"})*/
-    @Query("SELECT u FROM UserEntity u JOIN FETCH u.role WHERE u.username = (:username)")
-    UserEntity findByUsernameAndFetchRolesEarly(@Param("username") String username);
+    UserEntity findByUsername(@Param("username") String username);
 
     boolean existsByUsername(String username);
 

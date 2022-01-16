@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import uz.narzullayev.javohir.dto.UserDto;
 import uz.narzullayev.javohir.dto.UserFilterDto;
 import uz.narzullayev.javohir.entity.UserEntity;
@@ -15,49 +15,62 @@ import uz.narzullayev.javohir.repository.UserRepository;
 import uz.narzullayev.javohir.service.UserService;
 import uz.narzullayev.javohir.specification.UserSpecification;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public UserEntity save(@NotNull UserDto user) {
-        return userRepository.save(user.merge());
+    @Validated(UserDto.Create.class)
+    public UserEntity save(@Valid UserDto user) {
+        return userRepository.save(user.merge(new UserEntity()));
     }
 
     @Override
+    @Validated(UserDto.Update.class)
+    public UserEntity update(@Valid UserDto user) {
+        try {
+            UserEntity merge = user.merge(findById(user.getId()));
+            return userRepository.saveAndFlush(merge);
+        } catch (IllegalAccessException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+
+    @Override
     public boolean isUserAlreadyPresent(String username) {
-        return username!=null ? userRepository.existsByUsername(username) : Boolean.FALSE;
+        return username != null ? userRepository.existsByUsername(username) : Boolean.FALSE;
     }
 
     @Override
     public boolean existByEmail(String email) {
-        return email!=null ? userRepository.existsByEmail(email) : Boolean.FALSE;
+        return email != null ? userRepository.existsByEmail(email) : Boolean.FALSE;
     }
 
     @Override
-    @Transactional(readOnly = true)
     public DataTablesOutput<UserEntity> findAllBySpecific(DataTablesInput input, UserFilterDto filterDto) {
-        return userRepository.findAll(input, UserSpecification.find( filterDto ));
+        return userRepository.findAll(input, UserSpecification.find(filterDto));
     }
 
     @Override
-    public Boolean userBlockOrUnblockById(Long id) {
+    public void userBlockOrUnblockById(Long id) {
         Optional<UserEntity> userEntity = userRepository.findById(id);
-        if (userEntity.isPresent()){
+        if (userEntity.isPresent()) {
             UserEntity user = userEntity.get();
             user.setEnabled(!user.getEnabled());
             userRepository.saveAndFlush(user);
-            return true;
         }
-        return Boolean.FALSE;
     }
 
     @Override
-    public UserEntity findById(Long id) {
-        return userRepository.findById(id).orElseThrow(IllegalAccessError::new);
+    public UserEntity findById(Long id) throws IllegalAccessException {
+        if (id == null) throw new IllegalAccessException("User id is null");
+        return userRepository.findById(id).orElse(null);
     }
 }

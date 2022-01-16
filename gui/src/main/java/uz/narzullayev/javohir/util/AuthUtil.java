@@ -7,9 +7,9 @@ import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import uz.narzullayev.javohir.dto.ProjectUserDetails;
+import uz.narzullayev.javohir.entity.UserEntity;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @UtilityClass
 public class AuthUtil {
@@ -21,9 +21,16 @@ public class AuthUtil {
         }
         return Optional.empty();
     }
+    public static Optional<UserEntity> getUserEntity(){
+        ProjectUserDetails projectUserDetails = getUserDetails();
+        if (projectUserDetails!=null){
+            return Optional.ofNullable(projectUserDetails.getUserEntity());
+        }
+        return Optional.empty();
+    }
 
 
-    public static ProjectUserDetails getUserDetails(){
+    private static ProjectUserDetails getUserDetails(){
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication.getPrincipal() instanceof ProjectUserDetails){

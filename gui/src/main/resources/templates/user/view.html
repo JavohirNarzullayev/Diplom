@@ -38,7 +38,7 @@
                                 <div class="card">
 
                                     <div class="card-header">
-                                        <h5 th:text="#{menu.users.title}">Responsive</h5>
+                                        <h5 >Фойдаланувчи маьлумотлари</h5>
                                     </div>
 
                                     <div class="card-block">
@@ -47,71 +47,69 @@
 
                                             <table class="tablesaw table-bordered table-hover table" data-tablesaw-mode="swipe" th:object="${object}">
                                                 <tr>
-                                                    <td class="text-right title" style="width: 50%;"><h5 th:text="#{label.id}"/></td>
+                                                    <td class="text-right title" style="width: 50%;"><h5 >ID</h5></td>
                                                     <td class="text-left" th:text="*{id}"> 1</td>
                                                 </tr>
 
                                                 <tr>
-                                                    <td class="text-right title" style="width: 50%;"><h5 th:text="#{label.role}"/></td>
+                                                    <td class="text-right title" style="width: 50%;"><h5 >Роли</h5></td>
                                                     <td class="text-left">
-                                                        <!--th:text="#{*{role}}"-->
-                                                        <span th:if="*{role != null}" th:text="#{*{role}}"> </span>
+                                                        <span th:if="*{role != null}" th:text="*{role}"> </span>
                                                     </td>
                                                 </tr>
 
                                                 <tr>
-                                                    <td class="text-right title" style="width: 50%;"><h5 th:text="#{label.username}"/></td>
+                                                    <td class="text-right title" style="width: 50%;"><h5 >Логин</h5></td>
                                                     <td class="text-left" th:text="*{username}"> username</td>
                                                 </tr>
 
                                                 <tr>
-                                                    <td class="text-right title" style="width: 50%;"><h5 th:text="#{label.fullname}"/></td>
-                                                    <!--<td class="text-left" th:text="*{#strings.defaultString(firstname,' ') + ' ' + #strings.defaultString(lastname,' ') + ' ' + #strings.defaultString(middlename,' ') }"> username</td>-->
-                                                    <td class="text-left" th:text="*{fio}"> username</td>
+                                                    <td class="text-right title" style="width: 50%;"><h5 >ФИО</h5></td>
+                                                    <td class="text-left" th:text="*{fio}"> </td>
                                                 </tr>
 
                                                 <tr>
-                                                    <td class="text-right title" style="width: 50%;"><h5 th:text="#{label.phone}"/></td>
+                                                    <td class="text-right title" style="width: 50%;"><h5 >Телефони </h5></td>
                                                     <td class="text-left" th:text="*{phone}"> phone</td>
                                                 </tr>
 
 
 
                                                 <tr>
-                                                    <td class="text-right title" style="width: 50%;"><h5 th:text="#{label.last.visit}"/></td>
-                                                    <td class="text-left" th:text="*{lastVisit}"> </td>
+                                                    <td class="text-right title" style="width: 50%;"><h5 >Охирги активлиги</h5></td>
+                                                    <td class="text-left" th:text="${#temporals.format(object.lastVisit,'dd-M-yyyy hh:mm:ss')}" > </td>
                                                 </tr>
 
                                                 <tr>
-                                                    <td class="text-right title" style="width: 50%;"><h5 th:text="#{label.active}"/></td>
+                                                    <td class="text-right title" style="width: 50%;"><h5 >Активлиги</h5></td>
                                                     <td class="text-left">  <!--th:text="*{enabled}"-->
-                                                        <span th:if="*{enabled == true}" th:text="#{label.yes}"></span>
-                                                        <span th:if="*{enabled == false}" th:text="#{label.no}"></span>
+                                                        <span th:if="*{enabled == true}" > Ха </span>
+                                                        <span th:if="*{enabled == false}" > Юк </span>
                                                     </td>
                                                 </tr>
 
                                                 <tr>
-                                                    <td class="text-right title" style="width: 50%;"><h5 th:text="#{label.deleted}"/></td>
-                                                    <td class="text-left"> <!--th:text="*{deleted}"-->
-                                                        <span th:if="*{deleted == true}" th:text="#{label.yes}"></span>
-                                                        <span th:if="*{deleted == false}" th:text="#{label.no}"></span>
+                                                    <td class="text-right title" style="width: 50%;"><h5 >Учирилганми</h5></td>
+                                                    <td class="text-left">
+                                                        <span th:if="*{deleted == true}" > Ха </span>
+                                                        <span th:if="*{deleted == false}" > Юк </span>
                                                     </td>
                                                 </tr>
 
                                                 <tr>
-                                                    <td class="text-right title" style="width: 50%;"><h5 th:text="#{label.registered.at}"/></td>
-                                                    <td class="text-left" th:text="*{registeredAt}"> </td>
+                                                    <td class="text-right title" style="width: 50%;"><h5>Руйхатдан утган йили</h5></td>
+                                                    <td class="text-left" th:text="${#temporals.format(object.registeredAt,'dd-M-yyyy hh:mm:ss')}" ></td>
                                                 </tr>
 
                                                 <tr>
-                                                    <td class="text-right title" style="width: 50%;"><h5 th:text="#{label.updated.at}"/></td>
-                                                    <td class="text-left" th:text="*{updatedAt}"> </td>
+                                                    <td class="text-right title" style="width: 50%;"><h5 >Янгиланган вакти</h5></td>
+                                                    <td class="text-left" th:text="${#temporals.format(object.updatedAt,'dd-M-yyyy hh:mm:ss')}"  > </td>
                                                 </tr>
                                             </table>
 
                                             <div class="text-left">
                                                 <a class="btn btn-light" onclick="goBack()">
-                                                    <i class="feather icon-skip-back"></i> <span th:text="#{action.back}"></span>
+                                                    <i class="feather icon-skip-back"></i> <span >Ортга</span>
                                                 </a>
                                             </div>
 
@@ -136,12 +134,5 @@
 
 
 <div th:include="fragments/includes_bottom :: bottom" th:remove="tag"></div>
-<script type="text/javascript" th:inline="javascript">
-    /*<![CDATA[*/
-
-
-
-    /*]]>*/
-</script>
 </body>
 </html>

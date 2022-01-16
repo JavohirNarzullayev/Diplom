@@ -18,7 +18,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.Objects;
 
 @ToString
@@ -51,11 +50,10 @@ public class UserEntity extends ExtraInfo implements Serializable {
     private String phone;
     private String email;
 
-    @ElementCollection(targetClass = UserType.class)
-    @JoinTable(name = "roles", joinColumns = @JoinColumn(name = "id"))
-    @Column(nullable = false)
+
+    @Column(nullable = false,name = "sys_role")
     @Enumerated(EnumType.STRING)
-    private Collection<UserType> role;
+    private UserType role;
 
     private Boolean enabled;
     private LocalDateTime lastVisit;

@@ -10,11 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import uz.narzullayev.javohir.entity.UserEntity;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
+import java.util.List;
 
-/**
- * Created by Anvar Ruzmetov on 06.04.2019.
- */
 @Slf4j
 @RequiredArgsConstructor
 @Data
@@ -28,11 +25,7 @@ public class ProjectUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return userEntity.getRole().parallelStream()
-                .map(userType -> new SimpleGrantedAuthority(userType.name()))
-                .collect(Collectors.toList());
-
-
+       return List.of(new SimpleGrantedAuthority(userEntity.getRole().name()));
     }
 
     @Override

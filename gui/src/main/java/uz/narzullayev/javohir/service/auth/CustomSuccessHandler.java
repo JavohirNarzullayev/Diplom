@@ -11,13 +11,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
-/**
- * Created by Anvar Ruzmetov on 06.04.2019.
- */
+
 @Component
 public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
@@ -36,12 +32,6 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     public String determineTargetUrl(Authentication authentication){
         String url = "/dashboard";
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        List<String> roles = new ArrayList<String>();
-        for (GrantedAuthority ga : authorities){
-            roles.add(ga.getAuthority());
-        }
-        // TODO : role ga qarab dashboard ni url ni yuborish kerak
-
         return url;
     }
 

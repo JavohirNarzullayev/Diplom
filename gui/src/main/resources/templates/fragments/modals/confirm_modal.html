@@ -17,15 +17,12 @@
 
             <div class="text-center mb-4">
                 <button type="button" class="btn btn-light" data-dismiss="modal">
-                    <i class="feather icon-x"></i> &nbsp; <span th:text="#{action.cancel}"></span>
+                    <i class="feather icon-x"></i> &nbsp; <span >Ортга</span>
                 </button>
                 <button type="button" class="btn btn-success">
-                    <i class="feather icon-check"></i> &nbsp; <span th:text="#{action.confirm}"></span>
+                    <i class="feather icon-check"></i> &nbsp; <span>Тасдиклаш</span>
                 </button>
             </div>
-            <!--<div class="modal-footer">
-
-            </div>-->
         </div>
     </div>
 </div>
@@ -43,9 +40,9 @@
             } else if (confirmType == 'active') {
                 modalData.content = [[#{message.confirmActiveChange}]] + '<br/>' + modalData.content;
             }else if (confirmType == 'unblock') {
-                modalData.content = '<div class="text-center">' + [[#{message.confirmUnblockChange}]] + '</div>';
+                modalData.content = '<div class="text-center"> Блокдан чикармокчимисиз!! </div>';
             } else if (confirmType == 'block') {
-                modalData.content = '<div class="text-center">' + [[#{message.confirmBlockChange}]] + '</div>';
+                modalData.content = '<div class="text-center"> Блокламокмичимисиз!!</div>';
             }
         }
         if (modalData.confirmCallback == null) {

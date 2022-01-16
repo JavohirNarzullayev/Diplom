@@ -19,9 +19,9 @@ public class UserSpecification {
     public static Specification<UserEntity> find(UserFilterDto filterDto) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new LinkedList<>();
-            if (filterDto.getRole() != null)
-                predicates.add(criteriaBuilder.in(root.get("role")).value(List.of(filterDto.getRole())));
-
+            if (filterDto.getRole()!=null){
+                predicates.add(criteriaBuilder.equal(root.get("role"), filterDto.getRole()));
+            }
             if (StringUtils.hasText(filterDto.getUsername()))
                 predicates.add(criteriaBuilder.like(root.get("username"), "%" + filterDto.getUsername() + "%"));
 

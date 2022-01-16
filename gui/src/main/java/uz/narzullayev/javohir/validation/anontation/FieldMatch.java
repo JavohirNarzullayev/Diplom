@@ -1,4 +1,6 @@
-package uz.narzullayev.javohir.validation;
+package uz.narzullayev.javohir.validation.anontation;
+
+import uz.narzullayev.javohir.validation.FieldMatchValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -12,9 +14,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target({TYPE,ANNOTATION_TYPE})
 @Retention(RUNTIME)
+@Documented
 @Constraint(validatedBy = FieldMatchValidator.class)
 public @interface FieldMatch {
-    String message() default "";
+    String message() default "Password and confirm password not match";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
     String first();

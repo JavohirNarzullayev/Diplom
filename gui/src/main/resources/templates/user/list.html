@@ -92,7 +92,7 @@
                                             </span>
                                         </div>
                                         <div class="table table-responsive">
-                                            <table id="userList" class="display table nowrap table-striped table-hover" style="width:100%">
+                                            <table id="userList" class="display table-striped table-hover" style="width:100%">
                                                 <thead>
                                                 <tr>
                                                     <th class="text-center" >Логин</th>
@@ -199,19 +199,6 @@
                 },
                 {
                     "data" : "role",
-                    "render" : function(data, type, row){
-                        return row['role'] ? row['role'].map(function (role) {
-                            if (role == 'ADMIN') {
-                                return roles.admin;
-                            } else if (role == 'STUDENT') {
-                                return roles.student;
-                            } else if (role == 'TEACHER') {
-                                return roles.teacher;
-                            } else {
-                                return roles;
-                            }
-                        }).join(',') : '';
-                    },
                     className: "text-right",
                     "orderable": true,
                     "searchable": false
@@ -222,9 +209,9 @@
                     "fnCreatedCell": function (data, type, row, meta) {
                         var actionsField = '';
                         if(row.enabled == true){
-                           actionsField += `<a class="btn-sm badge badge-warning" data-toggle="tooltip" onclick='blockUser(\""${row.id}"\")' href='javascript: void(0);' data-original-title="${labelBlock}"><i class="feather icon-lock"></i></a>`;
+                           actionsField += `<a class="btn-sm badge badge-primary " data-toggle="tooltip" onclick="blockUser(${row.id})"  data-original-title="${labelBlock}"><i class="feather icon-lock"></i></a>`;
                         }else{
-                           actionsField += ` <a class="btn-sm badge badge-primary"  data-toggle="tooltip" onclick='unblockUser(\""${row.id}"\")' href='javascript: void(0);' data-original-title="${labelUnblock}"><i class="feather icon-unlock"></i></a>`;
+                           actionsField += ` <a class="btn-sm badge badge-warning "  data-toggle="tooltip" onclick="unblockUser(${row.id})" data-original-title="${labelUnblock}"><i class="feather icon-unlock"></i></a>`;
                        }
                         actionsField    += ' <a class="btn-sm badge badge-light" href="'+viewLink+'?id='+row.id+'" data-toggle="tooltip" data-original-title="'+labelView+'"><i class="feather icon-eye"></i></a>';
                         actionsField    += ' <a class="btn-sm badge badge-info" href="'+editLink+'?id='+row.id+'" data-toggle="tooltip" data-original-title="'+labelEdit+'"><i class="feather icon-edit-1"></i></a>';

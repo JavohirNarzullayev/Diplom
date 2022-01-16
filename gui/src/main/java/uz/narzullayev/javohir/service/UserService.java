@@ -10,7 +10,8 @@ import uz.narzullayev.javohir.dto.UserFilterDto;
 import uz.narzullayev.javohir.entity.UserEntity;
 
 public interface UserService {
-    UserEntity save(UserDto user);
+    UserEntity update( UserDto user);
+    UserEntity save( UserDto user);
 
     boolean isUserAlreadyPresent(String username);
 
@@ -18,7 +19,7 @@ public interface UserService {
 
     DataTablesOutput<UserEntity> findAllBySpecific(DataTablesInput input, UserFilterDto filterDto);
 
-    Boolean userBlockOrUnblockById(Long id);
+    void userBlockOrUnblockById(Long id);
 
-    UserEntity findById(Long id);
+    UserEntity findById(Long id) throws IllegalAccessException;
 }
