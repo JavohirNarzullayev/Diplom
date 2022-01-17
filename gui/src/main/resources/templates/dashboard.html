@@ -28,25 +28,6 @@
                 <!-- [ breadcrumb ] start -->
                 <div th:replace="fragments/breadcrumb :: breadcrumb"></div>
                 <!-- [ breadcrumb ] end -->
-
-                <div class="main-body">
-                    <div class="page-wrapper">
-                        <!-- [ Main Content ] start -->
-                        <div class="row">
-                            <!-- [ light-layout ] start -->
-                            <div class="col-sm-12">
-                                <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
-                                    <a href="/admin/dashboard" class="nav-link" style="padding: 5px 15px">
-                                        <span class="pcoded-micon"><i class="fas fa-envelope-open"></i></span>
-                                        <span class="pcoded-mtext text-wrap"> Меню </span>
-                                    </a>
-                                </li>
-                            </div>
-                            <!-- [ light-layout ] end -->
-                        </div>
-                        <!-- [ Main Content ] end -->
-                    </div>
-                </div>
             </div>
         </div>
     </div>

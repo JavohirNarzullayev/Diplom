@@ -15,13 +15,13 @@ public class CabinetController {
 
     @GetMapping
     public String list(Model model){
-        model.addAttribute("breadcrumb", getBreadcrumb("label.list"));
+        model.addAttribute("breadcrumb", getBreadcrumb(""));
         return "dashboard";
     }
 
     private Breadcrumb getBreadcrumb(String name) {
         Breadcrumb breadcrumb = new Breadcrumb();
-        breadcrumb.addLink("menu.invoices", "/dashboard");
+        breadcrumb.addLink("Асосий ойна", "/dashboard");
         breadcrumb.addLink(name, "#");
         return breadcrumb;
     }

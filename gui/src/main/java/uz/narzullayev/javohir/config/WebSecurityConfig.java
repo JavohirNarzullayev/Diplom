@@ -55,6 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/404").permitAll()
                 .antMatchers("/500").permitAll()
                 .antMatchers("/user/registration").permitAll()
+                .antMatchers("/").permitAll()
 
 
                 .antMatchers("/admin/dashboard/**").hasAuthority(UserType.ADMIN.name())
@@ -65,7 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login?logout");
+                .logoutSuccessUrl("/");
 
         http.csrf().ignoringAntMatchers("/login", "/api/**");
 

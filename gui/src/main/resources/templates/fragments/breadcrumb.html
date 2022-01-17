@@ -2,7 +2,6 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <title></title>
 </head>
 <body>
 <!-- [ breadcrumb ] start -->
@@ -15,7 +14,7 @@
                 </div>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="/dashboard">
+                        <a th:href="@{/dashboard}">
                         <i class="feather icon-home"></i></a>
                     </li>
                     <li th:each="link : ${breadcrumb.links}" class="breadcrumb-item">

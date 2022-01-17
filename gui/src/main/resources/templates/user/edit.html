@@ -158,7 +158,9 @@
 <div th:include="fragments/includes_bottom :: bottom" th:remove="tag"></div>
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
-
+    $(document).ready(function () {
+        $(".tel").mask('(99) 999-99-99');
+    });
 
 
     /*]]>*/

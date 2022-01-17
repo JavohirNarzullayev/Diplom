@@ -3,7 +3,6 @@ package uz.narzullayev.javohir.validation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import uz.narzullayev.javohir.entity.UserEntity;
 import uz.narzullayev.javohir.service.UserService;
 import uz.narzullayev.javohir.validation.anontation.UserValidity;
