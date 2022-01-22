@@ -8,6 +8,7 @@ import lombok.SneakyThrows;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,6 +33,14 @@ public class UserController  {
 
     private final UserService userService;
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping(value = "/list")
+    public String list(Model model){
+        model.addAttribute("filter",new UserFilterDto());
+        model.addAttribute("breadcrumb", getBreadcrumb("Руйхат","/user/list"));
+        return "user/list";
+    }
+
     @GetMapping(path = "/registration")
     public String registration(Model model){
         model.addAttribute("user",new UserDto());
@@ -46,13 +55,7 @@ public class UserController  {
         return "redirect:/login";
     }
 
-    @RequestMapping(value = "/list")
-    public String list(Model model){
-        model.addAttribute("filter",new UserFilterDto());
-        model.addAttribute("breadcrumb", getBreadcrumb("Руйхат","/user/list"));
-        return "user/list";
-    }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/list_ajax", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public DataTablesOutput<UserEntity> listAjax(@Valid DataTablesInput input, UserFilterDto filterDto){
@@ -66,6 +69,7 @@ public class UserController  {
     }
 
     @SneakyThrows
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/view")
     public String view(
             Model model,
@@ -84,6 +88,7 @@ public class UserController  {
     }
 
     @SneakyThrows
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/edit")
     public String edit(
             Model model,
@@ -103,7 +108,7 @@ public class UserController  {
         model.addAttribute("back_action","/user/list");
         return "user/edit";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/edit")
     public String edit(
             @Validated(value = UserDto.Update.class)  @ModelAttribute("object") UserDto userDto,

@@ -18,7 +18,6 @@ import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
-import uz.narzullayev.javohir.sys.SysUrls;
 import uz.narzullayev.javohir.util.AuthUtil;
 
 import java.util.Locale;
@@ -35,16 +34,6 @@ public class WebMVCConfigs implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/").setViewName("index");
-    }
-
-    @Bean
-    public WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> containerCustomizer() {
-        return container -> {
-            container.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, SysUrls.ErrorNotFound));
-            container.addErrorPages(new ErrorPage(HttpStatus.BAD_REQUEST, SysUrls.ErrorInternalServerError));
-            container.addErrorPages(new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, SysUrls.ErrorInternalServerError));
-            container.addErrorPages(new ErrorPage(HttpStatus.FORBIDDEN, SysUrls.ErrorForbidden));
-        };
     }
 
     @Override

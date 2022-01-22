@@ -19,7 +19,7 @@ import uz.narzullayev.javohir.service.auth.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(jsr250Enabled = true,securedEnabled = true)
+@EnableGlobalMethodSecurity(jsr250Enabled = true,securedEnabled = true,prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static PasswordEncoder encoder;
@@ -55,6 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/static/**").permitAll()
+                .antMatchers("/error").permitAll()
                 .antMatchers("/403").permitAll()
                 .antMatchers("/404").permitAll()
                 .antMatchers("/500").permitAll()
