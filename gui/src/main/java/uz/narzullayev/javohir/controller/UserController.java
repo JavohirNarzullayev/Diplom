@@ -33,7 +33,7 @@ public class UserController  {
 
     private final UserService userService;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(value = "/list")
     public String list(Model model){
         model.addAttribute("filter",new UserFilterDto());
@@ -55,7 +55,7 @@ public class UserController  {
         return "redirect:/login";
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(value = "/list_ajax", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public DataTablesOutput<UserEntity> listAjax(@Valid DataTablesInput input, UserFilterDto filterDto){
@@ -69,7 +69,6 @@ public class UserController  {
     }
 
     @SneakyThrows
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/view")
     public String view(
             Model model,
@@ -88,7 +87,7 @@ public class UserController  {
     }
 
     @SneakyThrows
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(value = "/edit")
     public String edit(
             Model model,
@@ -108,7 +107,7 @@ public class UserController  {
         model.addAttribute("back_action","/user/list");
         return "user/edit";
     }
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(value = "/edit")
     public String edit(
             @Validated(value = UserDto.Update.class)  @ModelAttribute("object") UserDto userDto,
