@@ -73,7 +73,7 @@ public class UserController  {
             @RequestParam(name = "id", required = false) Long id
     ){
 
-        UserEntity userEntity = userService.findById(id);
+        var userEntity = userService.findById(id);
         if (userEntity == null){
             ToastNotificationUtils.addWarning(redirectAttributes,"Топилмади");
             return "redirect:/user/list";
@@ -91,7 +91,7 @@ public class UserController  {
             @RequestParam(name = "id", required = false) Long id
 
     ){
-        UserEntity userEntity = userService.findById(id);
+        var userEntity = userService.findById(id);
         if (userEntity == null){
             ToastNotificationUtils.addWarning(redirectAttributes, "Топилмади");
             return "redirect:/user/list";

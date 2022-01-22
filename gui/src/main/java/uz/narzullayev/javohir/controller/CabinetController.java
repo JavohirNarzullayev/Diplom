@@ -20,7 +20,7 @@ public class CabinetController {
     }
 
     private Breadcrumb getBreadcrumb(String name) {
-        Breadcrumb breadcrumb = new Breadcrumb();
+        var breadcrumb = new Breadcrumb();
         breadcrumb.addLink("Асосий ойна", "/dashboard");
         breadcrumb.addLink(name, "#");
         return breadcrumb;

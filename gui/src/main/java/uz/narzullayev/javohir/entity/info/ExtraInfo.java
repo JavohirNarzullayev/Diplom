@@ -20,10 +20,8 @@ import java.util.UUID;
 public class ExtraInfo {
 
 
-
     @CreatedDate
     @Column( updatable = false)
-
     private LocalDateTime registeredAt;
 
     @LastModifiedDate

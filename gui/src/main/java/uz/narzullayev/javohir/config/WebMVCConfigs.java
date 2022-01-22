@@ -57,7 +57,7 @@ public class WebMVCConfigs implements WebMvcConfigurer {
 
     @Bean
     public ViewResolver getViewResolver() {
-        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+        var resolver = new InternalResourceViewResolver();
         resolver.setPrefix("templates/");
         resolver.setSuffix(".html");
         return resolver;
@@ -65,7 +65,7 @@ public class WebMVCConfigs implements WebMvcConfigurer {
 
     @Bean(name = "messageSource")
     public MessageSource messageSource() {
-        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        var messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("classpath:messages");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
@@ -73,7 +73,7 @@ public class WebMVCConfigs implements WebMvcConfigurer {
 
     @Bean
     public LocaleResolver localeResolver() {
-        CookieLocaleResolver resolver = new CookieLocaleResolver();
+        var resolver = new CookieLocaleResolver();
         resolver.setDefaultLocale(new Locale("oz"));
         resolver.setCookieName("localeCookie");
         resolver.setCookieMaxAge(4800);
@@ -82,14 +82,14 @@ public class WebMVCConfigs implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
+        var interceptor = new LocaleChangeInterceptor();
         interceptor.setParamName("lang");
         registry.addInterceptor(interceptor);
     }
 
     @Bean
     public SpringResourceTemplateResolver defaultTemplateResolver() {
-        SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
+        var resolver = new SpringResourceTemplateResolver();
         resolver.setPrefix("classpath:/templates/");
         resolver.setSuffix(".html");
         resolver.setTemplateMode("html");

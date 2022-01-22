@@ -25,7 +25,7 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
 
     @Override
     public boolean isValid(final Object value, final ConstraintValidatorContext context) {
-        boolean valid = true;
+        var valid = true;
         try {
             final String firstObj = extractFieldValue(value, firstFieldName,String.class);
             final String secondObj = extractFieldValue(value, secondFieldName,String.class);

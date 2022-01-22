@@ -15,14 +15,14 @@ import java.util.Optional;
 public class AuthUtil {
 
     public static Optional<Long> getUserId(){
-        ProjectUserDetails projectUserDetails = getUserDetails();
+        var projectUserDetails = getUserDetails();
         if (projectUserDetails!=null){
             return Optional.ofNullable(projectUserDetails.getUserId());
         }
         return Optional.empty();
     }
     public static Optional<UserEntity> getUserEntity(){
-        ProjectUserDetails projectUserDetails = getUserDetails();
+        var projectUserDetails = getUserDetails();
         if (projectUserDetails!=null){
             return Optional.ofNullable(projectUserDetails.getUserEntity());
         }
@@ -32,7 +32,7 @@ public class AuthUtil {
 
     private static ProjectUserDetails getUserDetails(){
         try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            var authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication.getPrincipal() instanceof ProjectUserDetails){
                 return (ProjectUserDetails) authentication.getPrincipal();
             }

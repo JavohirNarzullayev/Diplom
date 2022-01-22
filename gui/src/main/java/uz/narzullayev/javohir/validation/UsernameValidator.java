@@ -36,22 +36,22 @@ public class UsernameValidator implements ConstraintValidator<UserValidity,Objec
     public boolean isValid(Object value, ConstraintValidatorContext context) {
         boolean valid = true;
         try {
-            final Long idVal = extractFieldValue(value, idField,Long.class);
-            final String usernameVal = extractFieldValue(value, usernameField,String.class);
+            final var idVal = extractFieldValue(value, idField,Long.class);
+            final var usernameVal = extractFieldValue(value, usernameField,String.class);
 
             //update
             if (idVal!=null) {
-                UserEntity user = userService.findById(idVal);
-                Boolean isChangedEmail = Optional.ofNullable(user)
+                var user = userService.findById(idVal);
+                var isChangedEmail = Optional.ofNullable(user)
                         .map(UserEntity::getUsername)
                         .map(email -> !Objects.equals(email, usernameVal))
                         .orElse(Boolean.TRUE);
                 if (isChangedEmail){
-                    valid = !userService.isUserAlreadyPresent(usernameVal);
+                    valid = userService.isUserAlreadyPresent(usernameVal);
                 }
             }else {
                 //create
-                valid = !userService.isUserAlreadyPresent(usernameVal);
+                valid = userService.isUserAlreadyPresent(usernameVal);
             }
 
         } catch ( Exception ignore ) {

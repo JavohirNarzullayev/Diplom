@@ -32,25 +32,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Validated(UserDto.Update.class)
-    public UserEntity update(@Valid UserDto user) {
+    public void update(@Valid UserDto user) {
         try {
             UserEntity merge = user.merge(findById(user.getId()));
-            return userRepository.saveAndFlush(merge);
+            userRepository.saveAndFlush(merge);
         } catch (IllegalAccessException e) {
             System.out.println(e.getMessage());
         }
-        return null;
     }
 
 
     @Override
     public boolean isUserAlreadyPresent(String username) {
-        return username != null ? userRepository.existsByUsername(username) : Boolean.FALSE;
+        return username != null ? !userRepository.existsByUsername(username) : !Boolean.FALSE;
     }
 
     @Override
     public boolean existByEmail(String email) {
-        return email != null ? userRepository.existsByEmail(email) : Boolean.FALSE;
+        return email != null ? !userRepository.existsByEmail(email) : !Boolean.FALSE;
     }
 
     @Override

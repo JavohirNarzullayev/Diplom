@@ -11,7 +11,7 @@ import java.lang.reflect.Field;
 public class ReflectionUtils {
 
     public static <T> T extractFieldValue(Object classObj, String fieldName, Class<T> castObject) throws NoSuchFieldException, IllegalAccessException {
-        Field field = classObj.getClass().getDeclaredField(fieldName);
+        var field = classObj.getClass().getDeclaredField(fieldName);
         field.setAccessible(true);
         return castObject.cast(field.get(classObj));
     }

@@ -10,7 +10,7 @@ import uz.narzullayev.javohir.dto.UserFilterDto;
 import uz.narzullayev.javohir.entity.UserEntity;
 
 public interface UserService {
-    UserEntity update( UserDto user);
+    void update(UserDto user);
     UserEntity save( UserDto user);
 
     boolean isUserAlreadyPresent(String username);

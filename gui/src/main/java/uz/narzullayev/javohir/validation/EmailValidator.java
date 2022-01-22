@@ -7,7 +7,6 @@ package uz.narzullayev.javohir.validation;/*
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import uz.narzullayev.javohir.entity.UserEntity;
 import uz.narzullayev.javohir.service.UserService;
 import uz.narzullayev.javohir.validation.anontation.EmailValidity;
@@ -48,17 +47,17 @@ public class EmailValidator  implements ConstraintValidator<EmailValidity,Object
 
             //update
             if (idVal!=null) {
-                UserEntity user = userService.findById(idVal);
+                var user = userService.findById(idVal);
                 Boolean isChangedEmail = Optional.ofNullable(user)
                         .map(UserEntity::getEmail)
                         .map(email -> !Objects.equals(email, emailValue))
                         .orElse(Boolean.TRUE);
                 if (isChangedEmail){
-                    valid = !userService.existByEmail(emailValue);
+                    valid = userService.existByEmail(emailValue);
                 }
             }else {
              //create
-                valid = !userService.existByEmail(emailValue);
+                valid = userService.existByEmail(emailValue);
             }
 
         } catch ( Exception ignore ) {

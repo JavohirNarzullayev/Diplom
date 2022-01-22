@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import uz.narzullayev.javohir.constant.UserType;
+import uz.narzullayev.javohir.exception.CustomAccessDeniedHandler;
 import uz.narzullayev.javohir.service.auth.CustomSuccessHandler;
 import uz.narzullayev.javohir.service.auth.UserDetailsServiceImpl;
 
@@ -24,11 +25,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private static PasswordEncoder encoder;
 
     private final CustomSuccessHandler customSuccessHandler;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final UserDetailsServiceImpl userDetailsService;
 
     @Autowired
-    public WebSecurityConfig(CustomSuccessHandler customSuccessHandler, UserDetailsServiceImpl userDetailsService) {
+    public WebSecurityConfig(CustomSuccessHandler customSuccessHandler, CustomAccessDeniedHandler customAccessDeniedHandler, UserDetailsServiceImpl userDetailsService) {
         this.customSuccessHandler = customSuccessHandler;
+        this.customAccessDeniedHandler = customAccessDeniedHandler;
         this.userDetailsService = userDetailsService;
     }
 
@@ -47,16 +50,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .successHandler(customSuccessHandler)
                 .and()
+                .exceptionHandling()
+                .accessDeniedHandler(customAccessDeniedHandler)
+                .and()
                 .authorizeRequests()
                 .antMatchers("/static/**").permitAll()
-                .antMatchers("/webjars/**").permitAll()
-                .antMatchers("/upload_files/**").permitAll()
                 .antMatchers("/403").permitAll()
                 .antMatchers("/404").permitAll()
                 .antMatchers("/500").permitAll()
                 .antMatchers("/user/registration").permitAll()
                 .antMatchers("/").permitAll()
-
 
                 .antMatchers("/admin/dashboard/**").hasAuthority(UserType.ADMIN.name())
                 //api
@@ -76,7 +79,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .rememberMe()
                 .key("remember-me")
-                .tokenValiditySeconds(86400);
+                .tokenValiditySeconds(86_400);
     }
 
     @Bean
