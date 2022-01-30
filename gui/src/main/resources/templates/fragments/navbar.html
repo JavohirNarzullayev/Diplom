@@ -35,16 +35,16 @@
                 <li class="nav-item pcoded-menu-caption" sec:authorize="hasAnyAuthority('ADMIN', 'REG_ADMIN')">
                     <label>Админ</label>
                 </li>
-                <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN', 'REG_ADMIN')">
+                <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
                     <a th:href="@{/user/list}" class="nav-link">
                         <span class="pcoded-micon"><i class="feather icon-users"></i></span>
                         <span class="pcoded-mtext">Фойдаланувчилар руйхати</span>
                     </a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
-                    <a th:href="@{/user/sessions}" class="nav-link">
-                        <span class="pcoded-micon"><i class="mdi mdi-ip-network"></i></span>
-                        <span class="pcoded-mtext">Фойдаланучилар сессияси</span>
+                    <a th:href="@{/literature/list}" class="nav-link">
+                        <span class="pcoded-micon"><i class="feather icon-book"></i></span>
+                        <span class="pcoded-mtext">Адабиётлар руйхати</span>
                     </a>
                 </li>
             </ul>

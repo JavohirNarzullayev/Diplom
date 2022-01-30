@@ -13,5 +13,5 @@ import java.util.UUID;
 public interface FileEntityRepository extends JpaRepository<FileEntity, Long> {
     Optional<FileEntity> findByIdAndDeletedFalse(Long id);
 
-    Optional<FileEntity> findByIdAndRegistered_byAndDeletedFalse(Long id, Long registeredBy);
+    Optional<FileEntity> findByIdAndRegisteredByAndDeletedFalse(Long id, UserEntity registeredBy);
 }

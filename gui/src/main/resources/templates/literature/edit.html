@@ -4,7 +4,8 @@
 <head>
     <object th:replace="fragments/includes_top :: top" th:remove="tag"></object>
 </head>
-<body class="layout-6" style="background: rgba(0, 0, 0, 0) linear-gradient(to right, rgb(79, 172, 254) 0%, rgb(0, 242, 254) 100%) repeat scroll 0% 0%;">
+<body class="layout-6"
+      style="background: rgba(0, 0, 0, 0) linear-gradient(to right, rgb(79, 172, 254) 0%, rgb(0, 242, 254) 100%) repeat scroll 0% 0%;">
 
 <!-- [ Pre-loader ] start -->
 <object th:replace="fragments/preloader :: body" th:remove="tag"></object>
@@ -38,20 +39,22 @@
                                 <div class="card">
 
                                     <div class="card-header">
-                                        <h5 >Узгартириш</h5>
+                                        <h5>Узгартириш</h5>
                                     </div>
 
                                     <div class="card-block">
-                                        <form id="was-validated" th:action="@{${post_action}}"  enctype="multipart/form-data" th:object="${object}" method="post">
+                                        <form id="was-validated" th:action="@{${post_action}}"
+                                              enctype="multipart/form-data" th:object="${object}" method="post">
                                             <div class="form-row">
                                                 <div class="col-md-12  mb-3">
-                                                    <div class="form-group" th:classappend="${#fields.hasErrors('theme')}? 'has-error':''">
-                                                        <label class="form-label" for="theme">Мавзу</label>
+                                                    <div class="form-group"
+                                                         th:classappend="${#fields.hasErrors('bookName')}? 'has-error':''">
+                                                        <label class="form-label" for="bookName">Мавзу</label>
                                                         <input type="text" class="form-control"
-                                                               name="validation-required" id="theme" placeholder=""
-                                                               th:field="*{theme}"  minlength="3" />
+                                                               name="validation-required" id="bookName" placeholder=""
+                                                               th:field="*{bookName}" minlength="3"/>
                                                         <p class="alert-danger error-message"
-                                                           th:each="error: ${#fields.errors('theme')}"
+                                                           th:each="error: ${#fields.errors('bookName')}"
                                                            th:text="${error}"></p>
                                                     </div>
                                                 </div>
@@ -60,8 +63,9 @@
                                                         <input type="file" class="custom-file-input"
                                                                accept=".doc, .docx, .pdf" th:field="*{file}" name="file"
                                                                id="customFileLang"
-                                                               lang="es" required>
-                                                        <label class="custom-file-label" for="customFileLang">Файл</label>
+                                                               lang="es">
+                                                        <label class="custom-file-label"
+                                                               for="customFileLang">Файл</label>
                                                         <div class="invalid-feedback"
                                                              th:each="error: ${#fields.errors('file')}"
                                                              th:text="${error}">
@@ -70,17 +74,16 @@
                                                 </div>
                                             </div>
 
-
-                                            <input type="hidden" th:field="*{id}" />
-                                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-
+                                            <input type="hidden" th:field="*{id}"/>
+                                            <input type="hidden" th:name="${_csrf.parameterName}"
+                                                   th:value="${_csrf.token}"/>
 
                                             <div class="text-left">
                                                 <a class="btn btn-light" th:href="@{${back_action}}">
-                                                    <i class="feather icon-x"></i> <span >Ортга</span>
+                                                    <i class="feather icon-x"></i> <span>Ортга</span>
                                                 </a>
                                                 <button class="btn btn-primary" type="submit">
-                                                    <i class="feather icon-save"></i> <span >Сакламок</span>
+                                                    <i class="feather icon-save"></i> <span>Сакламок</span>
                                                 </button>
 
                                             </div>
@@ -102,14 +105,12 @@
 </div>
 
 
-
 <div th:include="fragments/includes_bottom :: bottom" th:remove="tag"></div>
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
     $(document).ready(function () {
         $(".tel").mask('(99) 999-99-99');
     });
-
 
 
     /*]]>*/

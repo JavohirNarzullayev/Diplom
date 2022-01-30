@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 import uz.narzullayev.javohir.constant.FileType;
 import uz.narzullayev.javohir.entity.FileEntity;
+import uz.narzullayev.javohir.entity.UserEntity;
 
 
 public interface FileEntityService {
@@ -19,7 +20,7 @@ public interface FileEntityService {
 
     FileEntity uploadFile(MultipartFile multipartFile, Long userId, String title, FileType fileType);
 
-    FileEntity findByIdAndUploadUserId(Long id, Long userId);
+    FileEntity findByIdAndUploadUserId(Long id, UserEntity user);
 
     FileEntity save(FileEntity file);
 

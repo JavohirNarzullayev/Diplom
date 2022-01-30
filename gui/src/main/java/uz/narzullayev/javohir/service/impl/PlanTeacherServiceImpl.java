@@ -10,7 +10,6 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import uz.narzullayev.javohir.constant.FileType;
 import uz.narzullayev.javohir.dto.PlanTeacherDto;
 import uz.narzullayev.javohir.entity.PlanTeacher;
 import uz.narzullayev.javohir.exception.RecordNotFoundException;
@@ -21,7 +20,7 @@ import uz.narzullayev.javohir.util.AuthUtil;
 
 import javax.validation.constraints.NotNull;
 
-import static uz.narzullayev.javohir.constant.FileType.*;
+import static uz.narzullayev.javohir.constant.FileType.PLAN_TEACHER;
 
 @Service
 @RequiredArgsConstructor

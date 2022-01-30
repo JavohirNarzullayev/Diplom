@@ -20,6 +20,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 import uz.narzullayev.javohir.constant.FileType;
 import uz.narzullayev.javohir.entity.FileEntity;
+import uz.narzullayev.javohir.entity.UserEntity;
 import uz.narzullayev.javohir.repository.FileEntityRepository;
 import uz.narzullayev.javohir.service.FileEntityService;
 
@@ -159,17 +160,15 @@ public class FileEntityServiceImpl implements FileEntityService {
     public synchronized String getPathForUpload() {
         String newCurrentDir = pathFile + "/" + uploadFolder.format(LocalDate.now());
         java.io.File root = new java.io.File(newCurrentDir);
-        if (!root.exists() || !root.isDirectory()) {
-            root.mkdirs();
-        }
+        if (!root.exists() || !root.isDirectory()) root.mkdirs();
         return newCurrentDir;
 
     }
 
     @Override
-    public FileEntity findByIdAndUploadUserId(Long id, Long userId) {
-        return fileEntityRepository.findByIdAndRegistered_byAndDeletedFalse(id, userId)
-                .orElseThrow(IllegalArgumentException::new);
+    public FileEntity findByIdAndUploadUserId(Long id, UserEntity user) {
+        return fileEntityRepository.findByIdAndRegisteredByAndDeletedFalse(id, user)
+                                   .orElseThrow(IllegalArgumentException::new);
     }
 
     @Override

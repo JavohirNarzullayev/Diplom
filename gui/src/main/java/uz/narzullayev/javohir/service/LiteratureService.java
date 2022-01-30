@@ -6,10 +6,17 @@ package uz.narzullayev.javohir.service;/*
 
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
-import uz.narzullayev.javohir.dto.PlanTeacherDto;
+import uz.narzullayev.javohir.dto.LiteratureDto;
 import uz.narzullayev.javohir.entity.Literature;
 
 public interface LiteratureService {
 
-    DataTablesOutput<Literature> findAll(DataTablesInput input, PlanTeacherDto filterDto);
+    DataTablesOutput<Literature> findAll(DataTablesInput input, LiteratureDto filterDto);
+
+    Literature findById(Long id);
+
+    void update(LiteratureDto literatureDto);
+
+    void save(LiteratureDto literatureDto);
+
 }

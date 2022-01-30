@@ -3,15 +3,21 @@ package uz.narzullayev.javohir.entity;/*
   Date: 1/30/2022
   Time: 11:54 AM*/
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import uz.narzullayev.javohir.entity.info.ExtraInfo;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "literature")
+@Getter
+@Setter
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Literature extends ExtraInfo {
     @Id
     @Column(name = "id", nullable = false)
@@ -26,4 +32,12 @@ public class Literature extends ExtraInfo {
             }
     )
     private Long id;
+    private String bookName;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false, orphanRemoval = true)
+    @JoinColumn(name = "file_entity_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private FileEntity fileEntity;
+
+
 }

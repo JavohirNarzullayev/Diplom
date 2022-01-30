@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
+import uz.narzullayev.javohir.entity.Literature;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -17,15 +18,23 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class LiteratureDto {
-    public interface OnCreate{}
-    public interface OnUpdate{}
+    public interface OnCreate {
+    }
+
+    public interface OnUpdate {
+    }
 
     @NotNull(groups = OnUpdate.class)
     private Long id;
 
-    @NotBlank(groups = {OnCreate.class,OnUpdate.class})
-    private String theme;
+    @NotBlank(groups = {OnCreate.class, OnUpdate.class})
+    private String bookName;
 
-    @NotNull(groups = {OnCreate.class,OnUpdate.class})
-    private MultipartFile multipartFiles;
+    @NotNull(groups = {OnCreate.class, OnUpdate.class})
+    private MultipartFile file;
+
+    public LiteratureDto(Literature literature) {
+        this.id = literature.getId();
+        this.bookName = literature.getBookName();
+    }
 }

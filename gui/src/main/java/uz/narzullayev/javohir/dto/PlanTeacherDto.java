@@ -15,6 +15,7 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import uz.narzullayev.javohir.entity.FileEntity;
+import uz.narzullayev.javohir.entity.Literature;
 import uz.narzullayev.javohir.entity.PlanTeacher;
 
 import javax.validation.constraints.NotBlank;
@@ -42,20 +43,19 @@ public class PlanTeacherDto implements Serializable {
 
     public PlanTeacherDto(PlanTeacher planTeacher) {
          this.id=planTeacher.getId();
-         this.theme=planTeacher.getTheme();
-         this.file=fileToMultipart(planTeacher);
+        this.theme = planTeacher.getTheme();
+        this.file = fileToMultipart(planTeacher.getFileEntity());
     }
 
     @SneakyThrows
-    private MultipartFile fileToMultipart(PlanTeacher planTeacher) {
-        FileEntity fileEntity = planTeacher.getFileEntity();
+    private MultipartFile fileToMultipart(FileEntity fileEntity) {
         File file = new File(fileEntity.getPath());
         FileItem fileItem = new DiskFileItemFactory().createItem("file",
                 Files.probeContentType(file.toPath()), false, file.getName());
 
         try (InputStream in = new FileInputStream(file);
              OutputStream out = fileItem.getOutputStream()) {
-             in.transferTo(out);
+            in.transferTo(out);
         } catch (Exception e) {
             throw new IllegalArgumentException("Invalid file: " + e, e);
         }

@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <object th:include="fragments/includes_top :: top" th:remove="tag" />
+    <object th:include="fragments/includes_top :: top" th:remove="tag"/>
 </head>
-<body class="layout-6" style="background: rgba(0, 0, 0, 0) linear-gradient(to right, rgb(79, 172, 254) 0%, rgb(0, 242, 254) 100%) repeat scroll 0% 0%;">
+<body class="layout-6"
+      style="background: rgba(0, 0, 0, 0) linear-gradient(to right, rgb(79, 172, 254) 0%, rgb(0, 242, 254) 100%) repeat scroll 0% 0%;">
 
 <!-- [ Pre-loader ] start -->
-<object th:include="fragments/preloader :: body" th:remove="tag" />
+<object th:include="fragments/preloader :: body" th:remove="tag"/>
 <!-- [ Pre-loader ] End -->
 
 <!-- [ navigation menu ] start -->
-<object th:include="fragments/navbar :: body" th:remove="tag" />
+<object th:include="fragments/navbar :: body" th:remove="tag"/>
 <!-- [ navigation menu ] end -->
 
 <!-- [ Header ] start -->
-<object th:include="fragments/topbar :: body" th:remove="tag" />
+<object th:include="fragments/topbar :: body" th:remove="tag"/>
 <!-- [ Header ] end -->
 
 
@@ -37,7 +38,7 @@
                                 <div class="card">
 
                                     <div class="card-header">
-                                        <h5 >Укутувчи режаси</h5>
+                                        <h5>Адабиётлар руйхати</h5>
                                     </div>
 
                                     <div class="card-block">
@@ -45,19 +46,22 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label for="theme" >Мавзу</label>
-                                                        <input type="text" class="form-control" id="theme" th:field="*{theme}"/>
+                                                        <label for="theme">Китоб номи</label>
+                                                        <input type="text" class="form-control" id="theme"
+                                                               th:field="*{bookName}"/>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <br/>
-                                                        <div class="mb-2"> &nbsp; </div>
-                                                        <button class="btn btn-outline-primary" id="search" href="#" onclick="getDatatableConnect();return false;">
+                                                        <div class="mb-2"> &nbsp;</div>
+                                                        <button class="btn btn-outline-primary" id="search" href="#"
+                                                                onclick="getDatatableConnect();return false;">
                                                             <i class="feather icon-search"></i>
                                                             <span>Кидириш</span>
                                                         </button>
-                                                        <a class="btn btn-outline-success" id="search" th:href="@{/teacher_plan/create}" >
+                                                        <a class="btn btn-outline-success" id="create"
+                                                           th:href="@{/literature/create}">
                                                             <i class="feather icon-book"></i>
                                                             <span>Яратиш</span>
                                                         </a>
@@ -71,7 +75,7 @@
                             <div class="col-sm-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5 >Руйхат</h5>
+                                        <h5>Руйхат</h5>
                                     </div>
                                     <div class="card-block">
                                         <div class="text-right align-self-end">
@@ -79,12 +83,13 @@
                                             </span>
                                         </div>
                                         <div class="table table-responsive">
-                                            <table id="teacherplanlist" class="display table-striped table-hover" style="width:100%">
+                                            <table id="literaturelist" class="display table-striped table-hover"
+                                                   style="width:100%">
                                                 <thead>
                                                 <tr>
-                                                    <th class="text-center" >Мавзу</th>
-                                                    <th class="text-center" >Укитувчи номи</th>
-                                                    <th class="text-center" >Яратилган сана</th>
+                                                    <th class="text-center">Мавзу</th>
+                                                    <th class="text-center">Укитувчи номи</th>
+                                                    <th class="text-center">Яратилган сана</th>
                                                     <th></th>
                                                 </tr>
                                                 </thead>
@@ -109,41 +114,39 @@
 <!-- [ Main Content ] end -->
 
 
-
-<div th:replace="fragments/includes_bottom :: bottom" th:remove="tag"/>
-<div th:replace="fragments/modals/confirm_modal :: body" th:remove="tag"/>
+<div th:replace="fragments/includes_bottom :: bottom" th:remove="tag"></div>
+<div th:replace="fragments/modals/confirm_modal :: body" th:remove="tag"></div>
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
 
-    var ajaxRequestLink = '/teacher_plan/list_ajax';
+    let ajaxRequestLink = '/literature/list_ajax';
 
-    var editLink = '/teacher_plan/edit';
-    var viewLink = '/teacher_plan/view';
-    var deleteLink = '/teacher_plan/delete';
-    var downloadLink = '/file/download';
-    var labelView = [[#{action.view}]];
-    var labelDownload = [[#{action.download}]];
-    var labelEdit = [[#{action.edit}]];
-    var labelDelete = [[#{action.delete}]];
+    let editLink = '/literature/edit';
+    let deleteLink = '/teacher_plan/delete';
+    let downloadLink = '/file/download';
+    let labelView = [[#{action.view}]];
+    let labelDownload = [[#{action.download}]];
+    let labelEdit = [[#{action.edit}]];
+    let labelDelete = [[#{action.delete}]];
 
 
     $(document).ready(function () {
-        dataTableSelector = $('#teacherplanlist');
+        dataTableSelector = $('#literaturelist');
         thead = dataTableSelector.html();
         dataTableConnect();
     });
 
-    function strtrunc(str, max, add){
+    function strtrunc(str, max, add) {
         add = add || '...';
         return (typeof str === 'string' && str.length > max ? str.substring(0, max) + add : str);
-    };
+    }
 
     function dataTableConnect() {
         console.log(' logger function ');
-        $('#teacherplanlist').DataTable({
+        $('#literaturelist').DataTable({
             ajax: function (dataToSend, callback, settings) {
-                dataToSend.theme= $("#theme").val();
-                $.get(ajaxRequestLink, dataToSend, function(data){
+                dataToSend.theme = $("#theme").val();
+                $.get(ajaxRequestLink, dataToSend, function (data) {
                     callback(data);
                 });
             },
@@ -151,18 +154,18 @@
             "searching": true,
             "columns": [
                 {
-                    "data": "theme",
-                     render: function(data, type, full, meta){
-                         if(type === 'display'){
-                             data = strtrunc(data, 30);
-                         }
+                    "data": "bookName",
+                    render: function (data, type, full, meta) {
+                        if (type === 'display') {
+                            data = strtrunc(data, 30);
+                        }
 
-                         return data;
-                     }
+                        return data;
+                    }
                 },
                 {
                     "data": "registeredBy",
-                    "render":renderRegistrated
+                    "render": renderRegistrated
                 },
                 {
                     "data": "registeredAt",
@@ -193,9 +196,9 @@
     };
 
     function renderRegistrated(data, type, row, meta) {
-        if(data){
+        if (data) {
             return `<span class="badge btn-sm badge-success text-white">${data.fio}</span>`;
-        }else{
+        } else {
             return '';
         }
     }
@@ -213,7 +216,8 @@
                 content: 'ID : ',
                 confirmCallback: function () {
                     console.log("delete")
-                    window.location.href = deleteLink + "/" + id;;
+                    window.location.href = deleteLink + "/" + id;
+                    ;
                 }
             },
             'delete'
