@@ -37,33 +37,16 @@
                                 <div class="card">
 
                                     <div class="card-header">
-                                        <h5 >Фойдаланучилар руйхати</h5>
+                                        <h5 >Укутувчи режаси</h5>
                                     </div>
 
                                     <div class="card-block">
                                         <form th:object="${filter}">
                                             <div class="row">
-
-                                                <div class="col-md-4">
+                                                <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label for="role">Фойдаланувчи роли</label>
-                                                        <select class="form-control" id="role" th:field="*{role}">
-                                                            <option value="">Рол ни танланг</option>
-                                                            <option th:value="'STUDENT'">Талаба</option>
-                                                            <option th:value="'TEACHER'">Устоз муррабий</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="fio" >ФИО</label>
-                                                        <input type="text" class="form-control" id="fio" th:field="*{fio}"/>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="username" >Логини</label>
-                                                        <input type="text" class="form-control" id="username" th:field="*{username}"/>
+                                                        <label for="theme" >Мавзу</label>
+                                                        <input type="text" class="form-control" id="theme" th:field="*{theme}"/>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
@@ -74,6 +57,10 @@
                                                             <i class="feather icon-search"></i>
                                                             <span>Кидиш</span>
                                                         </button>
+                                                        <a class="btn btn-outline-success" id="search" th:href="@{/teacher_plan/create}" >
+                                                            <i class="feather icon-book"></i>
+                                                            <span>Яратиш</span>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -92,15 +79,12 @@
                                             </span>
                                         </div>
                                         <div class="table table-responsive">
-                                            <table id="userList" class="display table-striped table-hover" style="width:100%">
+                                            <table id="teacherplanlist" class="display table-striped table-hover" style="width:100%">
                                                 <thead>
                                                 <tr>
-                                                    <th class="text-center" >Логин</th>
-                                                    <th class="text-center" >ФИО</th>
-                                                    <th class="text-center" >Активлиги</th>
-                                                    <th class="text-center" >Охирги ташриф</th>
-                                                    <th class="text-center" >Телефон</th>
-                                                    <th class="text-center" >Роли</th>
+                                                    <th class="text-center" >Мавзу</th>
+                                                    <th class="text-center" >Укитувчи номи</th>
+                                                    <th class="text-center" >Яратилган сана</th>
                                                     <th></th>
                                                 </tr>
                                                 </thead>
@@ -128,46 +112,37 @@
 
 <div th:replace="fragments/includes_bottom :: bottom" th:remove="tag"/>
 <div th:replace="fragments/modals/confirm_modal :: body" th:remove="tag"/>
-<!--
-<script src="/static/plugins/print-js/printThis.js"></script>
--->
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
 
-    var ajaxRequestLink = '/user/list_ajax';
+    var ajaxRequestLink = '/teacher_plan/list_ajax';
 
-    var editLink = '/user/edit';
-    var viewLink = '/user/view';
-    var deleteLink = '/user/delete';
-    var userActionLink = '/user/action';
+    var editLink = '/teacher_plan/edit';
+    var viewLink = '/teacher_plan/view';
+    var deleteLink = '/teacher_plan/delete';
+    var downloadLink = '/file/download';
     var labelView = [[#{action.view}]];
+    var labelDownload = [[#{action.download}]];
     var labelEdit = [[#{action.edit}]];
     var labelDelete = [[#{action.delete}]];
-    var labelBlock = [[#{action.block}]];
-    var labelUnblock = [[#{action.unblock}]];
-    var active = {true: "Актив", false: "Ноактив"};
 
-
-
-    var roles = {
-        admin: 'Админ',
-        teacher: 'Устоз',
-        student: 'Талаба'
-    };
 
     $(document).ready(function () {
-        dataTableSelector = $('#userList');
+        dataTableSelector = $('#teacherplanlist');
         thead = dataTableSelector.html();
         dataTableConnect();
     });
 
+    function strtrunc(str, max, add){
+        add = add || '...';
+        return (typeof str === 'string' && str.length > max ? str.substring(0, max) + add : str);
+    };
+
     function dataTableConnect() {
         console.log(' logger function ');
-        $('#userList').DataTable({
+        $('#teacherplanlist').DataTable({
             ajax: function (dataToSend, callback, settings) {
-                dataToSend.role = $("#role").val();
-                dataToSend.fio= $("#fio").val();
-                dataToSend.username= $("#username").val();
+                dataToSend.theme= $("#theme").val();
                 $.get(ajaxRequestLink, dataToSend, function(data){
                     callback(data);
                 });
@@ -176,31 +151,24 @@
             "searching": true,
             "columns": [
                 {
-                    "data": "username"
+                    "data": "theme",
+                     render: function(data, type, full, meta){
+                         if(type === 'display'){
+                             data = strtrunc(data, 30);
+                         }
+
+                         return data;
+                     }
                 },
                 {
-                    "data": "fio"
+                    "data": "registeredBy",
+                    "render":renderRegistrated
                 },
                 {
-                    "render": renderStatusColumn,
+                    "data": "registeredAt",
                     className: "text-center",
+                    render: renderLocalDateTime,
                     "orderable": false,
-                    "searchable": false
-                },
-                {
-                    "data": "lastVisit",
-                    "render" : renderLocalDateTime,
-                    className: "text-right"
-                },
-                {
-                    "data": "phone",
-                    "render" : renderSampColumnPhone,
-                    className: "text-right"
-                },
-                {
-                    "data" : "role",
-                    className: "text-right",
-                    "orderable": true,
                     "searchable": false
                 },
                 {
@@ -208,13 +176,9 @@
                     "className": "text-right",
                     "fnCreatedCell": function (data, type, row, meta) {
                         var actionsField = '';
-                        if(row.enabled == true){
-                           actionsField += `<a class="btn-sm badge badge-primary text-white " data-toggle="tooltip" onclick="blockUser(${row.id})"  data-original-title="${labelBlock}"><i class="feather icon-lock"></i></a>`;
-                        }else{
-                           actionsField += ` <a class="btn-sm badge badge-warning"  data-toggle="tooltip" onclick="unblockUser(${row.id})" data-original-title="${labelUnblock}"><i class="feather icon-unlock"></i></a>`;
-                       }
-                        actionsField    += ' <a class="btn-sm badge badge-light" href="'+viewLink+'?id='+row.id+'" data-toggle="tooltip" data-original-title="'+labelView+'"><i class="feather icon-eye"></i></a>';
-                        actionsField    += ' <a class="btn-sm badge badge-info" href="'+editLink+'?id='+row.id+'" data-toggle="tooltip" data-original-title="'+labelEdit+'"><i class="feather icon-edit-1"></i></a>';
+                        actionsField += `<a class="btn-sm badge badge-danger text-white" data-toggle="tooltip" onclick="remove(${row.id})"  data-original-title="${labelView}"><i class="feather icon-file"></i></a>`;
+                        actionsField += `<a class="btn-sm badge badge-light"  data-toggle="tooltip" href="${editLink}?id=${row.id}"  data-original-title="${labelView}"><i class="feather icon-edit-1"></i></a>`;
+                        actionsField += `<a class="btn-sm badge badge-info"  data-toggle="tooltip" href="${downloadLink}?id=${row.fileEntity.id}"  data-original-title="${labelDownload}"><i class="feather icon-download"></i></a>`;
 
                         $(data).html(actionsField);
                     },
@@ -228,11 +192,11 @@
         });
     };
 
-    function renderStatusColumn(data, type, row, meta) {
-        if(row['registrated'] == true){
-            return '<span class="badge btn-sm badge-success text-white">'+active.true+'</span>';
+    function renderRegistrated(data, type, row, meta) {
+        if(data){
+            return `<span class="badge btn-sm badge-success text-white">${data.fio}</span>`;
         }else{
-            return '<span class="badge btn-sm badge-warning text-white">'+active.false+'</span>';
+            return '';
         }
     }
 
@@ -243,28 +207,16 @@
     }
 
 
-    function blockUser(id) {
+    function remove(id) {
         showConfirmModal(
             {
                 content: 'ID : ',
                 confirmCallback: function () {
-                    console.log("block")
-                    window.location.href = userActionLink + "/" + id;;
+                    console.log("delete")
+                    window.location.href = deleteLink + "/" + id;;
                 }
             },
-            'block'
-        );
-    }
-    function unblockUser(id) {
-        showConfirmModal(
-            {
-                content: 'ID : ',
-                confirmCallback: function () {
-                    console.log("unblock")
-                    window.location.href = userActionLink + "/" + id;
-                }
-            },
-            'unblock'
+            'delete'
         );
     }
 

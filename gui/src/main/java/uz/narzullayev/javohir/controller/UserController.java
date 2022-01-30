@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uz.narzullayev.javohir.dto.Breadcrumb;
 import uz.narzullayev.javohir.dto.UserDto;
@@ -126,7 +127,7 @@ public class UserController  {
 
 
     private Breadcrumb getBreadcrumb(String name,String url) {
-        Breadcrumb breadcrumb = new Breadcrumb();
+        var breadcrumb = new Breadcrumb();
         breadcrumb.addLink( "Фойдаланучилар","/user/list");
         breadcrumb.addLink(name,url);
         return breadcrumb;

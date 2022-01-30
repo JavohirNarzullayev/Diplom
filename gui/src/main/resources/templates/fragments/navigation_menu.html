@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
 </head>
@@ -9,26 +9,19 @@
 <nav class="pcoded-navbar menu-light brand-lightblue icon-colored menupos-static">
     <div class="navbar-wrapper">
         <div class="navbar-brand header-logo">
-            <a href="/dashboard" class="b-brand">
-                <img style="width: 45px; height: 45px; object-fit: cover;" src="/static/images/SSP.ico" />
-                <span class="b-title" th:text="#{sys_site_main_title}"></span>
+            <a th:href="@{/dashboard}" class="b-brand">
+                <img style="width: 45px; height: 45px; object-fit: cover;" th:src="@{/static/images/icon/main.ico}"  alt="main-icon"/>
+                <span class="b-title" >Learning management system</span>
             </a>
-            <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
+            <a class="mobile-menu" id="mobile-collapse" href="#"><span></span></a>
         </div>
         <div class="navbar-content scroll-div">
             <ul class="nav pcoded-inner-navbar">
-                <li class="nav-item pcoded-menu-caption">
-                    <label th:text="#{sys_control_panel}">Navigation</label>
-                </li>
-                <li class="nav-item"><a href="/dashboard" class="nav-link"><span class="pcoded-micon"><i class="mdi mdi-home-outline"></i></span><span class="pcoded-mtext" th:text="#{sys_menu.dashboard}"> </span></a></li>
-                <li class="nav-item pcoded-menu-caption" sec:authorize="hasAnyAuthority('ADMIN')">
-                    <label th:text="#{sys_expertise_control}"></label>
-                </li>
-
+                <li class="nav-item"><a th:href="@{/dashboard}" class="nav-link"><span class="pcoded-micon"><i class="mdi mdi-home-outline"></i></span><span class="pcoded-mtext" >Асосий меню </span></a></li>
                 <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
-                    <a href="/admin/dashboard" class="nav-link" style="padding: 5px 15px">
+                    <a th:href="@{/dashboard}" class="nav-link" style="padding: 5px 15px">
                         <span class="pcoded-micon"><i class="fas fa-envelope-open"></i></span>
-                        <span class="pcoded-mtext text-wrap" th:text="#{sys_menu.admin}"> </span>
+                        <span class="pcoded-mtext text-wrap" >Админ ойнаси </span>
                     </a>
                 </li>
             </ul>

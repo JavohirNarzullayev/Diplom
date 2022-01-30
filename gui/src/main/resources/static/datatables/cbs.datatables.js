@@ -1,7 +1,9 @@
-function renderLocalDateTime(date){
-    try{
-       return date[0]+"-"+date[1]+"-"+date[2]
-    }catch (e){
+function renderLocalDateTime(data) {
+    try {
+        let date = data[0] + "-" + data[1] + "-" + data[2];
+        let time = data[3] + ':' + data[4] + ":" + data[5];
+        return date+" "+time
+    } catch (e) {
         return ""
     }
 }
@@ -13,15 +15,7 @@ function renderDateColumn(data) {
     return date.toLocaleDateString().replace('T', ' ').replace('Z', '').replace('.000', '');
 }
 
-function renderTiyinAmountColumn(data) {
-    /*return '<samp>' + formatPrice(data * 1.0 / 100, 2, '.', ' ') + '</samp>';*/
-    return '<samp>' + formatPrice(data * 1.0, 2, '.', ' ') + '</samp>';
-}
 
-function renderRoleColumn(data) {
-    console.log(data.length);
-    return data;
-}
 
 function renderSampColumn(data) {
     return '<samp>' + data + '</samp>';p

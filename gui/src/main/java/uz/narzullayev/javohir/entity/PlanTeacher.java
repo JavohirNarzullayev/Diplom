@@ -3,6 +3,7 @@ package uz.narzullayev.javohir.entity;/*
   Date: 1/21/2022
   Time: 10:05 AM*/
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -11,13 +12,13 @@ import org.hibernate.annotations.OnDeleteAction;
 import uz.narzullayev.javohir.entity.info.ExtraInfo;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "plan_teacher")
 @Getter
 @Setter
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class PlanTeacher extends ExtraInfo implements Serializable {
     @Id
     @Column(name = "id", nullable = false)
@@ -33,17 +34,13 @@ public class PlanTeacher extends ExtraInfo implements Serializable {
     )
     private Long id;
 
-    @NotNull
+    @Column(name = "theme",nullable = false,columnDefinition = "TEXT")
     private String theme;
 
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY, optional = false, orphanRemoval = true)
     @JoinColumn(name = "file_entity_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private FileEntity fileEntity;
-
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_entity_id",nullable = false)
-    private UserEntity userEntity;
 
 
     @Override

@@ -6,15 +6,14 @@
     <div class="navbar-wrapper">
 
         <div class="navbar-brand header-logo">
-            <a href="/dashboard" class="b-brand">
-                <!--<div class="b-bg">
-                    <i class="feather icon-trending-up"></i>
-                </div>-->
-                <span class="b-title" >Кабинет</span>
-            </a>
-            <a class="mobile-menu" id="mobile-collapse" href="#"><span></span>
+            <a th:href="@{/dashboard}" class="b-brand">
+                <img style="width: 45px; height: 45px; object-fit: cover;" src="/static/images/icon/main.ico"
+                     alt="main-icon" />
             </a>
         </div>
+        <a class="mobile-menu" id="mobile-collapse" href="#"><span></span>
+        </a>
+    </div>
 
         <div class="navbar-content scroll-div">
             <ul class="nav pcoded-inner-navbar">
@@ -22,31 +21,34 @@
                     <label >Навигация</label>
                 </li>
                 <li data-username="dashboard learning management system" class="nav-item">
-                    <a href="/dashboard" class="nav-link">
+                    <a th:href="@{/dashboard}" class="nav-link">
                         <span class="pcoded-micon"><i class="feather icon-home"></i></span>
                         <span class="pcoded-mtext" >Кабинет</span>
+                    </a>
+                </li>
+                <li class="nav-item" >
+                    <a th:href="@{/teacher_plan/list}" class="nav-link">
+                        <span class="pcoded-micon"><i class="mdi mdi-teach"></i></span>
+                        <span class="pcoded-mtext">Укув режалар</span>
                     </a>
                 </li>
                 <li class="nav-item pcoded-menu-caption" sec:authorize="hasAnyAuthority('ADMIN', 'REG_ADMIN')">
                     <label>Админ</label>
                 </li>
                 <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN', 'REG_ADMIN')">
-                    <a href="/user/list" class="nav-link">
+                    <a th:href="@{/user/list}" class="nav-link">
                         <span class="pcoded-micon"><i class="feather icon-users"></i></span>
                         <span class="pcoded-mtext">Фойдаланувчилар руйхати</span>
                     </a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
-                    <a href="/user/sessions" class="nav-link">
+                    <a th:href="@{/user/sessions}" class="nav-link">
                         <span class="pcoded-micon"><i class="mdi mdi-ip-network"></i></span>
                         <span class="pcoded-mtext">Фойдаланучилар сессияси</span>
                     </a>
                 </li>
             </ul>
         </div>
-
-    </div>
-
 </nav>
 <!-- [ navigation menu ] end -->
 </body>

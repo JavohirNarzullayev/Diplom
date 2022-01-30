@@ -36,7 +36,7 @@
             modalData.content = '';
         } else {
             if (confirmType == 'delete') {
-                modalData.content = [[#{message.confirmDelete}]] + '<br/>' + modalData.content;
+                modalData.content = `Учиришга розимисз<br/> + ${modalData.content}`;
             } else if (confirmType == 'active') {
                 modalData.content = [[#{message.confirmActiveChange}]] + '<br/>' + modalData.content;
             }else if (confirmType == 'unblock') {

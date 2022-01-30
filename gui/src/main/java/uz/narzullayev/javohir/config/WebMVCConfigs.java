@@ -26,7 +26,7 @@ import java.util.Locale;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "uz.narzullayev.javohir")
-@EnableJpaAuditing
+@EnableJpaAuditing(auditorAwareRef = "auditorAware")
 public class WebMVCConfigs implements WebMvcConfigurer {
 
 

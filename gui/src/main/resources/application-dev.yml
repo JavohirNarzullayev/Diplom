@@ -1,3 +1,6 @@
 spring:
   thymeleaf:
     cache: false
+#Path for file
+path:
+  file: D:\IdeaProjects\diplom\upload_files
