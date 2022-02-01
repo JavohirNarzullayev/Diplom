@@ -19,4 +19,5 @@ public interface LiteratureService {
 
     void save(LiteratureDto literatureDto);
 
+    void remove(Long id);
 }

@@ -103,4 +103,9 @@ public class LiteratureServiceImpl implements LiteratureService {
         literature.setBookName(literatureDto.getBookName());
         literatureRepository.save(literature);
     }
+
+    @Override
+    public void remove(final Long id) {
+        literatureRepository.deleteById(id);
+    }
 }

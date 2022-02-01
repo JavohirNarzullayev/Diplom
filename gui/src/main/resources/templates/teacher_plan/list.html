@@ -178,7 +178,7 @@
                         var actionsField = '';
                         actionsField += `<a class="btn-sm badge badge-danger text-white" data-toggle="tooltip" onclick="remove(${row.id})"  data-original-title="${labelView}"><i class="feather icon-file"></i></a>`;
                         actionsField += `<a class="btn-sm badge badge-light"  data-toggle="tooltip" href="${editLink}?id=${row.id}"  data-original-title="${labelView}"><i class="feather icon-edit-1"></i></a>`;
-                        actionsField += `<a class="btn-sm badge badge-info"  data-toggle="tooltip" href="${downloadLink}?id=${row.fileEntity.id}"  data-original-title="${labelDownload}"><i class="feather icon-download"></i></a>`;
+                        actionsField += `<a class="btn-sm badge badge-info text-white"  data-toggle="tooltip" onclick="downloadFile(${row.fileEntity.id})"  data-original-title="${labelDownload}"><i class="feather icon-download"></i></a>`;
 
                         $(data).html(actionsField);
                     },
@@ -186,6 +186,9 @@
                     searchable: false
                 }
             ],
+            language: {
+                'url': '/static/datatables/lang_oz.json'
+            }
             "drawCallback": function (settings) {
                 $('[data-toggle="tooltip"]').tooltip();
             }
@@ -206,6 +209,41 @@
         dataTableConnect();
     }
 
+    function downloadFile(id) {
+        swal("Файл юклаб олиш учун юклаш тугамасини босинг ?", {
+            buttons: {
+                download: "Юклаш",
+                cancel: true,
+            },
+        }).then((value) => {
+            switch (value) {
+                case "download":
+                    $.ajax({
+                        url: downloadLink + "?id=" + id,
+                        method: 'GET',
+                        xhrFields: {
+                            responseType: 'blob'
+                        },
+                        success: function (data) {
+                            swal("Муваффакиятли", "юкланди", "success");
+                            console.log(data)
+                            var a = document.createElement('a');
+                            var url = window.URL.createObjectURL(data);
+                            a.href = url;
+                            a.download = id;
+                            document.body.append(a);
+                            a.click();
+                            a.remove();
+                            window.URL.revokeObjectURL(url);
+                        }
+                    });
+                    break;
+                default:
+                    swal.stopLoading();
+                    swal.close();
+            }
+        });
+    }
 
     function remove(id) {
         showConfirmModal(
@@ -213,7 +251,8 @@
                 content: 'ID : ',
                 confirmCallback: function () {
                     console.log("delete")
-                    window.location.href = deleteLink + "/" + id;;
+                    window.location.href = deleteLink + "/" + id;
+                    ;
                 }
             },
             'delete'

@@ -11,10 +11,14 @@ import uz.narzullayev.javohir.constant.FileType;
 import uz.narzullayev.javohir.entity.FileEntity;
 import uz.narzullayev.javohir.entity.UserEntity;
 
+import java.util.UUID;
+
 
 public interface FileEntityService {
 
     FileEntity findById(Long fileId);
+
+    FileEntity findByUUID(UUID fileId);
 
     ResponseEntity<Resource> getFileAsResourceForDownloading(FileEntity file);
 

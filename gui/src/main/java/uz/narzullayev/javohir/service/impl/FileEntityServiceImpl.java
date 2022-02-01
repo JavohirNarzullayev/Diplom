@@ -30,6 +30,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -43,19 +44,26 @@ public class FileEntityServiceImpl implements FileEntityService {
 
 
     @Override
-    @Cacheable(value = "fileFindById", key = "#id",unless="#result == ''")
+    @Cacheable(value = "fileFindById", key = "#id", unless = "#result == ''")
     public FileEntity findById(Long id) {
         return fileEntityRepository.findByIdAndDeletedFalse(id)
                 .orElseThrow(IllegalArgumentException::new);
     }
+
+    @Override
+    @Cacheable(value = "findByUUID", key = "#uuid", unless = "#result == ''")
+    public FileEntity findByUUID(UUID uuid) {
+        return fileEntityRepository.findByUuidAndDeletedFalse(uuid)
+                .orElseThrow(IllegalArgumentException::new);
+    }
+
     private Resource getFileAsResource(FileEntity file) {
         try {
             Path filePath = Paths.get(file.getPath());
             Resource resource = new UrlResource(filePath.toUri());
-            if(resource.exists() || resource.isReadable()) {
+            if (resource.exists() || resource.isReadable()) {
                 return resource;
-            }
-            else {
+            } else {
                 log.error("could not read file: " + file.getPath());
 
             }

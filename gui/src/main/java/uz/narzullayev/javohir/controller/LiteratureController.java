@@ -90,6 +90,15 @@ public class LiteratureController {
         return "redirect:/literature/list";
     }
 
+    @GetMapping(value = "/delete/{id}")
+    public String delete(@PathVariable(value = "id") Long id,
+                         RedirectAttributes redirectAttributes) {
+        var literature = literatureService.findById(id);
+        if (literature == null) ToastNotificationUtils.addWarning(redirectAttributes, "Топилмади");
+        else literatureService.remove(id);
+        return "redirect:/literature/list";
+    }
+
     private Breadcrumb getBreadcrumb(String name, String url) {
         var breadcrumb = new Breadcrumb();
         breadcrumb.addLink("Укув адабиётлар", "/literature/list");

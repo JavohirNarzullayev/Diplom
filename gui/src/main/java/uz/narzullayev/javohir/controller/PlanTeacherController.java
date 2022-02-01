@@ -93,10 +93,10 @@ public class PlanTeacherController {
     }
 
     @GetMapping(value = "/delete/{id}")
-    public String delete(@PathVariable(value = "id",required = false) Long id,
-                         RedirectAttributes redirectAttributes )
-    {
-        if (id == null) ToastNotificationUtils.addWarning(redirectAttributes, "Топилмади");
+    public String delete(@PathVariable(value = "id") Long id,
+                         RedirectAttributes redirectAttributes) {
+        var planTeacher = planTeacherService.findById(id);
+        if (planTeacher == null) ToastNotificationUtils.addWarning(redirectAttributes, "Топилмади");
         else planTeacherService.remove(id);
         return "redirect:/teacher_plan/list";
     }

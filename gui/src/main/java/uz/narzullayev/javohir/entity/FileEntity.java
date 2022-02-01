@@ -17,6 +17,7 @@ import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.UUID;
 
 @ToString
 @Entity
@@ -46,6 +47,7 @@ public class FileEntity  extends ExtraInfo implements Serializable {
     private String extension;
     @Column(nullable = false)
     private String path;
+    private UUID uuid = UUID.randomUUID();
     @Column
     private Long size;
     @Column

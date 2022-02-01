@@ -20,7 +20,6 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
@@ -34,7 +33,7 @@ public class UserServiceImpl implements UserService {
     @Validated(UserDto.Update.class)
     public void update(@Valid UserDto user) {
         try {
-            UserEntity merge = user.merge(findById(user.getId()));
+            var merge = user.merge(findById(user.getId()));
             userRepository.saveAndFlush(merge);
         } catch (IllegalAccessException e) {
             System.out.println(e.getMessage());
@@ -59,9 +58,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void userBlockOrUnblockById(Long id) {
-        Optional<UserEntity> userEntity = userRepository.findById(id);
+        var userEntity = userRepository.findById(id);
         if (userEntity.isPresent()) {
-            UserEntity user = userEntity.get();
+            var user = userEntity.get();
             user.setEnabled(!user.getEnabled());
             userRepository.saveAndFlush(user);
         }

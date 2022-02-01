@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import uz.narzullayev.javohir.entity.FileEntity;
 import uz.narzullayev.javohir.service.FileEntityService;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/file")
 @RequiredArgsConstructor
@@ -22,10 +24,8 @@ public class FileController {
 
 
     @GetMapping("/download")
-    public ResponseEntity<Resource> download(@RequestParam Long id) {
-        FileEntity file = fileEntityService.findById(id);
+    public ResponseEntity<Resource> download(@RequestParam String uuid) {
+        FileEntity file = fileEntityService.findByUUID(UUID.fromString(uuid));
         return fileEntityService.getFileAsResourceForDownloading(file);
     }
-
-
 }

@@ -214,7 +214,7 @@
                            actionsField += ` <a class="btn-sm badge badge-warning"  data-toggle="tooltip" onclick="unblockUser(${row.id})" data-original-title="${labelUnblock}"><i class="feather icon-unlock"></i></a>`;
                        }
                         actionsField    += ' <a class="btn-sm badge badge-light" href="'+viewLink+'?id='+row.id+'" data-toggle="tooltip" data-original-title="'+labelView+'"><i class="feather icon-eye"></i></a>';
-                        actionsField    += ' <a class="btn-sm badge badge-info" href="'+editLink+'?id='+row.id+'" data-toggle="tooltip" data-original-title="'+labelEdit+'"><i class="feather icon-edit-1"></i></a>';
+                        actionsField += ' <a class="btn-sm badge badge-info" href="' + editLink + '?id=' + row.id + '" data-toggle="tooltip" data-original-title="' + labelEdit + '"><i class="feather icon-edit-1"></i></a>';
 
                         $(data).html(actionsField);
                     },
@@ -224,6 +224,9 @@
             ],
             "drawCallback": function (settings) {
                 $('[data-toggle="tooltip"]').tooltip();
+            },
+            language: {
+                'url': '/static/datatables/lang_oz.json'
             }
         });
     };
