@@ -21,7 +21,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@ToString
+@ToString(callSuper = true)
 @Entity
 @Getter
 @Setter
