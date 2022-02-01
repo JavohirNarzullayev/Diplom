@@ -29,69 +29,70 @@ public class PlanTeacherController {
 
 
     @GetMapping(value = "/list")
-    public String list(Model model){
-        model.addAttribute("filter",new PlanTeacherDto());
-        model.addAttribute("breadcrumb", getBreadcrumb("Руйхат","/user/list"));
+    public String list(Model model) {
+        model.addAttribute("filter", new PlanTeacherDto());
+        model.addAttribute("breadcrumb", getBreadcrumb("Руйхат", "/user/list"));
         return "teacher_plan/list";
     }
 
     @GetMapping(value = "/list_ajax", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public DataTablesOutput<PlanTeacher> listAjax(@Valid DataTablesInput input, PlanTeacherDto filterDto){
+    public DataTablesOutput<PlanTeacher> listAjax(@Valid DataTablesInput input, PlanTeacherDto filterDto) {
         return planTeacherService.findAll(input, filterDto);
     }
 
+    /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>UPDATE>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
     @GetMapping(value = "/edit")
     public String edit(
             Model model,
             RedirectAttributes redirectAttributes,
             @RequestParam(name = "id", required = false) Long id
-    ){
+    ) {
         var planTeacher = planTeacherService.findById(id);
-        if (planTeacher == null){
+        if (planTeacher == null) {
             ToastNotificationUtils.addWarning(redirectAttributes, "Топилмади");
             return "redirect:/teacher_plan/list";
         }
-        model.addAttribute("breadcrumb", getBreadcrumb("Маьлумотни узгартириш","/user/edit?id="+id));
-        model.addAttribute("object",new PlanTeacherDto( planTeacher ));
-        model.addAttribute("back_action","/teacher_plan/list");
-        model.addAttribute("post_action","/teacher_plan/update");
-        return "teacher_plan/edit";
-    }
-
-    @GetMapping(value = "/create")
-    public String create( Model model ){
-        model.addAttribute("breadcrumb", getBreadcrumb("Яратиш","/teacher_plan/create"));
-        model.addAttribute("object",new PlanTeacherDto( ));
-        model.addAttribute("back_action","/teacher_plan/list");
-        model.addAttribute("post_action","/teacher_plan/create");
+        model.addAttribute("breadcrumb", getBreadcrumb("Маьлумотни узгартириш", "/user/edit?id=" + id));
+        model.addAttribute("object", new PlanTeacherDto(planTeacher));
+        model.addAttribute("back_action", "/teacher_plan/list");
+        model.addAttribute("post_action", "/teacher_plan/update");
         return "teacher_plan/edit";
     }
 
     @PostMapping(value = "/update")
-    public String create(
-            @Validated(value = PlanTeacherDto.OnUpdate.class) @ModelAttribute("object")  PlanTeacherDto planTeacherDto,
+    public String update(
+            @Validated(value = PlanTeacherDto.OnUpdate.class) @ModelAttribute("object") PlanTeacherDto planTeacherDto,
             BindingResult bindingResult,
-            RedirectAttributes redirectAttributes )
-    {
+            RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) return "teacher_plan/edit";
         if (planTeacherDto == null) ToastNotificationUtils.addWarning(redirectAttributes, "Топилмади");
         else planTeacherService.update(planTeacherDto);
         return "redirect:/teacher_plan/list";
     }
 
-    @PostMapping(value = "/save")
-    public String save(
-            @Validated(value = PlanTeacherDto.OnCreate.class) @ModelAttribute("object")  PlanTeacherDto planTeacherDto,
+    /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Create>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+    @GetMapping(value = "/create")
+    public String create(Model model) {
+        model.addAttribute("breadcrumb", getBreadcrumb("Яратиш", "/teacher_plan/create"));
+        model.addAttribute("object", new PlanTeacherDto());
+        model.addAttribute("back_action", "/teacher_plan/list");
+        model.addAttribute("post_action", "/teacher_plan/create");
+        return "teacher_plan/edit";
+    }
+
+    @PostMapping(value = "/create")
+    public String create(
+            @Validated(value = PlanTeacherDto.OnCreate.class) @ModelAttribute("object") PlanTeacherDto planTeacherDto,
             BindingResult bindingResult,
-            RedirectAttributes redirectAttributes )
-    {
+            RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) return "teacher_plan/edit";
         if (planTeacherDto == null) ToastNotificationUtils.addWarning(redirectAttributes, "Топилмади");
         else planTeacherService.save(planTeacherDto);
         return "redirect:/teacher_plan/list";
     }
 
+    /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>delete>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
     @GetMapping(value = "/delete/{id}")
     public String delete(@PathVariable(value = "id") Long id,
                          RedirectAttributes redirectAttributes) {
@@ -104,8 +105,8 @@ public class PlanTeacherController {
 
     private Breadcrumb getBreadcrumb(String name, String url) {
         var breadcrumb = new Breadcrumb();
-        breadcrumb.addLink( "Укув режа","/teacher/list");
-        breadcrumb.addLink(name,url);
+        breadcrumb.addLink("Укув режа", "/teacher/list");
+        breadcrumb.addLink(name, url);
         return breadcrumb;
     }
 

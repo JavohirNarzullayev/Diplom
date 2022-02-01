@@ -170,7 +170,6 @@
                 {
                     "data": "registeredAt",
                     className: "text-center",
-                    render: renderLocalDateTime,
                     "orderable": false,
                     "searchable": false
                 },
@@ -181,7 +180,7 @@
                         var actionsField = '';
                         actionsField += `<a class="btn-sm badge badge-danger text-white" data-toggle="tooltip" onclick="remove(${row.id})"  data-original-title="${labelView}"><i class="feather icon-file"></i></a>`;
                         actionsField += `<a class="btn-sm badge badge-light"  data-toggle="tooltip" href="${editLink}?id=${row.id}"  data-original-title="${labelView}"><i class="feather icon-edit-1"></i></a>`;
-                        actionsField += `<a class="btn-sm badge badge-info text-white"  data-toggle="tooltip" onclick="downloadFile(${row.fileEntity.id})"  data-original-title="${labelDownload}"><i class="feather icon-download"></i></a>`;
+                        actionsField += `<a class="btn-sm badge badge-info text-white"  data-toggle="tooltip" onclick="downloadFile(${row.fileEntity.uuid})"  data-original-title="${labelDownload}"><i class="feather icon-download"></i></a>`;
 
                         $(data).html(actionsField);
                     },

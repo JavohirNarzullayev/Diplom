@@ -3,6 +3,7 @@ package uz.narzullayev.javohir.entity;/*
   Date: 1/9/2022
   Time: 8:34 PM*/
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -56,6 +57,7 @@ public class UserEntity extends ExtraInfo implements Serializable {
     private UserType role;
 
     private Boolean enabled;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastVisit;
 
 

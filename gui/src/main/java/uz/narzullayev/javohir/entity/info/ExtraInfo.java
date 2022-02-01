@@ -3,11 +3,9 @@ package uz.narzullayev.javohir.entity.info;/*
   Date: 1/10/2022
   Time: 1:03 PM*/
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -17,19 +15,21 @@ import uz.narzullayev.javohir.entity.UserEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
-@Getter @Setter
+@Getter
+@Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public  class ExtraInfo {
+public abstract class ExtraInfo {
 
 
     @CreatedDate
-    @Column( updatable = false)
+    @Column(updatable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime registeredAt;
 
     @LastModifiedDate
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
     @Version
@@ -48,9 +48,6 @@ public  class ExtraInfo {
     private Long updated_by;
 
     private Boolean deleted;
-
-
-
 
     @PrePersist
     void persist(){
