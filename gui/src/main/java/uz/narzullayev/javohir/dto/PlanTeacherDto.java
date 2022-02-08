@@ -7,21 +7,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.SneakyThrows;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.io.IOUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-import uz.narzullayev.javohir.entity.FileEntity;
-import uz.narzullayev.javohir.entity.Literature;
 import uz.narzullayev.javohir.entity.PlanTeacher;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.io.*;
-import java.nio.file.Files;
+import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
@@ -42,24 +33,7 @@ public class PlanTeacherDto implements Serializable {
 
 
     public PlanTeacherDto(PlanTeacher planTeacher) {
-         this.id=planTeacher.getId();
+        this.id = planTeacher.getId();
         this.theme = planTeacher.getTheme();
-        this.file = fileToMultipart(planTeacher.getFileEntity());
-    }
-
-    @SneakyThrows
-    private MultipartFile fileToMultipart(FileEntity fileEntity) {
-        File file = new File(fileEntity.getPath());
-        FileItem fileItem = new DiskFileItemFactory().createItem("file",
-                Files.probeContentType(file.toPath()), false, file.getName());
-
-        try (InputStream in = new FileInputStream(file);
-             OutputStream out = fileItem.getOutputStream()) {
-            in.transferTo(out);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Invalid file: " + e, e);
-        }
-
-        return new CommonsMultipartFile(fileItem);
     }
 }

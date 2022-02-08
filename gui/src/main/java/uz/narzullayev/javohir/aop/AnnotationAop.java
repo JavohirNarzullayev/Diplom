@@ -17,6 +17,7 @@ public class AnnotationAop {
     public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
         long start = System.currentTimeMillis();
         Object proceed = joinPoint.proceed();
+        System.out.println(proceed.toString());
 
         long executionTime = System.currentTimeMillis() - start;
 
