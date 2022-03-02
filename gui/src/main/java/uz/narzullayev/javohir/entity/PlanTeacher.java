@@ -1,23 +1,25 @@
-package uz.narzullayev.javohir.entity;/* 
- @author: Javohir
-  Date: 1/21/2022
-  Time: 10:05 AM*/
+package uz.narzullayev.javohir.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.Hibernate;
+import org.hibernate.annotations.*;
 import uz.narzullayev.javohir.entity.info.ExtraInfo;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "plan_teacher")
 @Getter
 @Setter
+@DynamicUpdate
+@Where(clause = "deleted=false")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class PlanTeacher extends ExtraInfo implements Serializable {
     @Id
@@ -42,7 +44,6 @@ public class PlanTeacher extends ExtraInfo implements Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private FileEntity fileEntity;
 
-
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
@@ -54,5 +55,18 @@ public class PlanTeacher extends ExtraInfo implements Serializable {
                 "registeredBy = " + getRegisteredBy() + ", " +
                 "updatedBy = " + getUpdatedBy() + ", " +
                 "deleted = " + getDeleted() + ")";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        PlanTeacher that = (PlanTeacher) o;
+        return id != null && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

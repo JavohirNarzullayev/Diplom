@@ -4,8 +4,10 @@ package uz.narzullayev.javohir.entity.info;/*
   Time: 1:03 PM*/
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -26,32 +28,42 @@ public abstract class ExtraInfo {
     @CreatedDate
     @Column(updatable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime registeredAt;
+    public LocalDateTime registeredAt;
 
     @LastModifiedDate
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updatedAt;
+    public LocalDateTime updatedAt;
 
     @Version
-    private Long version;
+    public Long version;
 
-    @OneToOne(cascade = {CascadeType.DETACH,CascadeType.PERSIST},fetch = FetchType.LAZY)
-    @JoinColumn(name = "registered_by", updatable = false,insertable = false)
-    private UserEntity registeredBy;
+    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "registered_by", updatable = false, insertable = false)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    public UserEntity registeredBy;
     @CreatedBy
-    private Long registered_by;
+    public Long registered_by;
 
-    @OneToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST},fetch = FetchType.LAZY)
-    @JoinColumn(name = "updated_by",insertable = false,updatable = false)
-    private UserEntity updatedBy;
+    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "updated_by", insertable = false, updatable = false)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    public UserEntity updatedBy;
     @LastModifiedBy
-    private Long updated_by;
+    public Long updated_by;
 
-    private Boolean deleted;
+    public Boolean deleted;
 
     @PrePersist
-    void persist(){
-        this.deleted=Boolean.FALSE;
+    void persist() {
+        this.deleted = Boolean.FALSE;
     }
+
+    @PreRemove
+    public void delete() {
+        this.deleted = Boolean.TRUE;
+    }
+
 
 }
