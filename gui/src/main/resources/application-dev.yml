@@ -1,6 +1,12 @@
 spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/diplom
+    username: postgres
+    password: postgres
+
   thymeleaf:
     cache: false
+
 #Path for file
 path:
   file: D:\IdeaProjects\diplom\upload_files
