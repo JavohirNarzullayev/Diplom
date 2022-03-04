@@ -11,6 +11,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import uz.narzullayev.javohir.dto.LiteratureDto;
 import uz.narzullayev.javohir.entity.Literature;
 import uz.narzullayev.javohir.exception.RecordNotFoundException;
@@ -19,7 +20,10 @@ import uz.narzullayev.javohir.service.FileEntityService;
 import uz.narzullayev.javohir.service.LiteratureService;
 import uz.narzullayev.javohir.util.AuthUtil;
 
+import javax.persistence.criteria.Predicate;
 import javax.validation.constraints.NotNull;
+import java.util.LinkedList;
+import java.util.List;
 
 import static uz.narzullayev.javohir.constant.FileType.LITERATURE;
 
@@ -33,7 +37,7 @@ public class LiteratureServiceImpl implements LiteratureService {
     @Override
     @Transactional(readOnly = true)
     public DataTablesOutput<Literature> findAll(DataTablesInput input, LiteratureDto filterDto) {
-        return literatureRepository.findAll(input/*, where(byFilterDto(filterDto))*/);
+        return literatureRepository.findAll(input, byFilterDto(filterDto));
     }
 
     @Override
@@ -47,7 +51,13 @@ public class LiteratureServiceImpl implements LiteratureService {
     }
 
     public Specification<Literature> byFilterDto(LiteratureDto filterDto) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("id"), filterDto.getBookName());
+        return (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new LinkedList<>();
+            if (StringUtils.hasText(filterDto.getBookName()))
+                predicates.add(criteriaBuilder.equal(root.get("bookName"), filterDto.getBookName()));
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
     }
 
     /**
@@ -92,14 +102,18 @@ public class LiteratureServiceImpl implements LiteratureService {
     /**
      * 1.Multipart export file do local
      * 2.Save multipart to FileEntity
-     * 3.Additionally info save to planTeacher db
+     * 3.Additionally info save to planTeacher table
      *
      * @param literatureDto
      */
     @Override
     public void save(@NotNull LiteratureDto literatureDto) {
         validateDto(literatureDto);
-        var fileEntity = fileEntityService.uploadFile(literatureDto.getFile(), AuthUtil.getUserId().orElse(null), literatureDto.getBookName(), LITERATURE);
+        var fileEntity = fileEntityService.uploadFile(
+                literatureDto.getFile(),
+                AuthUtil.getUserId().orElse(null),
+                literatureDto.getBookName(),
+                LITERATURE);
 
         var literature = new Literature();
         literature.setFileEntity(fileEntity);
