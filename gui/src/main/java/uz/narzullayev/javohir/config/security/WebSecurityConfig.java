@@ -13,7 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import uz.narzullayev.javohir.constant.UserType;
-import uz.narzullayev.javohir.exception.CustomAccessDeniedHandler;
 import uz.narzullayev.javohir.service.auth.CustomSuccessHandler;
 import uz.narzullayev.javohir.service.auth.UserDetailsServiceImpl;
 import uz.narzullayev.javohir.util.AuthUtil;
