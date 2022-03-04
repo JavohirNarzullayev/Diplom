@@ -10,5 +10,5 @@ target/
 *.iml
 *.ipr
 
-upload_files/
+upload_files/**/**
 
