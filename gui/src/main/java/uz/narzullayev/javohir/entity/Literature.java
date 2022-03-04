@@ -6,33 +6,22 @@ package uz.narzullayev.javohir.entity;/*
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import uz.narzullayev.javohir.entity.info.ExtraInfo;
+import uz.narzullayev.javohir.entity.extra.Addional;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "literature")
 @Getter
 @Setter
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Literature extends ExtraInfo {
-    @Id
-    @Column(name = "id", nullable = false)
-    @GeneratedValue(generator = "sequence-generator")
-    @GenericGenerator(
-            name = "sequence-generator",
-            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-            parameters = {
-                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "literature_sequence"),
-                    @org.hibernate.annotations.Parameter(name = "initial_value", value = "1"),
-                    @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
-            }
-    )
-    private Long id;
+public class Literature extends Addional implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String bookName;
+
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false, orphanRemoval = true)
     @JoinColumn(name = "file_entity_id")

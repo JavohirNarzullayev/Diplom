@@ -23,6 +23,8 @@
     <properties>
         <java.version>11</java.version>
         <mainClass>uz.narzullayev.javohir.GuiApplication</mainClass>
+        <zoalando.version>0.28.0-RC.0</zoalando.version>
+        <datatable.version>5.1.0</datatable.version>
     </properties>
 
     <dependencies>
@@ -34,7 +36,7 @@
         <dependency>
             <groupId>com.github.darrachequesne</groupId>
             <artifactId>spring-data-jpa-datatables</artifactId>
-            <version>5.1.0</version>
+            <version>${datatable.version}</version>
         </dependency>
 
         <dependency>
@@ -59,6 +61,27 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.zalando</groupId>
+            <artifactId>problem-spring-web</artifactId>
+            <version>${zoalando.version}</version>
         </dependency>
     </dependencies>
 

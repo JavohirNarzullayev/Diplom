@@ -3,6 +3,7 @@ package uz.narzullayev.javohir.config;
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -27,6 +28,7 @@ import java.util.Locale;
 @EnableWebMvc
 @ComponentScan(basePackages = "uz.narzullayev.javohir")
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
+@EnableCaching(proxyTargetClass = true)
 public class WebMVCConfigs implements WebMvcConfigurer {
 
 
@@ -85,13 +87,6 @@ public class WebMVCConfigs implements WebMvcConfigurer {
         resolver.setCharacterEncoding("UTF-8");
         resolver.setCacheable(true);
         return resolver;
-    }
-
-
-    //for createdBy,updatedBy
-    @Bean
-    public AuditorAware<Long> auditorAware(){
-        return AuthUtil::getUserId;
     }
 
 

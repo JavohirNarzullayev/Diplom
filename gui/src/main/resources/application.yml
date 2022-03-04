@@ -1,0 +1,65 @@
+spring:
+  application:
+    name: Diplom
+  jmx:
+    enabled: false
+  data:
+    jpa:
+      repositories:
+        bootstrap-mode: deferred
+  #db environment
+  datasource:
+    url: jdbc:postgresql://localhost:5432/diplom
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  ##Jpa & Hibernate config
+  jpa:
+    properties:
+      hibernate.jdbc.time_zone: UTC
+      hibernate.id.new_generator_mappings: true
+      hibernate.connection.provider_disables_autocommit: false
+      hibernate.cache.use_second_level_cache: false
+      hibernate.cache.use_query_cache: false
+      hibernate.generate_statistics: false
+      # modify batch size as necessary
+      hibernate.jdbc.batch_size: 25
+      hibernate.order_inserts: true
+      hibernate.order_updates: true
+      hibernate.query.fail_on_pagination_over_collection_fetch: true
+      hibernate.query.in_clause_parameter_padding: true
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+      hibernate.database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    show-sql: true
+
+  main:
+    allow-bean-definition-overriding: true
+  messages:
+    basename: i18n
+  ##Jackson
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+  #File config
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+##Logging
+logging:
+  level:
+    org:
+      springframework:
+        web: INFO
+      hibernate: ERROR
+    templates: ERROR
+
+
+
+
+

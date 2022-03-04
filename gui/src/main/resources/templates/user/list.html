@@ -231,10 +231,10 @@
     };
 
     function renderStatusColumn(data, type, row, meta) {
-        if(row['registrated'] == true){
-            return '<span class="badge btn-sm badge-success text-white">'+active.true+'</span>';
-        }else{
-            return '<span class="badge btn-sm badge-warning text-white">'+active.false+'</span>';
+        if (row['enabled'] == true) {
+            return '<span class="badge btn-sm badge-success text-white">' + active.true + '</span>';
+        } else {
+            return '<span class="badge btn-sm badge-warning text-white">' + active.false + '</span>';
         }
     }
 

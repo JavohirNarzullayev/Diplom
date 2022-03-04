@@ -4,15 +4,15 @@ package uz.narzullayev.javohir.entity;/*
   Time: 8:34 PM*/
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.GenericGenerator;
 import uz.narzullayev.javohir.constant.UserType;
-import uz.narzullayev.javohir.entity.info.ExtraInfo;
+import uz.narzullayev.javohir.entity.extra.Addional;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -28,24 +28,12 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Table(name = "users", indexes = {@Index(columnList = "username")}, uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
 @JsonIgnoreProperties({"password", "hibernateLazyInitializer", "handler"})
-public class UserEntity extends ExtraInfo implements Serializable {
-    @Id
-    @Column(name = "id", nullable = false)
-    @GeneratedValue(generator = "sequence-generator")
-    @GenericGenerator(
-            name = "sequence-generator",
-            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-            parameters = {
-                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "user_sequence"),
-                    @org.hibernate.annotations.Parameter(name = "initial_value", value = "1"),
-                    @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
-            }
-    )
-    private Long id;
-
+public class UserEntity extends Addional implements Serializable {
+    private static final long serialVersionUID = 1L;
     @NotNull
     @NotEmpty
     private String username;
+    @JsonIgnore
     private String password;
     private String fio;
     private String phone;

@@ -4,12 +4,9 @@ package uz.narzullayev.javohir.entity;/*
   Time: 10:07 AM*/
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import org.hibernate.annotations.GenericGenerator;
+import lombok.*;
 import uz.narzullayev.javohir.constant.FileType;
-import uz.narzullayev.javohir.entity.info.ExtraInfo;
+import uz.narzullayev.javohir.entity.extra.Addional;
 
 import javax.persistence.*;
 import java.io.IOException;
@@ -25,21 +22,9 @@ import java.util.UUID;
 @Getter
 @Setter
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class FileEntity  extends ExtraInfo implements Serializable {
+public class FileEntity extends Addional implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(name = "id", nullable = false)
-    @GeneratedValue(generator = "sequence-generator")
-    @GenericGenerator(
-            name = "sequence-generator",
-            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-            parameters = {
-                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "file_entity_sequence"),
-                    @org.hibernate.annotations.Parameter(name = "initial_value", value = "1"),
-                    @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
-            }
-    )
-    private Long id;
 
     @Column(nullable = false)
     private String name;

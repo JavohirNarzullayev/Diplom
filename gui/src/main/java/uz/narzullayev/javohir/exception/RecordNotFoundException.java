@@ -1,22 +1,35 @@
 package uz.narzullayev.javohir.exception;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import lombok.Getter;
+import org.zalando.problem.AbstractThrowableProblem;
+import org.zalando.problem.Status;
 
-@ResponseStatus(value = HttpStatus.NOT_FOUND)
-@Slf4j
-public class RecordNotFoundException extends Exception {
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
+
+@Getter
+public class RecordNotFoundException extends AbstractThrowableProblem {
     private static final long serialVersionUID = 1L;
+    private final String entityName;
 
-    public RecordNotFoundException(String message) {
-        super(message);
-        log.warn(message);
+    private final String errorKey;
+
+    public RecordNotFoundException(String defaultMessage, String entityName, String errorKey) {
+        this(ErrorConstants.DEFAULT_TYPE, defaultMessage, entityName, errorKey);
     }
 
-    public RecordNotFoundException(String message, Throwable t) {
-        super(message, t);
-        log.warn(message);
+    public RecordNotFoundException(URI type, String defaultMessage, String entityName, String errorKey) {
+        super(type, defaultMessage, Status.OK, null, null, null, getAlertParameters(entityName, errorKey));
+        this.entityName = entityName;
+        this.errorKey = errorKey;
+    }
+
+    private static Map<String, Object> getAlertParameters(String entityName, String errorKey) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("message", "error." + errorKey);
+        parameters.put("params", entityName);
+        return parameters;
     }
 }
 

@@ -1,8 +1,9 @@
-package uz.narzullayev.javohir.config;
+package uz.narzullayev.javohir.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +16,7 @@ import uz.narzullayev.javohir.constant.UserType;
 import uz.narzullayev.javohir.exception.CustomAccessDeniedHandler;
 import uz.narzullayev.javohir.service.auth.CustomSuccessHandler;
 import uz.narzullayev.javohir.service.auth.UserDetailsServiceImpl;
+import uz.narzullayev.javohir.util.AuthUtil;
 
 
 @Configuration
@@ -89,4 +91,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             encoder = new BCryptPasswordEncoder();
         return encoder;
     }
+
+    @Bean
+
+    public AuditorAware<Long> auditorAware() {
+        return AuthUtil::getUserId;
+    }
+
 }

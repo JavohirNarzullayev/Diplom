@@ -36,7 +36,7 @@ public class PlanTeacherServiceImpl implements PlanTeacherService {
         if (planTeacher.isPresent()) {
             return planTeacher.get();
         }
-        throw new RecordNotFoundException("PlanTeacher not found by id->"+id);
+        throw new RecordNotFoundException(String.format("PlanTeacher not found by id : %s ", id), "PlanTeacher", "id");
     }
 
     @Override
@@ -47,9 +47,10 @@ public class PlanTeacherServiceImpl implements PlanTeacherService {
 
     /**
      * 1.Get multipart file and theme
-     * 2.Get PlnnTeacher by id
+     * 2.Get PlanTeacher by id
      * 3.Remove planTeacher by id
      * 4.Additionally info save to planTeacher db
+     *
      * @param planTeacherDto
      */
     @SneakyThrows
@@ -57,16 +58,19 @@ public class PlanTeacherServiceImpl implements PlanTeacherService {
     public void update(@NotNull PlanTeacherDto planTeacherDto) {
         var multipartFile = planTeacherDto.getFile();
         var theme = planTeacherDto.getTheme();
-
-        Assert.notNull(multipartFile,"Multipart file is null");
-        Assert.notNull(theme,"Theme is null");
+        Assert.notNull(theme, "Theme is null");
 
         var planTeacher = findById(planTeacherDto.getId());
-        fileEntityService.remove(planTeacher.getFileEntity().getId());
-
-        var fileEntity = fileEntityService.uploadFile(multipartFile, AuthUtil.getUserId().orElse(null), theme, PLAN_TEACHER );
-        planTeacher.setTheme(planTeacher.getTheme());
-        planTeacher.setFileEntity(fileEntity);
+        if (!multipartFile.isEmpty()) {
+            fileEntityService.remove(planTeacher.getFileEntity().getId());
+            var fileEntity = fileEntityService.uploadFile(
+                    multipartFile,
+                    AuthUtil.getUserId().orElse(null),
+                    theme,
+                    PLAN_TEACHER);
+            planTeacher.setFileEntity(fileEntity);
+        }
+        planTeacher.setTheme(theme);
         planTeacherRepository.save(planTeacher);
     }
 
@@ -78,6 +82,7 @@ public class PlanTeacherServiceImpl implements PlanTeacherService {
      * @param planTeacherDto
      */
     @Override
+    @Transactional
     public void save(@NotNull PlanTeacherDto planTeacherDto) {
         var multipartFile = planTeacherDto.getFile();
         var theme = planTeacherDto.getTheme();

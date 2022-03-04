@@ -11,12 +11,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 import uz.narzullayev.javohir.dto.LiteratureDto;
-import uz.narzullayev.javohir.dto.PlanTeacherDto;
 import uz.narzullayev.javohir.entity.Literature;
-import uz.narzullayev.javohir.entity.PlanTeacher;
 import uz.narzullayev.javohir.exception.RecordNotFoundException;
 import uz.narzullayev.javohir.repository.LiteratureRepository;
 import uz.narzullayev.javohir.service.FileEntityService;
@@ -25,9 +21,7 @@ import uz.narzullayev.javohir.util.AuthUtil;
 
 import javax.validation.constraints.NotNull;
 
-import static org.springframework.data.jpa.domain.Specification.where;
 import static uz.narzullayev.javohir.constant.FileType.LITERATURE;
-import static uz.narzullayev.javohir.constant.FileType.PLAN_TEACHER;
 
 @Service
 @RequiredArgsConstructor
@@ -46,10 +40,10 @@ public class LiteratureServiceImpl implements LiteratureService {
     @SneakyThrows
     public Literature findById(Long id) {
         var planTeacher = literatureRepository.findById(id);
-        if (planTeacher.isPresent()) {
-            return planTeacher.get();
-        }
-        throw new RecordNotFoundException("Literature not found by id :" + id);
+        return planTeacher.orElseThrow(() ->
+                new RecordNotFoundException(String.format("Literature not found by id : {%s}", id), "Literature", "id")
+        );
+
     }
 
     public Specification<Literature> byFilterDto(LiteratureDto filterDto) {
@@ -67,13 +61,22 @@ public class LiteratureServiceImpl implements LiteratureService {
     @SneakyThrows
     @Override
     public void update(@NotNull LiteratureDto literatureDto) {
-        validateDto(literatureDto);
-        var literature = findById(literatureDto.getId());
-        fileEntityService.remove(literature.getFileEntity().getId());
+        var multipartFile = literatureDto.getFile();
+        var bookName = literatureDto.getBookName();
 
-        var fileEntity = fileEntityService.uploadFile(literatureDto.getFile(), AuthUtil.getUserId().orElse(null), literatureDto.getBookName(), LITERATURE);
-        literature.setBookName(literature.getBookName());
-        literature.setFileEntity(fileEntity);
+        Assert.notNull(bookName, "book name is null");
+
+        var literature = findById(literatureDto.getId());
+        if (!multipartFile.isEmpty()) {
+            fileEntityService.remove(literature.getFileEntity().getId());
+            var fileEntity = fileEntityService.uploadFile(
+                    literatureDto.getFile(),
+                    AuthUtil.getUserId().orElse(null),
+                    literatureDto.getBookName(),
+                    LITERATURE);
+            literature.setFileEntity(fileEntity);
+        }
+        literature.setBookName(literatureDto.getBookName());
         literatureRepository.save(literature);
     }
 

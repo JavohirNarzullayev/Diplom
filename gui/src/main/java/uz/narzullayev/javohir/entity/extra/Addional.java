@@ -1,8 +1,9 @@
-package uz.narzullayev.javohir.entity.info;/* 
+package uz.narzullayev.javohir.entity.extra;/*
  @author: Javohir
   Date: 1/10/2022
   Time: 1:03 PM*/
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -22,8 +23,11 @@ import java.time.LocalDateTime;
 @Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class ExtraInfo {
-
+public abstract class Addional {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
+    @SequenceGenerator(name = "sequenceGenerator")
+    protected Long id;
 
     @CreatedDate
     @Column(updatable = false)
@@ -40,6 +44,7 @@ public abstract class ExtraInfo {
     @OneToOne(cascade = {CascadeType.DETACH, CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinColumn(name = "registered_by", updatable = false, insertable = false)
     @ToString.Exclude
+    @JsonBackReference
     @EqualsAndHashCode.Exclude
     public UserEntity registeredBy;
     @CreatedBy
@@ -48,6 +53,7 @@ public abstract class ExtraInfo {
     @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinColumn(name = "updated_by", insertable = false, updatable = false)
     @ToString.Exclude
+    @JsonBackReference
     @EqualsAndHashCode.Exclude
     public UserEntity updatedBy;
     @LastModifiedBy
@@ -59,11 +65,4 @@ public abstract class ExtraInfo {
     void persist() {
         this.deleted = Boolean.FALSE;
     }
-
-    @PreRemove
-    public void delete() {
-        this.deleted = Boolean.TRUE;
-    }
-
-
 }
