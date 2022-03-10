@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 import uz.narzullayev.javohir.entity.PlanTeacher;
+import uz.narzullayev.javohir.validation.anontation.NotEmptyMultipart;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -28,7 +29,7 @@ public class PlanTeacherDto implements Serializable {
     @NotBlank(groups = {OnUpdate.class,OnCreate.class})
     private String theme;
 
-    @NotNull(groups = {OnUpdate.class,OnCreate.class})
+    @NotEmptyMultipart(groups = {LiteratureDto.OnCreate.class})
     private MultipartFile file;
 
 

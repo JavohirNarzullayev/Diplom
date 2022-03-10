@@ -61,15 +61,15 @@
                                                 <div class="col-md-6  mb-3">
                                                     <div class="custom-file">
                                                         <input type="file" class="custom-file-input"
-                                                               accept=".doc, .docx, .pdf" th:field="*{file}" name="file"
+                                                               accept=".doc, .docx, .pdf" th:field="*{file}"
+                                                               name="file"
                                                                id="customFileLang"
                                                                lang="es">
+                                                        <p class="alert-danger error-message"
+                                                           th:each="error: ${#fields.errors('file')}"
+                                                           th:text="${error}"></p>
                                                         <label class="custom-file-label"
                                                                for="customFileLang">Файл</label>
-                                                        <div class="invalid-feedback"
-                                                             th:each="error: ${#fields.errors('file')}"
-                                                             th:text="${error}">
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

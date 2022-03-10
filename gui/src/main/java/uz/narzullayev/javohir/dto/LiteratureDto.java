@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 import uz.narzullayev.javohir.entity.Literature;
+import uz.narzullayev.javohir.validation.anontation.NotEmptyMultipart;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -30,7 +31,7 @@ public class LiteratureDto {
     @NotBlank(groups = {OnCreate.class, OnUpdate.class})
     private String bookName;
 
-    @NotNull(groups = {OnCreate.class, OnUpdate.class})
+    @NotEmptyMultipart(groups = {OnCreate.class})
     private MultipartFile file;
 
     public LiteratureDto(Literature literature) {
