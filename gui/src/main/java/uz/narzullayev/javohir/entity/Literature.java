@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import uz.narzullayev.javohir.entity.extra.Addional;
+import uz.narzullayev.javohir.entity.extra.Additional;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,7 +18,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Literature extends Addional implements Serializable {
+public class Literature extends Additional {
     private static final long serialVersionUID = 1L;
     private String bookName;
 

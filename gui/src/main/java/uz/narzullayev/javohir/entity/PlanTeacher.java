@@ -4,14 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.*;
-import uz.narzullayev.javohir.entity.extra.Addional;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import uz.narzullayev.javohir.entity.extra.Additional;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
@@ -20,7 +18,7 @@ import java.util.Objects;
 @Setter
 @DynamicUpdate
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class PlanTeacher extends Addional implements Serializable {
+public class PlanTeacher extends Additional {
     private static final long serialVersionUID = 1L;
     @Column(name = "theme", nullable = false, columnDefinition = "TEXT")
     private String theme;

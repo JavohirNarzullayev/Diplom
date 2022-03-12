@@ -12,12 +12,11 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 import uz.narzullayev.javohir.constant.UserType;
-import uz.narzullayev.javohir.entity.extra.Addional;
+import uz.narzullayev.javohir.entity.extra.Additional;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -28,7 +27,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Table(name = "users", indexes = {@Index(columnList = "username")}, uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
 @JsonIgnoreProperties({"password", "hibernateLazyInitializer", "handler"})
-public class UserEntity extends Addional implements Serializable {
+public class UserEntity extends Additional {
     private static final long serialVersionUID = 1L;
     @NotNull
     @NotEmpty

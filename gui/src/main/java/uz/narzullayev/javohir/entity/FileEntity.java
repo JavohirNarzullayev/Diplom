@@ -4,13 +4,14 @@ package uz.narzullayev.javohir.entity;/*
   Time: 10:07 AM*/
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import uz.narzullayev.javohir.constant.FileType;
-import uz.narzullayev.javohir.entity.extra.Addional;
+import uz.narzullayev.javohir.entity.extra.Additional;
 
 import javax.persistence.*;
 import java.io.IOException;
-import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,7 +23,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class FileEntity extends Addional implements Serializable {
+public class FileEntity extends Additional {
     private static final long serialVersionUID = 1L;
 
 
