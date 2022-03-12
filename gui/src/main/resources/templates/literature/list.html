@@ -47,7 +47,7 @@
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label for="theme">Китоб номи</label>
-                                                        <input type="text" class="form-control" id="theme"
+                                                        <input type="text" class="form-control" id="bookName"
                                                                th:field="*{bookName}"/>
                                                     </div>
                                                 </div>
@@ -145,7 +145,7 @@
         console.log(' logger function ');
         $('#literaturelist').DataTable({
             ajax: function (dataToSend, callback, settings) {
-                dataToSend.theme = $("#theme").val();
+                dataToSend.bookName = $("#bookName").val();
                 $.get(ajaxRequestLink, dataToSend, function (data) {
                     callback(data);
                 });

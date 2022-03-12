@@ -17,13 +17,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import uz.narzullayev.javohir.entity.UserEntity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class Addional {
+public abstract class Additional implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
@@ -32,21 +33,21 @@ public abstract class Addional {
     @CreatedDate
     @Column(updatable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    public LocalDateTime registeredAt;
+    protected LocalDateTime registeredAt;
 
     @LastModifiedDate
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    public LocalDateTime updatedAt;
+    protected LocalDateTime updatedAt;
 
     @Version
-    public Long version;
+    protected Long version;
 
     @OneToOne(cascade = {CascadeType.DETACH, CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinColumn(name = "registered_by", updatable = false, insertable = false)
     @ToString.Exclude
     @JsonBackReference
     @EqualsAndHashCode.Exclude
-    public UserEntity registeredBy;
+    protected UserEntity registeredBy;
     @CreatedBy
     public Long registered_by;
 
@@ -55,7 +56,7 @@ public abstract class Addional {
     @ToString.Exclude
     @JsonBackReference
     @EqualsAndHashCode.Exclude
-    public UserEntity updatedBy;
+    protected UserEntity updatedBy;
     @LastModifiedBy
     public Long updated_by;
 

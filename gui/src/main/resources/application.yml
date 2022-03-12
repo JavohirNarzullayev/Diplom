@@ -1,6 +1,8 @@
 spring:
   application:
     name: Diplom
+  profiles:
+    active: @profileActive@
   jmx:
     enabled: false
   data:
@@ -58,6 +60,9 @@ logging:
         web: INFO
       hibernate: ERROR
     templates: ERROR
+
+path:
+  file: @path.file@
 
 
 

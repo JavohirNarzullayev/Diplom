@@ -54,7 +54,9 @@ public class LiteratureServiceImpl implements LiteratureService {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new LinkedList<>();
             if (StringUtils.hasText(filterDto.getBookName()))
-                predicates.add(criteriaBuilder.equal(root.get("bookName"), filterDto.getBookName()));
+                predicates.add(
+                        criteriaBuilder.like(criteriaBuilder.upper(root.get("bookName")),
+                                "%" + filterDto.getBookName().toUpperCase() + "%"));
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };

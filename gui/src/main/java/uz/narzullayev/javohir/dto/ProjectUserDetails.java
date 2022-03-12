@@ -1,7 +1,6 @@
 package uz.narzullayev.javohir.dto;
 
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,11 +9,11 @@ import uz.narzullayev.javohir.entity.UserEntity;
 import java.util.Collection;
 import java.util.List;
 
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 public class ProjectUserDetails implements UserDetails {
 
-    UserEntity userEntity;
-    Long userId;
+    private UserEntity userEntity;
+    private Long userId;
 
 
     @Override

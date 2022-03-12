@@ -7,10 +7,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
+import uz.narzullayev.javohir.dto.LiteratureDto;
 import uz.narzullayev.javohir.dto.PlanTeacherDto;
+import uz.narzullayev.javohir.entity.Literature;
 import uz.narzullayev.javohir.entity.PlanTeacher;
 import uz.narzullayev.javohir.exception.RecordNotFoundException;
 import uz.narzullayev.javohir.repository.PlanTeacherRepository;
@@ -18,7 +22,11 @@ import uz.narzullayev.javohir.service.FileEntityService;
 import uz.narzullayev.javohir.service.PlanTeacherService;
 import uz.narzullayev.javohir.util.AuthUtil;
 
+import javax.persistence.criteria.Predicate;
 import javax.validation.constraints.NotNull;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import static uz.narzullayev.javohir.constant.FileType.PLAN_TEACHER;
 
@@ -42,7 +50,20 @@ public class PlanTeacherServiceImpl implements PlanTeacherService {
     @Override
     @Transactional(readOnly = true)
     public DataTablesOutput<PlanTeacher> findAll(DataTablesInput input, PlanTeacherDto filterDto) {
-        return planTeacherRepository.findAll(input);
+        return planTeacherRepository.findAll(input, byFilterDto(filterDto));
+    }
+
+    public Specification<PlanTeacher> byFilterDto(PlanTeacherDto filterDto) {
+        return (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new LinkedList<>();
+            if (StringUtils.hasText(filterDto.getTheme()))
+                predicates.add(
+                        criteriaBuilder.like(criteriaBuilder.upper(root.get("theme")),
+                                "%" + filterDto.getTheme().toUpperCase() + "%"));
+
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
     }
 
     /**

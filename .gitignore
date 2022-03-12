@@ -11,4 +11,5 @@ target/
 *.ipr
 
 upload_files/**/**
+logs/**
 

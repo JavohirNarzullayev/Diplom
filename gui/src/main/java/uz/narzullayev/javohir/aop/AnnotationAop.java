@@ -1,7 +1,4 @@
-package uz.narzullayev.javohir.aop;/* 
- @author: Javohir
-  Date: 1/24/2022
-  Time: 1:21 AM*/
+package uz.narzullayev.javohir.aop;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;

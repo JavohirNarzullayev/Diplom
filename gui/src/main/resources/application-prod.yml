@@ -4,6 +4,3 @@ spring:
     username: postgres
     password: postgres
 
-#Path for file
-path:
-  file: D:\IdeaProjects\diplom\upload_files

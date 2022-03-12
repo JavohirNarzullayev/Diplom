@@ -1,7 +1,4 @@
-package uz.narzullayev.javohir.dto;/* 
- @author: Javohir
-  Date: 1/30/2022
-  Time: 12:01 PM*/
+package uz.narzullayev.javohir.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
