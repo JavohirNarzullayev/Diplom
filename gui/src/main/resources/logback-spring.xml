@@ -48,17 +48,17 @@
         <appender-ref ref="EMAIL"/>
     </root>
 
-    <logger name="javax.activation" level="WARN"/>
-    <logger name="javax.management.remote" level="WARN"/>
-    <logger name="javax.xml.bind" level="WARN"/>
-    <logger name="ch.qos.logback" level="WARN"/>
-    <logger name="com.ryantenney" level="WARN"/>
+    <logger name="javax.activation" level="DEBUG"/>
+    <logger name="javax.management.remote" level="DEBUG"/>
+    <logger name="javax.xml.bind" level="DEBUG"/>
+    <logger name="ch.qos.logback" level="DEBUG"/>
+    <logger name="com.ryantenney" level="DEBUG"/>
     <logger name="com.sun" level="WARN"/>
     <logger name="com.zaxxer" level="WARN"/>
     <logger name="org.apache" level="WARN"/>
     <logger name="org.bson" level="WARN"/>
-    <logger name="org.hibernate.validator" level="WARN"/>
-    <logger name="org.hibernate" level="WARN"/>
+    <logger name="org.hibernate.validator" level="DEBUG"/>
+    <logger name="org.hibernate" level="DEBUG"/>
     <logger name="org.hibernate.ejb.HibernatePersistence" level="OFF"/>
     <logger name="org.postgresql" level="WARN"/>
     <logger name="org.springframework" level="WARN"/>
@@ -66,6 +66,7 @@
     <logger name="org.springframework.security" level="WARN"/>
     <logger name="org.springframework.cache" level="WARN"/>
     <logger name="org.thymeleaf" level="WARN"/>
+    <logger name="uz.narzullayev.javohir" level="INFO"/>
     <!-- jhipster-needle-logback-add-log - JHipster will add a new log with level, Do not remove -->
 
     <!-- https://logback.qos.ch/manual/configuration.html#shutdownHook and https://jira.qos.ch/browse/LOGBACK-1090 -->

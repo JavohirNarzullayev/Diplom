@@ -19,6 +19,7 @@ public class GuiApplication {
     }
 
     private static void initApplication(Environment env) {
+        System.out.println(env.getProperty("path.file"));
         String serverPort = Optional.ofNullable(env.getProperty("server.port")).orElse("8080");
         String hostAddress = "localhost";
         try {
