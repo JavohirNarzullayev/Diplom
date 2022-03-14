@@ -11,6 +11,11 @@ services:
 
   app:
     build: ./
+    image: 'diplom:999'
     container_name: 'diplom-app'
+    environment:
+      - 'SPRING_PROFILES_ACTIVE=dev'
+      - 'filepath=/tmp'
     ports:
       - "8091:8091"
+    command: --spring.profiles.active=prod

@@ -62,7 +62,7 @@ logging:
     templates: ERROR
 
 path:
-  file: @path.file@
+  file: ${filepath}
 
 
 

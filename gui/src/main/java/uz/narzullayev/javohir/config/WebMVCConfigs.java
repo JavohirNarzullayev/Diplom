@@ -30,8 +30,6 @@ import java.util.Locale;
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 @EnableCaching(proxyTargetClass = true)
 public class WebMVCConfigs implements WebMvcConfigurer {
-
-
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login");
@@ -47,17 +45,9 @@ public class WebMVCConfigs implements WebMvcConfigurer {
     }
 
     @Bean
-    public ViewResolver getViewResolver() {
-        var resolver = new InternalResourceViewResolver();
-        resolver.setPrefix("templates/");
-        resolver.setSuffix(".html");
-        return resolver;
-    }
-
-    @Bean(name = "messageSource")
     public MessageSource messageSource() {
         var messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasename("classpath:messages");
+        messageSource.setBasename("classpath:i18/messages");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
@@ -77,17 +67,4 @@ public class WebMVCConfigs implements WebMvcConfigurer {
         interceptor.setParamName("lang");
         registry.addInterceptor(interceptor);
     }
-
-    @Bean
-    public SpringResourceTemplateResolver defaultTemplateResolver() {
-        var resolver = new SpringResourceTemplateResolver();
-        resolver.setPrefix("classpath:/templates/");
-        resolver.setSuffix(".html");
-        resolver.setTemplateMode("html");
-        resolver.setCharacterEncoding("UTF-8");
-        resolver.setCacheable(true);
-        return resolver;
-    }
-
-
 }
