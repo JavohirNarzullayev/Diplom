@@ -11,11 +11,13 @@ services:
 
   app:
     build: ./
-    image: 'diplom:999'
+    image: 'diplom:1'
+    restart: always
     container_name: 'diplom-app'
     environment:
       - 'SPRING_PROFILES_ACTIVE=dev'
-      - 'filepath=/tmp'
+      - 'DB_HOST=postgres'
+      - 'filepath=/files'
     ports:
       - "8091:8091"
     command: --spring.profiles.active=prod

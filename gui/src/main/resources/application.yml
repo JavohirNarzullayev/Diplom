@@ -1,8 +1,7 @@
+
 spring:
   application:
     name: Diplom
-  profiles:
-    active: @profileActive@
   jmx:
     enabled: false
   data:
@@ -11,9 +10,9 @@ spring:
         bootstrap-mode: deferred
   #db environment
   datasource:
-    url: jdbc:postgresql://localhost:5432/diplom
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:diplom}?enabledTLSProtocols=TLSv1.2
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
   ##Jpa & Hibernate config
   jpa:
@@ -63,7 +62,8 @@ logging:
 
 path:
   file: ${filepath}
-
+server:
+  port: 8091
 
 
 

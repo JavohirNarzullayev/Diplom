@@ -1,8 +1,5 @@
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/diplom
-    username: postgres
-    password: postgres
-
   thymeleaf:
     cache: false
+  main:
+    lazy-initialization: true
