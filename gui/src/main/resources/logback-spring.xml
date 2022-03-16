@@ -48,17 +48,17 @@
         <appender-ref ref="EMAIL"/>
     </root>
 
-    <logger name="javax.activation" level="DEBUG"/>
-    <logger name="javax.management.remote" level="DEBUG"/>
-    <logger name="javax.xml.bind" level="DEBUG"/>
-    <logger name="ch.qos.logback" level="DEBUG"/>
-    <logger name="com.ryantenney" level="DEBUG"/>
+    <logger name="javax.activation" level="ERROR"/>
+    <logger name="javax.management.remote" level="ERROR"/>
+    <logger name="javax.xml.bind" level="ERROR"/>
+    <logger name="ch.qos.logback" level="ERROR"/>
+    <logger name="com.ryantenney" level="ERROR"/>
     <logger name="com.sun" level="WARN"/>
     <logger name="com.zaxxer" level="WARN"/>
-    <logger name="org.apache" level="WARN"/>
-    <logger name="org.bson" level="WARN"/>
-    <logger name="org.hibernate.validator" level="DEBUG"/>
-    <logger name="org.hibernate" level="DEBUG"/>
+    <logger name="org.apache" level="ERROR"/>
+    <logger name="org.bson" level="ERROR"/>
+    <logger name="org.hibernate.validator" level="INFO"/>
+    <logger name="org.hibernate" level="INFO"/>
     <logger name="org.hibernate.ejb.HibernatePersistence" level="OFF"/>
     <logger name="org.postgresql" level="WARN"/>
     <logger name="org.springframework" level="WARN"/>
