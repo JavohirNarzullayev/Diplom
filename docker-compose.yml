@@ -29,8 +29,7 @@ services:
       - "postgres:pgsql-server"
 
   app:
-    build: ./
-    image: 'diplom:1'
+    image: 'javohir99/gui:1.1'
     restart: always
     container_name: 'diplom-app'
     environment:
@@ -38,6 +37,7 @@ services:
       DB_HOST: postgres
       DB_PASSWORD: postgres
       filepath: /files
+      HOME_LOG: /app-log
     ports:
       - "8091:8091"
     command: --spring.profiles.active=prod
