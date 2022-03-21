@@ -203,8 +203,22 @@
                         <version>2.0.0</version>
                         <configuration>
                             <to>
-                                <image>registry.hub.docker.com/javohir99/${project.name}:${project.version}</image>
+                                <image>registry.hub.docker.com/javohir99/${project.name}</image>
+                                <tags>
+                                    <tag>latest</tag>
+                                </tags>
                             </to>
+                            <container>
+                                <ports>
+                                    <port>8091</port>
+                                </ports>
+                                <environment>
+                                    <SPRING_OUTPUT_ANSI_ENABLED>ALWAYS</SPRING_OUTPUT_ANSI_ENABLED>
+                                    <SPRING_PROFILES_ACTIVE>prod</SPRING_PROFILES_ACTIVE>
+                                    <DB_HOST>postgres</DB_HOST>
+                                    <DB_PASSWORD>postgres</DB_PASSWORD>
+                                </environment>
+                            </container>
                         </configuration>
                     </plugin>
                 </plugins>

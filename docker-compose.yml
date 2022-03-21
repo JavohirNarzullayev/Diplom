@@ -29,7 +29,7 @@ services:
       - "postgres:pgsql-server"
 
   app:
-    image: 'javohir99/gui:1.1'
+    image: 'javohir99/gui:latest'
     restart: always
     container_name: 'diplom-app'
     environment:
