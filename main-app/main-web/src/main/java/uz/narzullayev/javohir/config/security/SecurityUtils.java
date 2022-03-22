@@ -1,0 +1,54 @@
+package uz.narzullayev.javohir.config.security;/* 
+ @author: Javohir
+  Date: 3/21/2022
+  Time: 11:01 PM*/
+
+import lombok.experimental.UtilityClass;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import uz.narzullayev.javohir.config.auth.ProjectUserDetails;
+
+import java.util.UUID;
+
+@UtilityClass
+public class SecurityUtils {
+    public static Long getCurrentUserId() {
+
+        ProjectUserDetails user = getCurrentUser();
+        if (user == null) {
+            return null;
+        }
+
+        return user.getUserId();
+    }
+
+    public static ProjectUserDetails getCurrentUser() {
+        SecurityContext ctx = SecurityContextHolder.getContext();
+        Authentication authentication = ctx.getAuthentication();
+
+        return getAppUserDetails(authentication);
+    }
+
+    private static ProjectUserDetails getAppUserDetails(Authentication authentication) {
+        try {
+            if (authentication.getPrincipal() instanceof ProjectUserDetails) {
+                return (ProjectUserDetails) authentication.getPrincipal();
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return null;
+    }
+
+    public static boolean isAuthenticated() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return !(authentication == null || authentication instanceof AnonymousAuthenticationToken);
+    }
+
+    public static boolean isCurrentUserHasRole(String authority) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication != null && authentication.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(authority));
+    }
+}

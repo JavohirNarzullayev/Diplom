@@ -1,233 +1,160 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>diplom-parent</artifactId>
     <groupId>uz.narzullayev.javohir</groupId>
-    <artifactId>diplom</artifactId>
     <packaging>pom</packaging>
-    <version>1.1</version>
-    <name>diplom</name>
-    <description>diplom</description>
+    <version>1.0</version>
 
     <modules>
-        <module>gui</module>
+        <module>main-app</module>
     </modules>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.5.8</version>
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <properties>
         <java.version>11</java.version>
-        <mainClass>uz.narzullayev.javohir.GuiApplication</mainClass>
+        <maven-processor-plugin.version>4.2</maven-processor-plugin.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
         <zoalando.version>0.28.0-RC.0</zoalando.version>
         <datatable.version>5.1.0</datatable.version>
         <spring-boot.version>2.5.8</spring-boot.version>
         <org.projectlombok.version>1.18.22</org.projectlombok.version>
+        <springdoc-openapi-ui.version>1.6.6</springdoc-openapi-ui.version>
+        <modernizer-maven-plugin.version>2.3.0</modernizer-maven-plugin.version>
+        <hibernate.types>2.10.0</hibernate.types>
+        <thymleaf.security>3.0.4.RELEASE</thymleaf.security>
+        <app.version>1.0</app.version>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>uz.narzullayev.javohir</groupId>
+                <artifactId>main-app</artifactId>
+                <version>${app.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>uz.narzullayev.javohir</groupId>
+                <artifactId>core-api</artifactId>
+                <version>${app.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>uz.narzullayev.javohir</groupId>
+                <artifactId>main-orm</artifactId>
+                <version>${app.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>uz.narzullayev.javohir</groupId>
+                <artifactId>main-web</artifactId>
+                <version>${app.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>uz.narzullayev.javohir</groupId>
+                <artifactId>common</artifactId>
+                <version>${app.version}</version>
+            </dependency>
 
-        <dependency>
-            <groupId>com.github.darrachequesne</groupId>
-            <artifactId>spring-data-jpa-datatables</artifactId>
-            <version>${datatable.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>javassist</artifactId>
-                    <groupId>org.javassist</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>jsr305</artifactId>
-                    <groupId>com.google.code.findbugs</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>guava</artifactId>
-                    <groupId>com.google.guava</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${org.projectlombok.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>apiguardian-api</artifactId>
-                    <groupId>org.apiguardian</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.zalando</groupId>
-            <artifactId>problem-spring-web</artifactId>
-            <version>${zoalando.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>apiguardian-api</artifactId>
-                    <groupId>org.apiguardian</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
-            <version>1.4.7</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>activation</artifactId>
-                    <groupId>javax.activation</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>javax.activation</groupId>
-            <artifactId>activation</artifactId>
-            <version>1.1.1</version>
-            <scope>runtime</scope>
-        </dependency>
-    </dependencies>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${springdoc-openapi-ui.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.thymeleaf.extras</groupId>
+                <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+                <version>${thymleaf.security}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.darrachequesne</groupId>
+                <artifactId>spring-data-jpa-datatables</artifactId>
+                <version>${datatable.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>javassist</artifactId>
+                        <groupId>org.javassist</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>jsr305</artifactId>
+                        <groupId>com.google.code.findbugs</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>guava</artifactId>
+                        <groupId>com.google.guava</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.vladmihalcea</groupId>
+                <artifactId>hibernate-types-52</artifactId>
+                <version>${hibernate.types}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.zalando</groupId>
+                <artifactId>problem-spring-web</artifactId>
+                <version>${zoalando.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>apiguardian-api</artifactId>
+                        <groupId>org.apiguardian</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
-        <finalName>Diplom</finalName>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <groupId>org.gaul</groupId>
+                <artifactId>modernizer-maven-plugin</artifactId>
+                <version>${modernizer-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>modernizer</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>modernizer</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
+                    <javaVersion>${java.version}</javaVersion>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.springframework.boot</groupId>
-                            <artifactId>spring-boot-configuration-processor</artifactId>
-                            <version>${spring-boot.version}</version>
-                        </path>
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>${org.projectlombok.version}</version>
-                        </path>
-                    </annotationProcessorPaths>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-idea-plugin</artifactId>
-                <version>2.2.1</version>
             </plugin>
         </plugins>
     </build>
-    <profiles>
-        <profile>
-            <id>dev</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <build.profile.id>dev</build.profile.id>
-                <profileActive>dev</profileActive>
-            </properties>
-        </profile>
-        <profile>
-            <id>prod</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.google.cloud.tools</groupId>
-                        <artifactId>jib-maven-plugin</artifactId>
-                        <version>2.0.0</version>
-                        <configuration>
-                            <to>
-                                <image>registry.hub.docker.com/javohir99/${project.name}</image>
-                                <tags>
-                                    <tag>latest</tag>
-                                </tags>
-                            </to>
-                            <container>
-                                <ports>
-                                    <port>8091</port>
-                                </ports>
-                                <environment>
-                                    <SPRING_OUTPUT_ANSI_ENABLED>ALWAYS</SPRING_OUTPUT_ANSI_ENABLED>
-                                    <SPRING_PROFILES_ACTIVE>prod</SPRING_PROFILES_ACTIVE>
-                                    <DB_HOST>postgres</DB_HOST>
-                                    <DB_PASSWORD>postgres</DB_PASSWORD>
-                                </environment>
-                            </container>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-            <properties>
-                <build.profile.id>dev</build.profile.id>
-                <profileActive>dev</profileActive>
-            </properties>
-        </profile>
-    </profiles>
 
+    <repositories>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 </project>

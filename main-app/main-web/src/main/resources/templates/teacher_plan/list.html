@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <object th:include="fragments/includes_top :: top" th:remove="tag" />
+</head>
+<body class="layout-6" style="background: rgba(0, 0, 0, 0) linear-gradient(to right, rgb(79, 172, 254) 0%, rgb(0, 242, 254) 100%) repeat scroll 0% 0%;">
+
+<!-- [ Pre-loader ] start -->
+<object th:include="fragments/preloader :: body" th:remove="tag" />
+<!-- [ Pre-loader ] End -->
+
+<!-- [ navigation menu ] start -->
+<object th:include="fragments/navbar :: body" th:remove="tag" />
+<!-- [ navigation menu ] end -->
+
+<!-- [ Header ] start -->
+<object th:include="fragments/topbar :: body" th:remove="tag" />
+<!-- [ Header ] end -->
+
+
+<!-- [ Main Content ] start -->
+<div class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ breadcrumb ] start -->
+                <div th:replace="fragments/breadcrumb :: breadcrumb"/>
+                <!-- [ breadcrumb ] end -->
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+
+                            <!-- [ Filter ] start -->
+                            <div class="col-sm-12">
+
+                                <div class="card">
+
+                                    <div class="card-header">
+                                        <h5 >Укутувчи режаси</h5>
+                                    </div>
+
+                                    <div class="card-block">
+                                        <form th:object="${filter}">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="theme" >Мавзу</label>
+                                                        <input type="text" class="form-control" id="theme" th:field="*{theme}"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <br/>
+                                                        <div class="mb-2"> &nbsp; </div>
+                                                        <button class="btn btn-outline-primary" id="search" href="#" onclick="getDatatableConnect();return false;">
+                                                            <i class="feather icon-search"></i>
+                                                            <span>Кидириш</span>
+                                                        </button>
+                                                        <a class="btn btn-outline-success" id="search" th:href="@{/teacher_plan/create}" >
+                                                            <i class="feather icon-book"></i>
+                                                            <span>Яратиш</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 >Руйхат</h5>
+                                    </div>
+                                    <div class="card-block">
+                                        <div class="text-right align-self-end">
+                                            <span id="total">
+                                            </span>
+                                        </div>
+                                        <div class="table table-responsive">
+                                            <table id="teacherplanlist" class="display table-striped table-hover" style="width:100%">
+                                                <thead>
+                                                <tr>
+                                                    <th class="text-center" >Мавзу</th>
+                                                    <th class="text-center" >Укитувчи номи</th>
+                                                    <th class="text-center" >Яратилган сана</th>
+                                                    <th></th>
+                                                </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <!-- [ Datatable ] end -->
+
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ Main Content ] end -->
+
+
+
+<div th:replace="fragments/includes_bottom :: bottom" th:remove="tag"/>
+<div th:replace="fragments/modals/confirm_modal :: body" th:remove="tag"/>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+
+    var ajaxRequestLink = '/teacher_plan/list_ajax';
+
+    var editLink = '/teacher_plan/edit';
+    var viewLink = '/teacher_plan/view';
+    var deleteLink = '/teacher_plan/delete';
+    var downloadLink = '/file/download';
+    var labelView = [[#{action.view}]];
+    var labelDownload = [[#{action.download}]];
+    var labelEdit = [[#{action.edit}]];
+    var labelDelete = [[#{action.delete}]];
+
+
+    $(document).ready(function () {
+        dataTableSelector = $('#teacherplanlist');
+        thead = dataTableSelector.html();
+        dataTableConnect();
+    });
+
+    function strtrunc(str, max, add){
+        add = add || '...';
+        return (typeof str === 'string' && str.length > max ? str.substring(0, max) + add : str);
+    };
+
+    function dataTableConnect() {
+        console.log(' logger function ');
+        $('#teacherplanlist').DataTable({
+            ajax: function (dataToSend, callback, settings) {
+                dataToSend.theme= $("#theme").val();
+                $.get(ajaxRequestLink, dataToSend, function(data){
+                    callback(data);
+                });
+            },
+            "serverSide": true,
+            "searching": true,
+            "columns": [
+                {
+                    "data": "theme",
+                     render: function(data, type, full, meta){
+                         if(type === 'display'){
+                             data = strtrunc(data, 30);
+                         }
+
+                         return data;
+                     }
+                },
+                {
+                    "data": "registeredBy",
+                    "render":renderRegistrated
+                },
+                {
+                    "data": "createdDate",
+                    render: renderLocalDateTime,
+                    className: "text-center",
+                    "orderable": false,
+                    "searchable": false
+                },
+                {
+                    "data": "id",
+                    "className": "text-right",
+                    "fnCreatedCell": function (data, type, row, meta) {
+                        var actionsField = '';
+                        actionsField += `<a class="btn-sm badge badge-danger text-white" data-toggle="tooltip" onclick="remove(${row.id})"  data-original-title="${labelView}"><i class="feather icon-file"></i></a>`;
+                        actionsField += `<a class="btn-sm badge badge-light"  data-toggle="tooltip" href="${editLink}?id=${row.id}"  data-original-title="${labelView}"><i class="feather icon-edit-1"></i></a>`;
+                        actionsField += `<a class="btn-sm badge badge-info text-white"  data-toggle="tooltip" onclick="downloadFile('${row.fileEntity.uuid}')"  data-original-title="${labelDownload}"><i class="feather icon-download"></i></a>`;
+
+                        $(data).html(actionsField);
+                    },
+                    orderable: false,
+                    searchable: false
+                }
+            ],
+            language: {
+                'url': '/static/datatables/lang_oz.json'
+            },
+            "drawCallback": function (settings) {
+                $('[data-toggle="tooltip"]').tooltip();
+            }
+        });
+    };
+
+    function renderRegistrated(data, type, row, meta) {
+        if(data){
+            return `<span class="badge btn-sm badge-success text-white">${data.fio}</span>`;
+        }else{
+            return '';
+        }
+    }
+
+    function getDatatableConnect() {
+        dataTableSelector.DataTable().destroy();
+        dataTableSelector.html(thead);
+        dataTableConnect();
+    }
+
+    function downloadFile(id) {
+        swal("Файл юклаб олиш учун юклаш тугамасини босинг ?", {
+            buttons: {
+                download: "Юклаш",
+                cancel: true,
+            },
+        }).then((value) => {
+            switch (value) {
+                case "download":
+                    $.ajax({
+                        url: downloadLink + "?id=" + id,
+                        method: 'GET',
+                        xhrFields: {
+                            responseType: 'blob'
+                        },
+                        success: function (data) {
+                            swal("Муваффакиятли", "юкланди", "success");
+                            console.log(data)
+                            var a = document.createElement('a');
+                            var url = window.URL.createObjectURL(data);
+                            a.href = url;
+                            a.download = id;
+                            document.body.append(a);
+                            a.click();
+                            a.remove();
+                            window.URL.revokeObjectURL(url);
+                        }
+                    });
+                    break;
+                default:
+                    swal.stopLoading();
+                    swal.close();
+            }
+        });
+    }
+
+    function remove(id) {
+        showConfirmModal(
+            {
+                content: 'ID : ',
+                confirmCallback: function () {
+                    console.log("delete")
+                    window.location.href = deleteLink + "/" + id;
+                    ;
+                }
+            },
+            'delete'
+        );
+    }
+</script>
+</body>
+</html>
