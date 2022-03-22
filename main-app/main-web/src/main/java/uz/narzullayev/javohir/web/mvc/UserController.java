@@ -62,7 +62,7 @@ public class UserController  {
     }
 
     @GetMapping(value = "/action/{id}")
-    public String action(@PathVariable("id")Long id){
+    public String action(@PathVariable("id") Long id) {
         userService.userBlockOrUnblockById(id);
         return "redirect:/user/list";
     }
@@ -85,7 +85,6 @@ public class UserController  {
         return "user/view";
     }
 
-    @SneakyThrows
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(value = "/edit")
     public String edit(

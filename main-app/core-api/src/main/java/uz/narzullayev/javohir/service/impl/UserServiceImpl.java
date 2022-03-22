@@ -4,6 +4,7 @@ package uz.narzullayev.javohir.service.impl;/*
   Time: 10:25 PM*/
 
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Service;
@@ -31,12 +32,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Validated(UserDto.Update.class)
     public void update(@Valid UserDto user) {
-        try {
-            var merge = user.merge(findById(user.getId()));
-            userRepository.saveAndFlush(merge);
-        } catch (IllegalAccessException e) {
-            System.out.println(e.getMessage());
-        }
+        var merge = user.merge(findById(user.getId()));
+        userRepository.saveAndFlush(merge);
     }
 
 
@@ -65,8 +62,9 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @SneakyThrows
     @Override
-    public UserEntity findById(Long id) throws IllegalAccessException {
+    public UserEntity findById(Long id) {
         if (id == null) throw new IllegalAccessException("User id is null");
         return userRepository.findById(id).orElse(null);
     }

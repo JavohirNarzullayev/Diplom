@@ -19,7 +19,7 @@ import uz.narzullayev.javohir.dto.PlanTeacherDto;
 import uz.narzullayev.javohir.domain.PlanTeacher;
 import uz.narzullayev.javohir.service.PlanTeacherService;
 import uz.narzullayev.javohir.util.ToastNotificationUtils;
-import uz.narzullayev.javohir.validation.anontation.CurrentUser;
+import uz.narzullayev.javohir.config.CurrentUser;
 
 import javax.validation.Valid;
 

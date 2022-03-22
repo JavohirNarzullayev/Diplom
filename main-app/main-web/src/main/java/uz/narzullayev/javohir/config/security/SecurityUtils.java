@@ -1,7 +1,5 @@
-package uz.narzullayev.javohir.config.security;/* 
- @author: Javohir
-  Date: 3/21/2022
-  Time: 11:01 PM*/
+package uz.narzullayev.javohir.config.security;
+
 
 import lombok.experimental.UtilityClass;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -15,19 +13,16 @@ import java.util.UUID;
 @UtilityClass
 public class SecurityUtils {
     public static Long getCurrentUserId() {
-
         ProjectUserDetails user = getCurrentUser();
         if (user == null) {
             return null;
         }
-
         return user.getUserId();
     }
 
     public static ProjectUserDetails getCurrentUser() {
         SecurityContext ctx = SecurityContextHolder.getContext();
         Authentication authentication = ctx.getAuthentication();
-
         return getAppUserDetails(authentication);
     }
 

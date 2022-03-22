@@ -98,12 +98,14 @@
 
                                                 <tr>
                                                     <td class="text-right title" style="width: 50%;"><h5>Руйхатдан утган йили</h5></td>
-                                                    <td class="text-left" th:text="${#temporals.format(object.registeredAt,'dd-M-yyyy hh:mm:ss')}" ></td>
+                                                    <td class="text-left"
+                                                        th:text="${#temporals.format(object.createdDate,'dd-M-yyyy hh:mm:ss')}"></td>
                                                 </tr>
 
                                                 <tr>
                                                     <td class="text-right title" style="width: 50%;"><h5 >Янгиланган вакти</h5></td>
-                                                    <td class="text-left" th:text="${#temporals.format(object.updatedAt,'dd-M-yyyy hh:mm:ss')}"  > </td>
+                                                    <td class="text-left"
+                                                        th:text="${#temporals.format(object.lastModifiedDate,'dd-M-yyyy hh:mm:ss')}"></td>
                                                 </tr>
                                             </table>
 

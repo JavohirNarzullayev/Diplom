@@ -1,4 +1,4 @@
-package uz.narzullayev.javohir.validation.anontation;
+package uz.narzullayev.javohir.config;
 
 import java.lang.annotation.*;
 

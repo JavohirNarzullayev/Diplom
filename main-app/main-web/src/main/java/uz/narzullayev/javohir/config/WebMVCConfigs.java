@@ -34,8 +34,8 @@ public class WebMVCConfigs implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
                 .addResourceHandler("/static/**", "/static/*")
-                .addResourceLocations("classpath:/static/")
-                .setCachePeriod(24 * 60 * 60 * 1000);
+                .addResourceLocations("classpath:/static/");
+        /*  .setCachePeriod(24 * 60 * 60 * 1000);*/
     }
 
     @Override

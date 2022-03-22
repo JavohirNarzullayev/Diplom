@@ -21,5 +21,5 @@ public interface UserService {
 
     void userBlockOrUnblockById(Long id);
 
-    UserEntity findById(Long id) throws IllegalAccessException;
+    UserEntity findById(Long id);
 }

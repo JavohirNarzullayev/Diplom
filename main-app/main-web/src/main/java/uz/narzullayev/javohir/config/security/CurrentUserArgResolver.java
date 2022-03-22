@@ -7,7 +7,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import uz.narzullayev.javohir.config.auth.ProjectUserDetails;
-import uz.narzullayev.javohir.validation.anontation.CurrentUser;
+import uz.narzullayev.javohir.config.CurrentUser;
 
 import java.lang.annotation.Annotation;
 

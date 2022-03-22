@@ -45,20 +45,20 @@ public class PlanTeacherServiceImpl implements PlanTeacherService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public DataTablesOutput<PlanTeacher> findAll(DataTablesInput input, PlanTeacherDto filterDto) {
         return planTeacherRepository.findAll(input, byFilterDto(filterDto));
     }
 
     public Specification<PlanTeacher> byFilterDto(PlanTeacherDto filterDto) {
         return (root, query, criteriaBuilder) -> {
+            Assert.notNull(filterDto, "FilterDto is null");
             List<Predicate> predicates = new LinkedList<>();
-            if (StringUtils.hasText(filterDto.getTheme()))
+            if (StringUtils.hasText(filterDto.getTheme())) {
                 predicates.add(
                         criteriaBuilder.like(criteriaBuilder.upper(root.get("theme")),
                                 "%" + filterDto.getTheme().toUpperCase() + "%"));
 
-
+            }
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }

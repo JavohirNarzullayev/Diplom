@@ -22,7 +22,6 @@ import uz.narzullayev.javohir.constant.UserType;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static PasswordEncoder encoder;
-
     private final CustomSuccessHandler customSuccessHandler;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final UserDetailsServiceImpl userDetailsService;

@@ -61,7 +61,7 @@ logging:
     templates: ERROR
 
 path:
-  file: ${filepath}
+  file: ${filepath:D:\IdeaProjects\diplom\upload_files}
 server:
   port: 8091
 

@@ -1,18 +1,23 @@
 function renderLocalDateTime(data) {
+    let month;
+    let day;
+    let year;
     try {
-        return new Date(data * 1000)
+        let d = new Date(data * 1000);
+        month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+
+        return [year, month, day].join('-');
     } catch (e) {
         return ""
     }
 }
-
-function renderDateColumn(data) {
-    if(data == null) return '';
-    var date = new Date(data);
-    date.setMilliseconds(0);
-    return date.toLocaleDateString().replace('T', ' ').replace('Z', '').replace('.000', '');
-}
-
 
 
 function renderSampColumn(data) {
