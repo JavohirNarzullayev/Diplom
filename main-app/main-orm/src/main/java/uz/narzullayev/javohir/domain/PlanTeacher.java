@@ -7,6 +7,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.Where;
 import uz.narzullayev.javohir.domain.audit.BaseAuditingEntity;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @DynamicUpdate
+@Where(clause = "deleted = false")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class PlanTeacher extends BaseAuditingEntity implements Serializable {
     @Column(name = "theme", nullable = false, columnDefinition = "TEXT")
@@ -35,7 +37,6 @@ public class PlanTeacher extends BaseAuditingEntity implements Serializable {
                 "theme = " + getTheme() + ", " +
                 "registeredAt = " + getCreatedDate() + ", " +
                 "updatedAt = " + getLastModifiedDate() + ", " +
-                "version = " + getVersion() + ", " +
                 "registeredBy = " + getRegisteredBy() + ", " +
                 "updatedBy = " + getUpdatedBy() + ", " +
                 "deleted = " + getDeleted() + ")";

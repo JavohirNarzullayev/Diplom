@@ -162,7 +162,7 @@
                 },
                 {
                     "data": "registeredBy",
-                    "render":renderRegistrated
+                    render: renderRegistered,
                 },
                 {
                     "data": "createdDate",
@@ -195,13 +195,6 @@
         });
     };
 
-    function renderRegistrated(data, type, row, meta) {
-        if(data){
-            return `<span class="badge btn-sm badge-success text-white">${data.fio}</span>`;
-        }else{
-            return '';
-        }
-    }
 
     function getDatatableConnect() {
         dataTableSelector.DataTable().destroy();

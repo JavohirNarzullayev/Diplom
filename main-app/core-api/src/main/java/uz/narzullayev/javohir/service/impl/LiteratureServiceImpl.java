@@ -124,6 +124,7 @@ public class LiteratureServiceImpl implements LiteratureService {
     }
 
     @Override
+    @Transactional
     public void remove(final Long id) {
         literatureRepository.deleteById(id);
     }
