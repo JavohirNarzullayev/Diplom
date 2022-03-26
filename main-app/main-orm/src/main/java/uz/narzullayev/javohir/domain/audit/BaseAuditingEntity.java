@@ -34,8 +34,8 @@ public abstract class BaseAuditingEntity extends BaseEntity {
     @Column(name = "last_modified_date")
     private Instant lastModifiedDate;
 
-   /* @Version
-    protected Long version;*/
+    @Version
+    protected Long version;
 
     @CreatedBy
     @ManyToOne(fetch = FetchType.LAZY)

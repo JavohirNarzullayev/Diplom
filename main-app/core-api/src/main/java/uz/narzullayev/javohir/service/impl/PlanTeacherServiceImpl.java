@@ -1,7 +1,4 @@
-package uz.narzullayev.javohir.service.impl;/* 
- @author: Javohir
-  Date: 1/22/2022
-  Time: 1:20 PM*/
+package uz.narzullayev.javohir.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;

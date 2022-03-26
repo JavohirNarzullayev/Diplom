@@ -20,7 +20,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "file_entity")
 @Data
-@SQLDelete(sql = "update file_entity set deleted=true where id=?")
+@SQLDelete(sql = "update file_entity set deleted=true where id=? and version=?")
 @Where(clause = "deleted = false")
 public class FileEntity extends BaseAuditingEntity implements Serializable {
     @Column(nullable = false)

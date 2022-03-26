@@ -45,8 +45,6 @@ import static uz.narzullayev.javohir.service.impl.FileEntityServiceImpl.FileCont
 @RequiredArgsConstructor
 public class FileEntityServiceImpl implements FileEntityService {
     private final AppProperties appProperties;
-    @PersistenceContext
-    private EntityManager entityManager;
     private final FileEntityRepository fileEntityRepository;
     private final DateTimeFormatter uploadFolder = DateTimeFormatter.ofPattern("yyyyMMdd");
     private final DateTimeFormatter creatFile = DateTimeFormatter.ofPattern("HHmmss");
@@ -187,9 +185,7 @@ public class FileEntityServiceImpl implements FileEntityService {
 
     @Override
     public void remove(Long fileId) throws NotFoundException {
-        FileEntity fileEntity = entityManager.find(FileEntity.class, fileId);
-        entityManager.remove(fileEntity);
-        fileEntityRepository.findById(fileId);
+       fileEntityRepository.deleteById(fileId);
     }
 
 

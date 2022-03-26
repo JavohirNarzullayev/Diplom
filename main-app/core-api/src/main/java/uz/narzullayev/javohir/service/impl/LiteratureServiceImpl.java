@@ -35,8 +35,7 @@ public class LiteratureServiceImpl implements LiteratureService {
 
     private final LiteratureRepository literatureRepository;
     private final FileEntityService fileEntityService;
-    @PersistenceContext
-    private EntityManager em;
+
 
     @Override
     @Transactional(readOnly = true)
@@ -131,7 +130,6 @@ public class LiteratureServiceImpl implements LiteratureService {
     @Override
     @Transactional
     public void remove(final Long id) {
-        Literature literature = em.find(Literature.class, id);
-        em.remove(literature);
+        literatureRepository.deleteById(id);
     }
 }

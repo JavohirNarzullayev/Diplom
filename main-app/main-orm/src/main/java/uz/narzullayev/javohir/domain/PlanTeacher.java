@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Table(name = "plan_teacher")
 @Data
 @Where(clause = "deleted = false")
-@SQLDelete(sql = "update plan_teacher set deleted=true where id=?")
+@SQLDelete(sql = "update plan_teacher set deleted=true where id=? and version=?")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class PlanTeacher extends BaseAuditingEntity implements Serializable {
     @Column(name = "theme", nullable = false, columnDefinition = "TEXT")
@@ -24,5 +24,6 @@ public class PlanTeacher extends BaseAuditingEntity implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false, orphanRemoval = true)
     @JoinColumn(name = "file_entity_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @WhereJoinTable(clause = "deleted = false")
     private FileEntity fileEntity;
 }

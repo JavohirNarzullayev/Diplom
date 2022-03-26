@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "literature")
 @Data
-@SQLDelete(sql = "update literature set deleted=true where id=?")
+@SQLDelete(sql = "update literature set deleted=true where id=? and version=?")
 @Where(clause = "deleted = false")
 public class Literature extends BaseAuditingEntity implements Serializable {
     private String bookName;
