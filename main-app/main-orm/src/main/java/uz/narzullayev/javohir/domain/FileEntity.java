@@ -3,10 +3,9 @@ package uz.narzullayev.javohir.domain;/*
   Date: 1/21/2022
   Time: 10:07 AM*/
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import uz.narzullayev.javohir.constant.FileType;
 import uz.narzullayev.javohir.domain.audit.BaseAuditingEntity;
 
@@ -18,15 +17,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
-@ToString
 @Entity
 @Table(name = "file_entity")
-@Getter
-@Setter
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Data
+@SQLDelete(sql = "update file_entity set deleted=true where id=?")
+@Where(clause = "deleted = false")
 public class FileEntity extends BaseAuditingEntity implements Serializable {
-
-
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
