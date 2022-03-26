@@ -1,47 +1,85 @@
-package uz.narzullayev.javohir.service.impl;/* 
- @author: Javohir
-  Date: 1/22/2022
-  Time: 1:22 PM*/
+package uz.narzullayev.javohir.service.impl;
 
 import javassist.NotFoundException;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
+import uz.narzullayev.javohir.AppProperties;
 import uz.narzullayev.javohir.constant.FileType;
 import uz.narzullayev.javohir.domain.FileEntity;
 import uz.narzullayev.javohir.domain.UserEntity;
+import uz.narzullayev.javohir.exception.RecordNotFoundException;
 import uz.narzullayev.javohir.repository.FileEntityRepository;
 import uz.narzullayev.javohir.service.FileEntityService;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.UUID;
+
+import static uz.narzullayev.javohir.service.impl.FileEntityServiceImpl.FileContentType.*;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class FileEntityServiceImpl implements FileEntityService {
-    @Value(value = "${path.file}")
-    private String pathFile;
+    private final AppProperties appProperties;
+    @PersistenceContext
+    private EntityManager entityManager;
     private final FileEntityRepository fileEntityRepository;
     private final DateTimeFormatter uploadFolder = DateTimeFormatter.ofPattern("yyyyMMdd");
     private final DateTimeFormatter creatFile = DateTimeFormatter.ofPattern("HHmmss");
 
+    @AllArgsConstructor
+    @Getter
+    public enum FileContentType {
+        PDF("application/pdf"),
+        ZIP("application/zip"),
+        RAR("application/x-rar-compressed"),
+        JPG("image/jpeg"),
+        JPEG("image/jpeg"),
+        PNG("image/png"),
+        GIF("image/gif"),
+        DOC("application/msword"),
+        DOCX("application/vnd.openxmlformats-officedocument.wordprocessingml.document"),
+        XLS("application/vnd.ms-excel"),
+        XLSX("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
+        private String mediaType;
+
+        public static FileContentType findByName(String extension) {
+            return Arrays.stream(values())
+                    .filter(fileContentType -> fileContentType.name().equals(extension.toUpperCase()))
+                    .findAny().get();
+
+        }
+
+        public MultiValueMap<String, String> mergeMediaType(MultiValueMap<String, String> headers) {
+            headers.add(HttpHeaders.CONTENT_TYPE, this.mediaType);
+            return headers;
+        }
+    }
 
     @Override
     @Cacheable(value = "fileFindById", key = "#id", unless = "#result == ''")
@@ -57,69 +95,31 @@ public class FileEntityServiceImpl implements FileEntityService {
                 .orElseThrow(IllegalArgumentException::new);
     }
 
+    @SneakyThrows
     private Resource getFileAsResource(FileEntity file) {
         try {
             Path filePath = Paths.get(file.getPath());
             Resource resource = new UrlResource(filePath.toUri());
-            if (resource.exists() || resource.isReadable()) {
-                return resource;
-            } else {
-                log.error("could not read file: " + file.getPath());
-
-            }
+            if (resource.exists() || resource.isReadable()) return resource;
+            else log.error("could not read file: " + file.getPath());
         } catch (Exception e) {
-            log.error("FilesServiceImpl.getFileAsResource", e);
+            log.error("FilesServiceImpl.getFileAsResource", e.getMessage());
             e.printStackTrace();
         }
-        return null;
+        throw new IllegalAccessException("Could not create path");
     }
 
     public ResponseEntity<Resource> getFileAsResourceForDownloading(FileEntity file) {
         var fileAsResource = getFileAsResource(file);
-
-        if (fileAsResource == null) return null;
-
+        if (fileAsResource == null) throw new RecordNotFoundException("File not found", "File", "NOT_FOUND");
         MultiValueMap<String,String> headers = new LinkedMultiValueMap<>();
-
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"");
 
         if (file.getSize() != null) {
             headers.add(HttpHeaders.CONTENT_LENGTH, file.getSize().toString());
         }
         if (file.getExtension() != null) {
-            switch (file.getExtension().toLowerCase()) {
-                case "pdf":
-                    headers.add(HttpHeaders.CONTENT_TYPE, "application/pdf");
-                    break;
-                case "zip":
-                    headers.add(HttpHeaders.CONTENT_TYPE, "application/zip");
-                    break;
-                case "rar":
-                    headers.add(HttpHeaders.CONTENT_TYPE, "application/x-rar-compressed");
-                    break;
-                case "jpeg":
-                case "jpg":
-                    headers.add(HttpHeaders.CONTENT_TYPE, "image/jpeg");
-                    break;
-                case "png":
-                    headers.add(HttpHeaders.CONTENT_TYPE, "image/png");
-                    break;
-                case "gif":
-                    headers.add(HttpHeaders.CONTENT_TYPE, "image/gif");
-                    break;
-                case "doc":
-                    headers.add(HttpHeaders.CONTENT_TYPE, "application/msword");
-                    break;
-                case "docx":
-                    headers.add(HttpHeaders.CONTENT_TYPE, "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-                    break;
-                case "xls":
-                    headers.add(HttpHeaders.CONTENT_TYPE, "application/vnd.ms-excel");
-                    break;
-                case "xlsx":
-                    headers.add(HttpHeaders.CONTENT_TYPE, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-                    break;
-            }
+            headers = findByName(file.getExtension()).mergeMediaType(headers);
         }
         return new ResponseEntity<>(fileAsResource, headers, HttpStatus.OK);
     }
@@ -166,8 +166,9 @@ public class FileEntityServiceImpl implements FileEntityService {
     }
 
     public synchronized String getPathForUpload() {
+        String pathFile = appProperties.getFileStorage().getUploadFolder();
         String newCurrentDir = pathFile + "/" + uploadFolder.format(LocalDate.now());
-        java.io.File root = new java.io.File(newCurrentDir);
+        File root = new File(newCurrentDir);
         if (!root.exists() || !root.isDirectory()) root.mkdirs();
         return newCurrentDir;
 
@@ -186,6 +187,8 @@ public class FileEntityServiceImpl implements FileEntityService {
 
     @Override
     public void remove(Long fileId) throws NotFoundException {
+        FileEntity fileEntity = entityManager.find(FileEntity.class, fileId);
+        entityManager.remove(fileEntity);
         fileEntityRepository.findById(fileId);
     }
 

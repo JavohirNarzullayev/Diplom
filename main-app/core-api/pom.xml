@@ -34,7 +34,6 @@
         <dependency>
             <groupId>uz.narzullayev.javohir</groupId>
             <artifactId>common</artifactId>
-            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>

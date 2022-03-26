@@ -18,7 +18,10 @@ import uz.narzullayev.javohir.exception.RecordNotFoundException;
 import uz.narzullayev.javohir.repository.LiteratureRepository;
 import uz.narzullayev.javohir.service.FileEntityService;
 import uz.narzullayev.javohir.service.LiteratureService;
+import uz.narzullayev.javohir.specification.UserSpecification;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.Predicate;
 import javax.validation.constraints.NotNull;
 import java.util.LinkedList;
@@ -32,6 +35,8 @@ public class LiteratureServiceImpl implements LiteratureService {
 
     private final LiteratureRepository literatureRepository;
     private final FileEntityService fileEntityService;
+    @PersistenceContext
+    private EntityManager em;
 
     @Override
     @Transactional(readOnly = true)
@@ -126,6 +131,7 @@ public class LiteratureServiceImpl implements LiteratureService {
     @Override
     @Transactional
     public void remove(final Long id) {
-        literatureRepository.deleteById(id);
+        Literature literature = em.find(Literature.class, id);
+        em.remove(literature);
     }
 }

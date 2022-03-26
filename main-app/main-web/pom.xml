@@ -59,13 +59,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <compilerArguments>
-                        <processor>
-                            lombok.launch.AnnotationProcessorHider$AnnotationProcessor
-                        </processor>
-                    </compilerArguments>
-                </configuration>
             </plugin>
         </plugins>
     </build>

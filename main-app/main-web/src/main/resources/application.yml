@@ -62,10 +62,14 @@ logging:
       hibernate: ERROR
     templates: ERROR
 
-path:
-  file: ${filepath:D:\IdeaProjects\diplom\upload_files}
+
 server:
   port: 8091
+##App properties
+app:
+  properties:
+    file-storage:
+      upload-folder: ${filepath:upload_files}
 
 
 

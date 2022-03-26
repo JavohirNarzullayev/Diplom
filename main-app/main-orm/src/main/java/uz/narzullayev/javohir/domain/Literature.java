@@ -1,25 +1,19 @@
-package uz.narzullayev.javohir.domain;/*
- @author: Javohir
-  Date: 1/30/2022
-  Time: 11:54 AM*/
+package uz.narzullayev.javohir.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import lombok.Data;
+import org.hibernate.annotations.*;
 import uz.narzullayev.javohir.domain.audit.BaseAuditingEntity;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "literature")
-@Getter
-@Setter
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Data
+@SQLDelete(sql = "update literature set deleted=true where id=?")
 @Where(clause = "deleted = false")
 public class Literature extends BaseAuditingEntity implements Serializable {
     private String bookName;
@@ -27,8 +21,8 @@ public class Literature extends BaseAuditingEntity implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false, orphanRemoval = true)
     @JoinColumn(name = "file_entity_id")
+    @WhereJoinTable(clause = "deleted = false")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @SQLDelete(sql = "UPDATE file_entity SET deleted=true WHERE id=? and version=?")
     private FileEntity fileEntity;
 
 

@@ -1,25 +1,21 @@
 package uz.narzullayev.javohir.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.Hibernate;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.annotations.Where;
+import lombok.Data;
+import org.hibernate.annotations.*;
 import uz.narzullayev.javohir.domain.audit.BaseAuditingEntity;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
 
 @Entity
 @Table(name = "plan_teacher")
-@Getter
-@Setter
-@DynamicUpdate
+@Data
 @Where(clause = "deleted = false")
+@SQLDelete(sql = "update plan_teacher set deleted=true where id=?")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class PlanTeacher extends BaseAuditingEntity implements Serializable {
     @Column(name = "theme", nullable = false, columnDefinition = "TEXT")
@@ -29,29 +25,4 @@ public class PlanTeacher extends BaseAuditingEntity implements Serializable {
     @JoinColumn(name = "file_entity_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private FileEntity fileEntity;
-
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "(" +
-                "id = " + getId() + ", " +
-                "theme = " + getTheme() + ", " +
-                "registeredAt = " + getCreatedDate() + ", " +
-                "updatedAt = " + getLastModifiedDate() + ", " +
-                "registeredBy = " + getRegisteredBy() + ", " +
-                "updatedBy = " + getUpdatedBy() + ", " +
-                "deleted = " + getDeleted() + ")";
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        PlanTeacher that = (PlanTeacher) o;
-        return id != null && Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }

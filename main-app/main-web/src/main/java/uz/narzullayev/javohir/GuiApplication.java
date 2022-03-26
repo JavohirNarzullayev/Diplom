@@ -3,6 +3,7 @@ package uz.narzullayev.javohir;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.env.Environment;
 
 import java.net.InetAddress;
@@ -12,14 +13,15 @@ import java.util.Optional;
 
 @Slf4j
 @SpringBootApplication
+@EnableConfigurationProperties(value = AppProperties.class)
 public class GuiApplication {
     public static void main(String[] args) {
         var run = SpringApplication.run(GuiApplication.class, args);
-        initApplication(run.getEnvironment());
+        initApplication(run.getEnvironment(), run.getBean(AppProperties.class));
     }
 
-    private static void initApplication(Environment env) {
-        System.out.println(env.getProperty("path.file"));
+    private static void initApplication(Environment env, AppProperties appProperties) {
+        System.out.println(appProperties.getFileStorage().getUploadFolder());
         String serverPort = Optional.ofNullable(env.getProperty("server.port")).orElse("8080");
         String hostAddress = "localhost";
         try {

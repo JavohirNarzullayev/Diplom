@@ -1,7 +1,5 @@
-package uz.narzullayev.javohir.web.mvc;/*
- @author: Javohir
-  Date: 1/30/2022
-  Time: 8:44 AM*/
+package uz.narzullayev.javohir.web.mvc;
+
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
