@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.core.env.Environment;
 
 import java.net.InetAddress;
@@ -14,7 +15,7 @@ import java.util.Optional;
 @Slf4j
 @SpringBootApplication
 @EnableConfigurationProperties(value = AppProperties.class)
-public class GuiApplication {
+public class GuiApplication extends SpringBootServletInitializer {
     public static void main(String[] args) {
         var run = SpringApplication.run(GuiApplication.class, args);
         initApplication(run.getEnvironment(), run.getBean(AppProperties.class));
