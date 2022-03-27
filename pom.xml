@@ -117,14 +117,6 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>com.heroku.sdk</groupId>
-                <artifactId>heroku-maven-plugin</artifactId>
-                <version>3.0.4</version>
-                <configuration>
-                    <appName>diplom</appName>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.gaul</groupId>
                 <artifactId>modernizer-maven-plugin</artifactId>
                 <version>${modernizer-maven-plugin.version}</version>
