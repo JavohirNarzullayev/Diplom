@@ -129,6 +129,7 @@
                         </goals>
                     </execution>
                 </executions>
+
                 <configuration>
                     <javaVersion>${java.version}</javaVersion>
                 </configuration>
