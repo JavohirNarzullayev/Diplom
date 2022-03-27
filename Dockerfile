@@ -1,6 +1,6 @@
 FROM amazoncorretto:11-alpine-jdk
 EXPOSE 8091
-ADD gui/target/Diplom.jar Diplom.jar
+ADD main-app/main-web/target/dev-main-web-1.0.jar Diplom.jar
 ENTRYPOINT ["java","-Dspring.profiles.active=prod","-jar","Diplom.jar"]
 
 
