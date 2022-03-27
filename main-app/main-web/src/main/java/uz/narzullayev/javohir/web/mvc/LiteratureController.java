@@ -1,7 +1,4 @@
-package uz.narzullayev.javohir.web.mvc;/*
- @author: Javohir
-  Date: 1/30/2022
-  Time: 11:49 AM*/
+package uz.narzullayev.javohir.web.mvc;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
@@ -90,7 +87,7 @@ public class LiteratureController {
             RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) return "literature/edit";
         if (literatureDto == null) ToastNotificationUtils.addWarning(redirectAttributes, "Топилмади");
-        else literatureService.save(literatureDto, 1l);
+        else literatureService.save(literatureDto, userDetails.getUserId());
         return "redirect:/literature/list";
     }
 

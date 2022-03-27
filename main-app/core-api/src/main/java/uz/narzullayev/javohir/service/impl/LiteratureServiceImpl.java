@@ -1,7 +1,4 @@
-package uz.narzullayev.javohir.service.impl;/* 
- @author: Javohir
-  Date: 1/30/2022
-  Time: 11:53 AM*/
+package uz.narzullayev.javohir.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -96,14 +93,6 @@ public class LiteratureServiceImpl implements LiteratureService {
         literatureRepository.save(literature);
     }
 
-    private void validateDto(LiteratureDto literatureDto) {
-        var multipartFile = literatureDto.getFile();
-        var bookName = literatureDto.getBookName();
-        Assert.notNull(multipartFile, "Multipart file is null");
-        Assert.notNull(bookName, "book name is null");
-    }
-
-
     /**
      * 1.Multipart export file do local
      * 2.Save multipart to FileEntity
@@ -114,16 +103,20 @@ public class LiteratureServiceImpl implements LiteratureService {
      */
     @Override
     public void save(@NotNull LiteratureDto literatureDto, Long user_id) {
-        validateDto(literatureDto);
+        var multipartFile = literatureDto.getFile();
+        var bookName = literatureDto.getBookName();
+        Assert.notNull(multipartFile, "Multipart file is null");
+        Assert.notNull(bookName, "book name is null");
+
         var fileEntity = fileEntityService.uploadFile(
-                literatureDto.getFile(),
+                multipartFile,
                 user_id,
-                literatureDto.getBookName(),
+                bookName,
                 LITERATURE);
 
         var literature = new Literature();
         literature.setFileEntity(fileEntity);
-        literature.setBookName(literatureDto.getBookName());
+        literature.setBookName(bookName);
         literatureRepository.save(literature);
     }
 
