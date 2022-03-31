@@ -1,20 +1,24 @@
 package uz.narzullayev.javohir.aop;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
 
 
 @Aspect
-@Component
-public class AnnotationAop {
+public class LoggingAspect {
 
+
+    private final Environment env;
+
+    public LoggingAspect(Environment env) {
+        this.env = env;
+    }
 
     /**
      * Pointcut that matches all repositories, services and Web REST endpoints.
@@ -22,7 +26,7 @@ public class AnnotationAop {
     @Pointcut(
             "within(@org.springframework.stereotype.Repository *)" +
                     " || within(@org.springframework.stereotype.Service *)" +
-                    " || within(@org.springframework.web.bind.annotation.RestController *)"
+                    " || within(@org.springframework.stereotype.Controller *)"
     )
     public void springBeanPointcut() {
         // Method is empty as this is just a Pointcut, the implementations are in the advices.
@@ -33,8 +37,8 @@ public class AnnotationAop {
      */
     @Pointcut(
             "within(uz.narzullayev.javohir.repository..*)" +
-                    " || within(uz.narzullayev.javohir.service..*)" +
-                    " || within(uz.narzullayev.javohir.web..*)"
+                    " || within(uz.narzullayev.javohir.service.impl..*)" +
+                    " || within(uz.narzullayev.javohir.web.mvc..*)"
     )
     public void applicationPackagePointcut() {
         // Method is empty as this is just a Pointcut, the implementations are in the advices.
@@ -58,24 +62,22 @@ public class AnnotationAop {
      */
     @AfterThrowing(pointcut = "applicationPackagePointcut() && springBeanPointcut()", throwing = "e")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable e) {
-        logger(joinPoint)
-                .error(
-                        "Exception in {}() with cause = {}",
-                        joinPoint.getSignature().getName(),
-                        e.getCause() != null ? e.getCause() : "NULL"
-                );
+        if (env.acceptsProfiles(Profiles.of("dev"))) {
+            logger(joinPoint)
+                    .error(
+                            "Exception in {}() with cause = \'{}\' and exception = \'{}\'",
+                            joinPoint.getSignature().getName(),
+                            e.getCause() != null ? e.getCause() : "NULL",
+                            e.getMessage(),
+                            e
+                    );
+        } else {
+            logger(joinPoint)
+                    .error(
+                            "Exception in {}() with cause = {}",
+                            joinPoint.getSignature().getName(),
+                            e.getCause() != null ? e.getCause() : "NULL"
+                    );
+        }
     }
-
-    @Around("@annotation(javax.validation.constraints.NotBlank)")
-    public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
-        long start = System.currentTimeMillis();
-        Object proceed = joinPoint.proceed();
-        System.out.println(proceed.toString());
-
-        long executionTime = System.currentTimeMillis() - start;
-
-        System.out.println(joinPoint.getSignature() + " executed in " + executionTime + "ms");
-        return joinPoint.proceed();
-    }
-
 }

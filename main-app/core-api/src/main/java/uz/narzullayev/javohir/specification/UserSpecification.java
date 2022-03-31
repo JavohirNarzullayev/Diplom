@@ -1,7 +1,4 @@
-package uz.narzullayev.javohir.specification;/* 
- @author: Javohir
-  Date: 1/11/2022
-  Time: 5:52 PM*/
+package uz.narzullayev.javohir.specification;
 
 import lombok.experimental.UtilityClass;
 import org.springframework.data.jpa.domain.Specification;

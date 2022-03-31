@@ -36,6 +36,7 @@
         <hibernate.types>2.10.0</hibernate.types>
         <thymleaf.security>3.0.4.RELEASE</thymleaf.security>
         <app.version>1.0</app.version>
+        <archunit-junit5.version>0.13.1</archunit-junit5.version>
     </properties>
 
     <dependencyManagement>
@@ -111,6 +112,21 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+
+            <dependency>
+                <groupId>com.tngtech.archunit</groupId>
+                <artifactId>archunit-junit5-api</artifactId>
+                <version>${archunit-junit5.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- Adding the engine dependency to the surefire-plugin unfortunately does not work in the current version. -->
+            <!-- https://www.archunit.org/userguide/html/000_Index.html#_junit_5 -->
+            <dependency>
+                <groupId>com.tngtech.archunit</groupId>
+                <artifactId>archunit-junit5-engine</artifactId>
+                <version>${archunit-junit5.version}</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -129,7 +145,6 @@
                         </goals>
                     </execution>
                 </executions>
-
                 <configuration>
                     <javaVersion>${java.version}</javaVersion>
                 </configuration>

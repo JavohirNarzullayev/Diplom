@@ -22,8 +22,15 @@ public class PlanTeacher extends BaseAuditingEntity implements Serializable {
     private String theme;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false, orphanRemoval = true)
-    @JoinColumn(name = "file_entity_id")
+    @JoinColumn(name = "file_entity_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @WhereJoinTable(clause = "deleted = false")
     private FileEntity fileEntity;
+
+    @OneToOne(orphanRemoval = true)
+    @JoinColumn(name = "science_id", referencedColumnName = "id")
+    private Science science;
 }
+
+
+//TODO CREATE PLAN_TEACHER NEED TO CHOOSE SCIENCE
