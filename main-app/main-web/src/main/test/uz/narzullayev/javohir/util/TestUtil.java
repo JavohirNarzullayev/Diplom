@@ -1,9 +1,10 @@
-package uz.narzullayev.javohir.web.api;
+package uz.narzullayev.javohir.util;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.SneakyThrows;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
@@ -60,6 +61,11 @@ public final class TestUtil {
             byteArray[i] = Byte.parseByte(data, 2);
         }
         return byteArray;
+    }
+
+    @SneakyThrows
+    public static <T> T convertStringToObject(String string, Class<T> convertTo) {
+        return mapper.readValue(string, convertTo);
     }
 
     /**
