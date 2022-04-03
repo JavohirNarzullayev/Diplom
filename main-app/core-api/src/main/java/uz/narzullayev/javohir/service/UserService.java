@@ -5,13 +5,16 @@ package uz.narzullayev.javohir.service;/*
 
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import uz.narzullayev.javohir.domain.UserEntity;
 import uz.narzullayev.javohir.dto.UserDto;
 import uz.narzullayev.javohir.dto.UserFilterDto;
-import uz.narzullayev.javohir.domain.UserEntity;
 
 public interface UserService {
     void update(UserDto user);
-    UserEntity save( UserDto user);
+
+    UserEntity save(UserDto user);
+
+    UserEntity findByUsername(String username);
 
     boolean isUserAlreadyPresent(String username);
 

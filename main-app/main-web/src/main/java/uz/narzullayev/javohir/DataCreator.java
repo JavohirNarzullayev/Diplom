@@ -6,7 +6,6 @@ package uz.narzullayev.javohir;/*
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -19,7 +18,6 @@ import java.io.File;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-@Profile("test")
 public class DataCreator {
     private final UserService userService;
     private final AppProperties appProperties;
@@ -41,8 +39,11 @@ public class DataCreator {
 
         String fromEmail = appProperties.getEmail().getAuthorNotificationsFromEmail();
         String fromName = appProperties.getEmail().getAuthorNotificationsFromName();
-        if (userService.existByEmail(fromEmail)) {
+        if (!userService.isUserAlreadyPresent("admin")) {
             log.info("DB already initialized !!!");
+            var admin = userService.findByUsername("admin");
+            admin.setRole(UserType.ADMIN);
+            userService.update(new UserDto(admin));
             return;
         }
         UserDto userDto = new UserDto();

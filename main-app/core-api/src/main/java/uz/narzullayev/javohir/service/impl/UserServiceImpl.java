@@ -9,9 +9,9 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import uz.narzullayev.javohir.domain.UserEntity;
 import uz.narzullayev.javohir.dto.UserDto;
 import uz.narzullayev.javohir.dto.UserFilterDto;
-import uz.narzullayev.javohir.domain.UserEntity;
 import uz.narzullayev.javohir.repository.UserRepository;
 import uz.narzullayev.javohir.service.UserService;
 import uz.narzullayev.javohir.specification.UserSpecification;
@@ -27,6 +27,11 @@ public class UserServiceImpl implements UserService {
     @Validated(UserDto.Create.class)
     public UserEntity save(@Valid UserDto user) {
         return userRepository.save(user.merge(new UserEntity()));
+    }
+
+    @Override
+    public UserEntity findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
     @Override
