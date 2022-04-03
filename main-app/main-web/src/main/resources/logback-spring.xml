@@ -58,14 +58,14 @@
     <logger name="org.apache" level="ERROR"/>
     <logger name="org.bson" level="ERROR"/>
     <logger name="org.hibernate.validator" level="INFO"/>
-    <logger name="org.hibernate" level="INFO"/>
+    <logger name="org.hibernate" level="ERROR"/>
     <logger name="org.hibernate.ejb.HibernatePersistence" level="OFF"/>
     <logger name="org.postgresql" level="WARN"/>
     <logger name="org.springframework" level="WARN"/>
-    <logger name="org.springframework.web" level="WARN"/>
+    <logger name="org.springframework.web" level="INFO"/>
     <logger name="org.springframework.security" level="WARN"/>
     <logger name="org.springframework.cache" level="WARN"/>
-    <logger name="org.thymeleaf" level="WARN"/>
+    <logger name="org.thymeleaf" level="ERROR"/>
     <logger name="uz.narzullayev.javohir" level="INFO"/>
     <!-- jhipster-needle-logback-add-log - JHipster will add a new log with level, Do not remove -->
 

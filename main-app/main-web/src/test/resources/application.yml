@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: Integration Test
+  profiles:
+    active: test
+  datasource:
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      auto-commit: false
+  jpa:
+    show-sql: true
+    open-in-view: false
+    hibernate:
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    database-platform: org.hibernate.dialect.H2Dialect
+  mvc:
+    static-path-pattern: /static/**
+  main:
+    banner-mode: off
+    allow-bean-definition-overriding: true
+  h2:
+    console:
+      enabled: true
+
+logging.level:
+  ROOT: WARN
+  gt: INFO
+  org.apache: ERROR
+
+app:
+  properties:
+    file-storage:
+      upload-folder: ${filepath:upload_files}

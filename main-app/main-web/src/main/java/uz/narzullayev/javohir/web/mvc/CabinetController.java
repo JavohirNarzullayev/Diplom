@@ -14,7 +14,7 @@ import uz.narzullayev.javohir.dto.Breadcrumb;
 public class CabinetController {
 
     @GetMapping
-    public String list(Model model){
+    public String list(Model model) {
         model.addAttribute("breadcrumb", getBreadcrumb(""));
         return "dashboard";
     }

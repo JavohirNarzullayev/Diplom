@@ -8,8 +8,6 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import uz.narzullayev.javohir.config.auth.ProjectUserDetails;
 
-import java.util.UUID;
-
 @UtilityClass
 public class SecurityUtils {
     public static Long getCurrentUserId() {

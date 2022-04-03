@@ -10,13 +10,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import uz.narzullayev.javohir.config.CurrentUser;
 import uz.narzullayev.javohir.config.auth.ProjectUserDetails;
+import uz.narzullayev.javohir.domain.Literature;
 import uz.narzullayev.javohir.dto.Breadcrumb;
 import uz.narzullayev.javohir.dto.LiteratureDto;
-import uz.narzullayev.javohir.domain.Literature;
 import uz.narzullayev.javohir.service.LiteratureService;
 import uz.narzullayev.javohir.util.ToastNotificationUtils;
-import uz.narzullayev.javohir.config.CurrentUser;
 
 import javax.validation.Valid;
 
@@ -28,7 +28,7 @@ public class LiteratureController {
     private final LiteratureService literatureService;
 
     @GetMapping(value = "/list")
-    public String list(Model model){
+    public String list(Model model) {
         model.addAttribute("filter", new LiteratureDto());
         model.addAttribute("breadcrumb", getBreadcrumb("Руйхат", "/user/list"));
         return "literature/list";

@@ -1,14 +1,11 @@
-package uz.narzullayev.javohir.util;/* 
- @author: Javohir
-  Date: 3/31/2022
-  Time: 10:38 PM*/
+package javohir.util;
 
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import uz.narzullayev.javohir.GuiApplication;
 
-@WithMockUser
+@WithMockUser(authorities = "ADMIN", username = "admin", password = "12345")
 @SpringBootTest(classes = GuiApplication.class)
 @AutoConfigureMockMvc
 public class MockExtension {

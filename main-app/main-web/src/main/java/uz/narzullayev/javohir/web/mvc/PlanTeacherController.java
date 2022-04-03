@@ -13,13 +13,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import uz.narzullayev.javohir.config.CurrentUser;
 import uz.narzullayev.javohir.config.auth.ProjectUserDetails;
+import uz.narzullayev.javohir.config.security.SecurityUtils;
+import uz.narzullayev.javohir.domain.PlanTeacher;
 import uz.narzullayev.javohir.dto.Breadcrumb;
 import uz.narzullayev.javohir.dto.PlanTeacherDto;
-import uz.narzullayev.javohir.domain.PlanTeacher;
 import uz.narzullayev.javohir.service.PlanTeacherService;
 import uz.narzullayev.javohir.util.ToastNotificationUtils;
-import uz.narzullayev.javohir.config.CurrentUser;
 
 import javax.validation.Valid;
 
@@ -40,7 +41,7 @@ public class PlanTeacherController {
     @GetMapping(value = "/list_ajax", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public DataTablesOutput<PlanTeacher> listAjax(@Valid DataTablesInput input, PlanTeacherDto filterDto) {
-        return planTeacherService.findAll(input, filterDto);
+        return planTeacherService.findAll(input, filterDto, SecurityUtils.getCurrentUserId());
     }
 
     /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>UPDATE>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/

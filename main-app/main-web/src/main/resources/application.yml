@@ -55,16 +55,6 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
-##Logging
-logging:
-  level:
-    org:
-      springframework:
-        web: INFO
-      hibernate: ERROR
-    templates: ERROR
-
-
 server:
   port: 8091
 ##App properties

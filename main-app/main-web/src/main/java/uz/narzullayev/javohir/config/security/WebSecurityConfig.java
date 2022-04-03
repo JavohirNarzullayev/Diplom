@@ -18,7 +18,7 @@ import uz.narzullayev.javohir.constant.UserType;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(jsr250Enabled = true,securedEnabled = true,prePostEnabled = true)
+@EnableGlobalMethodSecurity(jsr250Enabled = true, securedEnabled = true, prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static PasswordEncoder encoder;
@@ -73,7 +73,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().ignoringAntMatchers("/login", "/api/**");
 
 
-
         http.authorizeRequests().anyRequest().authenticated()
                 .and()
                 .rememberMe()
@@ -87,7 +86,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             encoder = new BCryptPasswordEncoder();
         return encoder;
     }
-
 
 
 }

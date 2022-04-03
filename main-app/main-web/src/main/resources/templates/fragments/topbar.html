@@ -39,10 +39,10 @@
                             <span>
                                 <img th:src="@{/static/images/avatar-2.jpg}" class="img-radius" alt="avatar"/>
                             </span>
-                            <span th:if="${authenticated}"
-                                  th:text="${#authentication.getPrincipal().getUserEntity().getFio()}"></span>
+                            <span sec:authorize="isAuthenticated()"
+                                  sec:authentication="principal.userEntity.fio"></span>
                         </div>
-                        -->
+
                         <ul class="pro-body">
                             <li>
                                 <a href="#" class="dropdown-item"><i class="feather icon-user"></i> Фойдаланучи

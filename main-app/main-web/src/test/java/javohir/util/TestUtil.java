@@ -1,4 +1,4 @@
-package uz.narzullayev.javohir.util;
+package javohir.util;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,6 +47,18 @@ public final class TestUtil {
     public static byte[] convertObjectToJsonBytes(Object object) throws IOException {
         return mapper.writeValueAsBytes(object);
     }
+
+    /**
+     * Convert an object to string.
+     *
+     * @param object the object to convert.
+     * @return the JSON byte array.
+     * @throws IOException
+     */
+    public static String convertObjectToString(Object object) throws IOException {
+        return mapper.writeValueAsString(object);
+    }
+
 
     /**
      * Create a byte array with a specific size filled with specified data.

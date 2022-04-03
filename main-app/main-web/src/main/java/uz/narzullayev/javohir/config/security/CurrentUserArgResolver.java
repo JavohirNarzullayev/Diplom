@@ -6,25 +6,28 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-import uz.narzullayev.javohir.config.auth.ProjectUserDetails;
 import uz.narzullayev.javohir.config.CurrentUser;
+import uz.narzullayev.javohir.config.auth.ProjectUserDetails;
 
+import javax.annotation.Nullable;
 import java.lang.annotation.Annotation;
 
 public class CurrentUserArgResolver implements HandlerMethodArgumentResolver {
 
     @Override
-    public boolean supportsParameter(MethodParameter parameter) {
+    public boolean supportsParameter(@Nullable MethodParameter parameter) {
+        assert parameter != null;
         return findMethodAnnotation(CurrentUser.class, parameter) != null;
     }
 
     @Override
-    public ProjectUserDetails resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-                                              NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
+    public ProjectUserDetails resolveArgument(@Nullable MethodParameter parameter, ModelAndViewContainer mavContainer,
+                                              @Nullable NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         return SecurityUtils.getCurrentUser();
     }
 
-    private <T extends Annotation> T findMethodAnnotation(Class<T> annotationClass, MethodParameter parameter) {
+    private <T extends Annotation> T findMethodAnnotation(@Nullable Class<T> annotationClass, MethodParameter parameter) {
+        assert annotationClass != null;
         T annotation = parameter.getParameterAnnotation(annotationClass);
         if (annotation != null) {
             return annotation;

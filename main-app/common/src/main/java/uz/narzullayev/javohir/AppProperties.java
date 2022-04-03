@@ -24,7 +24,7 @@ public class AppProperties {
 
     @Data
     public static class Email {
-        String authorNotificationsFromEmail = "narzullayevj@gmail.com";
+        String authorNotificationsFromEmail = "narzullayevj999@gmail.com";
         String authorNotificationsFromName = "Narzullayev Javohir";
     }
 

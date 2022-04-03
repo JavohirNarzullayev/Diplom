@@ -3,7 +3,10 @@ package uz.narzullayev.javohir.domain;
 import com.vladmihalcea.hibernate.type.array.IntArrayType;
 import com.vladmihalcea.hibernate.type.array.StringArrayType;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
@@ -13,11 +16,7 @@ import uz.narzullayev.javohir.domain.audit.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import java.util.LinkedHashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @ToString(callSuper = true)
 @Entity
@@ -39,10 +38,10 @@ public class Science extends BaseEntity {
     @Column(name = "description", columnDefinition = "jsonb")
     private NameEntity description;
 
-    @OneToMany(orphanRemoval = true)
+/*    @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "id")
     @ToString.Exclude
-    private Set<UserEntity> userEntities = new LinkedHashSet<>();
+    private Set<UserEntity> userEntities = new LinkedHashSet<>();*/
 
     @Override
     public boolean equals(Object o) {

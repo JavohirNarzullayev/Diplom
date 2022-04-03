@@ -22,13 +22,13 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     @Override
     protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         String targetUrl = determineTargetUrl(authentication);
-        if (response.isCommitted()){
+        if (response.isCommitted()) {
             return;
         }
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }
 
-    public String determineTargetUrl(Authentication authentication){
+    public String determineTargetUrl(Authentication authentication) {
         String url = "/dashboard";
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         return url;

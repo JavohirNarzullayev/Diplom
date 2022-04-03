@@ -1,12 +1,12 @@
+${AnsiColor.RED}     ██╗${AnsiColor.CYAN}  █████╗  ██╗   ██╗  ██████╗  ██╗  ██╗ ██╗ ██████╗   ███╗   ██╗
+${AnsiColor.RED}     ██║${AnsiColor.CYAN} ██╔══██╗ ██║   ██║ ██╔═══██╗ ██║  ██║ ██║ ██╔══██╗  ████╗  ██║
+${AnsiColor.RED}     ██║${AnsiColor.CYAN} ███████║ ██║   ██║ ██║   ██║ ███████║ ██║ ██████╔╝  ██╔██╗ ██║
+${AnsiColor.RED}██   ██║${AnsiColor.CYAN} ██╔══██║ ╚██╗ ██╔╝ ██║   ██║ ██╔══██║ ██║ ██╔══██╗  ██║╚██╗██║
+${AnsiColor.RED}╚█████╔╝${AnsiColor.CYAN} ██║  ██║  ╚████╔╝  ╚██████╔╝ ██║  ██║ ██║ ██║  ██║  ██║ ╚████║
+${AnsiColor.RED} ╚════╝ ${AnsiColor.CYAN} ╚═╝  ╚═╝   ╚═══╝    ╚═════╝  ╚═╝  ╚═╝ ╚═╝ ╚═╝  ╚═╝  ╚═╝  ╚═══╝
 
-  ${AnsiColor.RED}      ██╗${AnsiColor.CYAN} ██╗   ██╗ ████████╗ ███████╗   ██████╗ ████████╗ ████████╗ ███████╗
-  ${AnsiColor.RED}      ██║${AnsiColor.CYAN} ██║   ██║ ╚══██╔══╝ ██╔═══██╗ ██╔════╝ ╚══██╔══╝ ██╔═════╝ ██╔═══██╗
-  ${AnsiColor.RED}      ██║${AnsiColor.CYAN} ████████║    ██║    ███████╔╝ ╚█████╗     ██║    ██████╗   ███████╔╝
-  ${AnsiColor.RED}██╗   ██║${AnsiColor.CYAN} ██╔═══██║    ██║    ██╔════╝   ╚═══██╗    ██║    ██╔═══╝   ██╔══██║
-  ${AnsiColor.RED}╚██████╔╝${AnsiColor.CYAN} ██║   ██║ ████████╗ ██║       ██████╔╝    ██║    ████████╗ ██║  ╚██╗
-  ${AnsiColor.RED} ╚═════╝ ${AnsiColor.CYAN} ╚═╝   ╚═╝ ╚═══════╝ ╚═╝       ╚═════╝     ╚═╝    ╚═══════╝ ╚═╝   ╚═╝
+${AnsiColor.BLUE}:: ${spring.application.name} 🤓  :: Running Spring Boot ${spring-boot.version} ::
+:: https://github.com/JavohirNarzullayev/diplom ::${AnsiColor.RED}
 
-${AnsiColor.BRIGHT_BLUE}:: ${spring.application.name} 🤓  :: Running Spring Boot ${spring-boot.version} ::
-:: https://github.com/JavohirNarzullayev/diplom ::${AnsiColor.DEFAULT}
 
 

@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
-import uz.narzullayev.javohir.dto.PlanTeacherDto;
 import uz.narzullayev.javohir.domain.PlanTeacher;
+import uz.narzullayev.javohir.dto.PlanTeacherDto;
 import uz.narzullayev.javohir.exception.RecordNotFoundException;
 import uz.narzullayev.javohir.repository.PlanTeacherRepository;
 import uz.narzullayev.javohir.service.FileEntityService;
@@ -18,7 +18,6 @@ import uz.narzullayev.javohir.service.PlanTeacherService;
 
 import javax.persistence.criteria.Predicate;
 import javax.validation.constraints.NotNull;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -42,11 +41,11 @@ public class PlanTeacherServiceImpl implements PlanTeacherService {
     }
 
     @Override
-    public DataTablesOutput<PlanTeacher> findAll(DataTablesInput input, PlanTeacherDto filterDto) {
-        return planTeacherRepository.findAll(input, byFilterDto(filterDto));
+    public DataTablesOutput<PlanTeacher> findAll(DataTablesInput input, PlanTeacherDto filterDto, Long currentUserId) {
+        return planTeacherRepository.findAll(input, byFilterDto(filterDto, currentUserId));
     }
 
-    public Specification<PlanTeacher> byFilterDto(PlanTeacherDto filterDto) {
+    public Specification<PlanTeacher> byFilterDto(PlanTeacherDto filterDto, Long currentUserId) {
         return (root, query, criteriaBuilder) -> {
             Assert.notNull(filterDto, "FilterDto is null");
             List<Predicate> predicates = new LinkedList<>();
@@ -55,6 +54,9 @@ public class PlanTeacherServiceImpl implements PlanTeacherService {
                         criteriaBuilder.like(criteriaBuilder.upper(root.get("theme")),
                                 "%" + filterDto.getTheme().toUpperCase() + "%"));
 
+            }
+            if (currentUserId != null) {
+                predicates.add(criteriaBuilder.equal(root.get("registeredBy").get("id"), currentUserId));
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
