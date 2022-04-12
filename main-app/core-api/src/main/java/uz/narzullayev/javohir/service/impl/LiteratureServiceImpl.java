@@ -9,16 +9,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
-import uz.narzullayev.javohir.dto.LiteratureDto;
 import uz.narzullayev.javohir.domain.Literature;
+import uz.narzullayev.javohir.dto.LiteratureDto;
 import uz.narzullayev.javohir.exception.RecordNotFoundException;
 import uz.narzullayev.javohir.repository.LiteratureRepository;
 import uz.narzullayev.javohir.service.FileEntityService;
 import uz.narzullayev.javohir.service.LiteratureService;
-import uz.narzullayev.javohir.specification.UserSpecification;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.Predicate;
 import javax.validation.constraints.NotNull;
 import java.util.LinkedList;
@@ -36,8 +33,8 @@ public class LiteratureServiceImpl implements LiteratureService {
 
     @Override
     @Transactional(readOnly = true)
-    public DataTablesOutput<Literature> findAll(DataTablesInput input, LiteratureDto filterDto) {
-        return literatureRepository.findAll(input, byFilterDto(filterDto));
+    public DataTablesOutput<Literature> findAll(DataTablesInput input, LiteratureDto filterDto, Long currentUserId) {
+        return literatureRepository.findAll(input, byFilterDto(filterDto, currentUserId));
     }
 
     @Override
@@ -50,7 +47,7 @@ public class LiteratureServiceImpl implements LiteratureService {
 
     }
 
-    public Specification<Literature> byFilterDto(LiteratureDto filterDto) {
+    public Specification<Literature> byFilterDto(LiteratureDto filterDto, Long currentUserId) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new LinkedList<>();
             if (StringUtils.hasText(filterDto.getBookName()))
@@ -58,6 +55,9 @@ public class LiteratureServiceImpl implements LiteratureService {
                         criteriaBuilder.like(criteriaBuilder.upper(root.get("bookName")),
                                 "%" + filterDto.getBookName().toUpperCase() + "%"));
 
+            if (currentUserId != null) {
+                predicates.add(criteriaBuilder.equal(root.get("registeredBy").get("id"), currentUserId));
+            }
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }

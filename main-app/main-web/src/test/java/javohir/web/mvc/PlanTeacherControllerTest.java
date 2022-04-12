@@ -9,7 +9,6 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.data.util.Pair;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -77,7 +76,7 @@ class PlanTeacherControllerTest extends MockExtension {
     }
 
     @TestFactory
-    @WithUserDetails(value = "admin", userDetailsServiceBeanName = "userDetailsServiceImpl", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @WithUserDetails(value = "admin", userDetailsServiceBeanName = "userDetailsServiceImpl")
     @DisplayName("test view/templates")
     @Order(1)
     Stream<DynamicTest> dynamicTestsWithCollection() {
@@ -114,21 +113,12 @@ class PlanTeacherControllerTest extends MockExtension {
     }
 
     @Test
-    @Order(4)
+    @Order(3)
     void edit() throws Exception {
         //If not found
         mockMvc.perform(get("/plan_teacher/edit")
                 .param("id", "-1")
                 .secure(true)
         ).andExpect(status().isNotFound());
-    }
-
-
-    @Test
-    void testCreate() {
-    }
-
-    @Test
-    void delete() {
     }
 }

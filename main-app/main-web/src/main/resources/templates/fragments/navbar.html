@@ -18,18 +18,24 @@
         <div class="navbar-content scroll-div">
             <ul class="nav pcoded-inner-navbar">
                 <li class="nav-item pcoded-menu-caption">
-                    <label >Навигация</label>
+                    <label>Навигация</label>
                 </li>
                 <li data-username="dashboard learning management system" class="nav-item">
                     <a th:href="@{/dashboard}" class="nav-link">
                         <span class="pcoded-micon"><i class="feather icon-home"></i></span>
-                        <span class="pcoded-mtext" >Кабинет</span>
+                        <span class="pcoded-mtext">Кабинет</span>
                     </a>
                 </li>
-                <li class="nav-item" >
-                    <a th:href="@{/teacher_plan/list}" class="nav-link">
+                <li class="nav-item">
+                    <a th:href="@{/teacher_plan/list}" class="nav-link" sec:authorize="hasAnyAuthority('TEACHER')">
                         <span class="pcoded-micon"><i class="mdi mdi-teach"></i></span>
                         <span class="pcoded-mtext">Укув режалар</span>
+                    </a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAnyAuthority('TEACHER')">
+                    <a th:href="@{/literature/list}" class="nav-link">
+                        <span class="pcoded-micon"><i class="feather icon-book"></i></span>
+                        <span class="pcoded-mtext">Адабиётлар руйхати</span>
                     </a>
                 </li>
                 <li class="nav-item pcoded-menu-caption" sec:authorize="hasAnyAuthority('ADMIN')">
@@ -42,11 +48,12 @@
                     </a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
-                    <a th:href="@{/literature/list}" class="nav-link">
-                        <span class="pcoded-micon"><i class="feather icon-book"></i></span>
-                        <span class="pcoded-mtext">Адабиётлар руйхати</span>
+                    <a th:href="@{/science/list}" class="nav-link">
+                        <span class="pcoded-micon"><i class="feather icon-bookmark"></i></span>
+                        <span class="pcoded-mtext">Фанлар руйхати</span>
                     </a>
                 </li>
+
             </ul>
         </div>
 </nav>

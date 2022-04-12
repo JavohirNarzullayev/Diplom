@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,7 +20,9 @@ public class WebRequestInterceptor implements AsyncHandlerInterceptor {
     }
 
     @Override
-    public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler) {
+    public boolean preHandle(@Nullable HttpServletRequest req,
+                             @Nullable HttpServletResponse resp,
+                             @Nullable Object handler) {
         exeTimeThreadLocal.set(System.currentTimeMillis());
         statisticsInterceptor.startCounter();
         return true;

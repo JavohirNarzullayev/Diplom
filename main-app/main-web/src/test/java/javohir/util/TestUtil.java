@@ -10,6 +10,8 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
+import uz.narzullayev.javohir.constant.UserType;
+import uz.narzullayev.javohir.dto.UserDto;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -19,6 +21,8 @@ import javax.persistence.criteria.Root;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -170,4 +174,30 @@ public final class TestUtil {
 
     private TestUtil() {
     }
+
+    public static Collection<UserDto> userList() {
+        var userDto = new UserDto();
+        userDto.setUsername("admin");
+        userDto.setUserType(UserType.ADMIN);
+        userDto.setPassword("12345");
+        userDto.setConfirmPassword("12345");
+        userDto.setFio("narzullayev");
+        userDto.setEmail("narzullayevj@gmail.com");
+        userDto.setId(1L);
+        userDto.setEnabled(true);
+        userDto.setPhone("+9998999999");
+
+        var userDto2 = new UserDto();
+        userDto.setUsername("user");
+        userDto.setUserType(UserType.ADMIN);
+        userDto.setPassword("12345");
+        userDto.setConfirmPassword("12345");
+        userDto.setFio("user");
+        userDto.setEmail("user@gmail.com");
+        userDto.setId(2L);
+        userDto.setEnabled(true);
+        userDto.setPhone("+9999999999");
+        return Arrays.asList(userDto, userDto2);
+    }
+
 }

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <object th:replace="fragments/includes_top :: top" th:remove="tag"></object>
+</head>
+<body class="layout-6"
+      style="background: rgba(0, 0, 0, 0) linear-gradient(to right, rgb(79, 172, 254) 0%, rgb(0, 242, 254) 100%) repeat scroll 0% 0%;">
+
+<!-- [ Pre-loader ] start -->
+<object th:replace="fragments/preloader :: body" th:remove="tag"></object>
+<!-- [ Pre-loader ] End -->
+
+<!-- [ navigation menu ] start -->
+<object th:replace="fragments/navbar :: body" th:remove="tag"></object>
+<!-- [ navigation menu ] end -->
+
+<!-- [ Header ] start -->
+<object th:replace="fragments/topbar :: body" th:remove="tag"></object>
+<!-- [ Header ] end -->
+
+
+<!-- [ Main Content ] start -->
+<div class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ breadcrumb ] start -->
+                <div th:replace="fragments/breadcrumb :: breadcrumb"></div>
+                <!-- [ breadcrumb ] end -->
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+
+                            <!-- [ Filter ] start -->
+                            <div class="col-sm-12">
+
+                                <div class="card">
+
+                                    <div class="card-header">
+                                        <h5>Фанлар</h5>
+                                    </div>
+
+                                    <div class="card-block">
+                                        <form>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="scienceName">Фан номи</label>
+                                                        <input type="text" class="form-control" id="scienceName"
+                                                               placeholder="Фан номи" name="scienceName">
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <br/>
+                                                        <div class="mb-2"> &nbsp;</div>
+                                                        <button class="btn btn-outline-primary" id="search" href="#"
+                                                                onclick="getDatatableConnect();return false;">
+                                                            <i class="feather icon-search"></i>
+                                                            <span>Кидириш</span>
+                                                        </button>
+                                                        <a class="btn btn-outline-success" id="create"
+                                                           th:href="@{/science/create}">
+                                                            <i class="feather icon-book"></i>
+                                                            <span>Яратиш</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Руйхат</h5>
+                                    </div>
+                                    <div class="card-block">
+                                        <div class="text-right align-self-end">
+                                            <span id="total">
+                                            </span>
+                                        </div>
+                                        <div class="table table-responsive">
+                                            <table id="sciencelist" class="display table-striped table-hover"
+                                                   style="width:100%">
+                                                <thead>
+                                                <tr>
+                                                    <th class="text-center">Фан номи</th>
+                                                    <th class="text-center">Фан хакида маьлумот</th>
+                                                    <th></th>
+                                                </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <!-- [ Datatable ] end -->
+
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ Main Content ] end -->
+
+
+<div th:replace="fragments/includes_bottom :: bottom" th:remove="tag"></div>
+<div th:replace="fragments/modals/confirm_modal :: body" th:remove="tag"></div>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+
+    let ajaxRequestLink = '/science/list_ajax';
+
+    let editLink = '/science/edit';
+    let deleteLink = '/science/delete';
+
+    let labelEdit = [[#{action.edit}]];
+    let labelDelete = [[#{action.delete}]], dataTableSelector, thead;
+
+
+    $(document).ready(function () {
+        dataTableSelector = $('#sciencelist');
+        thead = dataTableSelector.html();
+        dataTableConnect();
+    });
+
+    function strtrunc(str, max, add) {
+        add = add || '...';
+        return (typeof str === 'string' && str.length > max ? str.substring(0, max) + add : str);
+    }
+
+    function dataTableConnect() {
+        console.log(' logger function ');
+        $('#sciencelist').DataTable({
+            ajax: function (dataToSend, callback, settings) {
+                dataToSend.scienceName = $("#scienceName").val();
+                $.get(ajaxRequestLink, dataToSend, function (data) {
+                    callback(data);
+                });
+            },
+            "serverSide": true,
+            "searching": true,
+            "columns": [
+                {
+                    "data": "id",
+
+                },
+                {
+                    "data": "id",
+                    "render": renderRegistered
+                },
+                {
+                    "data": "id",
+                    "className": "text-right",
+                    "fnCreatedCell": function (data, type, row, meta) {
+                        var actionsField = '';
+                        actionsField += `<a class="btn-sm badge badge-danger text-white" data-toggle="tooltip" onclick="remove(${row.id})"  data-original-title="${labelView}"><i class="feather icon-file"></i></a>`;
+                        actionsField += `<a class="btn-sm badge badge-light"  data-toggle="tooltip" href="${editLink}?id=${row.id}"  data-original-title="${labelView}"><i class="feather icon-edit-1"></i></a>`;
+
+                        $(data).html(actionsField);
+                    },
+                    orderable: false,
+                    searchable: false
+                }
+            ],
+            drawCallback: function (settings) {
+                $('[data-toggle="tooltip"]').tooltip();
+            },
+            language: {
+                'url': '/static/datatables/lang_oz.json'
+            }
+        });
+    }
+
+
+    function getDatatableConnect() {
+        dataTableSelector.DataTable().destroy();
+        dataTableSelector.html(thead);
+        dataTableConnect();
+    }
+
+    function downloadFile(id) {
+        swal("Файл юклаб олиш учун юклаш тугамасини босинг ?", {
+            buttons: {
+                download: "Юклаш",
+                cancel: true,
+            },
+        }).then((value) => {
+            switch (value) {
+                case "download":
+                    $.ajax({
+                        url: downloadLink + "?id=" + id,
+                        method: 'GET',
+                        xhrFields: {
+                            responseType: 'blob'
+                        },
+                        success: function (data) {
+                            swal("Муваффакиятли", "юкланди", "success");
+                            console.log(data)
+                            var a = document.createElement('a');
+                            var url = window.URL.createObjectURL(data);
+                            a.href = url;
+                            a.download = id;
+                            document.body.append(a);
+                            a.click();
+                            a.remove();
+                            window.URL.revokeObjectURL(url);
+                        }
+                    });
+                    break;
+                default:
+                    swal.stopLoading();
+                    swal.close();
+            }
+        });
+    }
+
+
+    function remove(id) {
+        showConfirmModal(
+            {
+                content: 'ID : ',
+                confirmCallback: function () {
+                    console.log("delete")
+                    window.location.href = deleteLink + "/" + id;
+                    ;
+                }
+            },
+            'delete'
+        );
+    }
+</script>
+</body>
+</html>

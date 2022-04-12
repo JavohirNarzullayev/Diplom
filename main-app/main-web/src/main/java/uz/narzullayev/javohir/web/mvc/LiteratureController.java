@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uz.narzullayev.javohir.config.CurrentUser;
 import uz.narzullayev.javohir.config.auth.ProjectUserDetails;
+import uz.narzullayev.javohir.config.security.SecurityUtils;
 import uz.narzullayev.javohir.domain.Literature;
 import uz.narzullayev.javohir.dto.Breadcrumb;
 import uz.narzullayev.javohir.dto.LiteratureDto;
@@ -37,7 +38,7 @@ public class LiteratureController {
     @GetMapping(value = "/list_ajax", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public DataTablesOutput<Literature> listAjax(@Valid DataTablesInput input, LiteratureDto filterDto) {
-        return literatureService.findAll(input, filterDto);
+        return literatureService.findAll(input, filterDto, SecurityUtils.getCurrentUserId());
     }
 
     @GetMapping(value = "/edit")

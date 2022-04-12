@@ -3,9 +3,8 @@ package uz.narzullayev.javohir.domain;
 import com.vladmihalcea.hibernate.type.array.IntArrayType;
 import com.vladmihalcea.hibernate.type.array.StringArrayType;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.Type;
@@ -14,15 +13,15 @@ import org.hibernate.annotations.TypeDefs;
 import uz.narzullayev.javohir.constant.NameEntity;
 import uz.narzullayev.javohir.domain.audit.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
-@ToString(callSuper = true)
+
 @Entity
-@Getter
-@Setter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @TypeDefs({
         @TypeDef(name = "string-array", typeClass = StringArrayType.class),
         @TypeDef(name = "int-array", typeClass = IntArrayType.class),
@@ -38,10 +37,13 @@ public class Science extends BaseEntity {
     @Column(name = "description", columnDefinition = "jsonb")
     private NameEntity description;
 
-/*    @OneToMany(orphanRemoval = true)
-    @JoinColumn(name = "id")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "science_teacher",
+            joinColumns = @JoinColumn(name = "science_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     @ToString.Exclude
-    private Set<UserEntity> userEntities = new LinkedHashSet<>();*/
+    private Set<UserEntity> userEntities = new LinkedHashSet<>();
+
 
     @Override
     public boolean equals(Object o) {

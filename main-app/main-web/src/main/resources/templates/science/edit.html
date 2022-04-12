@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <object th:replace="fragments/includes_top :: top" th:remove="tag"></object>
+</head>
+<body class="layout-6"
+      style="background: rgba(0, 0, 0, 0) linear-gradient(to right, rgb(79, 172, 254) 0%, rgb(0, 242, 254) 100%) repeat scroll 0% 0%;">
+
+<!-- [ Pre-loader ] start -->
+<object th:replace="fragments/preloader :: body" th:remove="tag"></object>
+<!-- [ Pre-loader ] End -->
+
+<!-- [ navigation menu ] start -->
+<object th:replace="fragments/navbar :: body" th:remove="tag"></object>
+<!-- [ navigation menu ] end -->
+
+<!-- [ Header ] start -->
+<object th:replace="fragments/topbar :: body" th:remove="tag"></object>
+<!-- [ Header ] end -->
+
+
+<!-- [ Main Content ] start -->
+<div class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ breadcrumb ] start -->
+                <div th:replace="fragments/breadcrumb :: breadcrumb"></div>
+                <!-- [ breadcrumb ] end -->
+
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <!-- [ light-layout ] start -->
+                            <div class="col-sm-12">
+
+                                <div class="card">
+
+                                    <div class="card-header">
+                                        <h5>Узгартириш</h5>
+                                    </div>
+
+                                    <div class="card-block">
+                                        <form id="validation-form123" action="" th:object="${object}" method="post">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="form-label">Логин</label>
+                                                        <input type="text" class="form-control"
+                                                               name="validation-required" id="username" placeholder=""
+                                                               th:field="*{id}" required="required" minlength="3"/>
+                                                        <p class="alert-danger error-message"
+                                                           th:each="error: ${#fields.errors('name.uz')}"
+                                                           th:text="${error}"></p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="form-label">Парол</label>
+                                                        <input type="password" class="form-control"
+                                                               name="validation-password" placeholder=""
+                                                               th:field="*{description}"/>
+                                                        <p class="alert-danger error-message"
+                                                           th:each="error: ${#fields.errors('description')}"
+                                                           th:text="${error}"></p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="form-label">ФИО</label>
+                                                        <input type="text" class="form-control"
+                                                               name="validation-required" id="firstname" placeholder=""
+                                                               th:field="*{fio}" required="required" minlength="3"/>
+                                                        <p class="alert-danger error-message"
+                                                           th:each="error: ${#fields.errors('fio')}"
+                                                           th:text="${error}"></p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="form-label">Роли</label>
+                                                        <select class="form-control" th:each="teacher:${userEntities}">
+                                                            <option value="">Рол ни танланг</option>
+                                                            <option th:value="${teacher.id}" th:text="${teacher.fio}">
+                                                                Админ
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <input type="hidden" th:field="*{id}"/>
+                                            <input type="hidden" th:name="${_csrf.parameterName}"
+                                                   th:value="${_csrf.token}"/>
+
+
+                                            <div class="text-left">
+                                                <a class="btn btn-light" th:href="@{/user/list}">
+                                                    <i class="feather icon-x"></i> <span>Ортга</span>
+                                                </a>
+                                                <button class="btn btn-primary" type="submit">
+                                                    <i class="feather icon-save"></i> <span>Сакламок</span>
+                                                </button>
+
+                                            </div>
+
+                                        </form>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <!-- [ light-layout ] end -->
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ Main Content ] end -->
+
+
+<div th:include="fragments/includes_bottom :: bottom" th:remove="tag"></div>
+</body>
+</html>
