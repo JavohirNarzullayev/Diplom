@@ -18,7 +18,9 @@ spring:
       naming:
         physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
         implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+      ddl-auto: validate
     database-platform: org.hibernate.dialect.H2Dialect
+
   mvc:
     static-path-pattern: /static/**
   main:

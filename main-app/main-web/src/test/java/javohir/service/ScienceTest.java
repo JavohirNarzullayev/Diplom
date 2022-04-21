@@ -30,17 +30,12 @@ public class ScienceTest extends MockExtension {
     private NameEntity name;
     private Set<UserEntity> userEntities;
 
-    @BeforeAll
-    public void setUp() {
+    @BeforeEach
+    void testSetup() {
         userEntities = TestUtil.userList()
                 .stream()
                 .map(userService::save)
                 .collect(Collectors.toSet());
-    }
-
-
-    @BeforeEach
-    void testSetup() {
         name = new NameEntity();
         name.setOz("JavaOz");
         name.setUz("JavaUz");

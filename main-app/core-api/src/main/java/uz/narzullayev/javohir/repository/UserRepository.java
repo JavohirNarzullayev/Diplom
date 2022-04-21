@@ -6,14 +6,19 @@ package uz.narzullayev.javohir.repository;/*
 import org.springframework.data.jpa.datatables.repository.DataTablesRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import uz.narzullayev.javohir.constant.UserType;
 import uz.narzullayev.javohir.domain.UserEntity;
 
+import java.util.List;
+
 @Repository
-public interface UserRepository  extends DataTablesRepository<UserEntity, Long>,  JpaRepository<UserEntity,Long> {
+public interface UserRepository extends DataTablesRepository<UserEntity, Long>, JpaRepository<UserEntity, Long> {
 
     UserEntity findByUsername(String username);
 
     boolean existsByUsername(String username);
 
     boolean existsByEmail(String email);
+
+    List<UserEntity> findByRole(UserType role);
 }

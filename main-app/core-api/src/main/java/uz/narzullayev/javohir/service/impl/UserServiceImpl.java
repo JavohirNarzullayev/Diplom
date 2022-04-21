@@ -9,6 +9,7 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import uz.narzullayev.javohir.constant.UserType;
 import uz.narzullayev.javohir.domain.UserEntity;
 import uz.narzullayev.javohir.dto.UserDto;
 import uz.narzullayev.javohir.dto.UserFilterDto;
@@ -17,6 +18,7 @@ import uz.narzullayev.javohir.service.UserService;
 import uz.narzullayev.javohir.specification.UserSpecification;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -72,5 +74,10 @@ public class UserServiceImpl implements UserService {
     public UserEntity findById(Long id) {
         if (id == null) throw new IllegalAccessException("User id is null");
         return userRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<UserEntity> findAllTeachers() {
+        return userRepository.findByRole(UserType.TEACHER);
     }
 }

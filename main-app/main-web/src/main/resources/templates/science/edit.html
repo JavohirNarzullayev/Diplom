@@ -42,50 +42,63 @@
                                         <h5>Узгартириш</h5>
                                     </div>
 
+
                                     <div class="card-block">
                                         <form id="validation-form123" action="" th:object="${object}" method="post">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label class="form-label">Логин</label>
+                                                        <label class="form-label" th:text="#{description.oz}"></label>
                                                         <input type="text" class="form-control"
-                                                               name="validation-required" id="username" placeholder=""
-                                                               th:field="*{id}" required="required" minlength="3"/>
+                                                               name="validation-password" placeholder=""
+                                                               th:field="*{descriptionOz}"/>
                                                         <p class="alert-danger error-message"
-                                                           th:each="error: ${#fields.errors('name.uz')}"
+                                                           th:each="error: ${#fields.errors('descriptionOz')}"
                                                            th:text="${error}"></p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label class="form-label">Парол</label>
-                                                        <input type="password" class="form-control"
+                                                        <label class="form-label" th:text="#{description.uz}"></label>
+                                                        <input type="text" class="form-control"
                                                                name="validation-password" placeholder=""
-                                                               th:field="*{description}"/>
+                                                               th:field="*{descriptionUz}"/>
                                                         <p class="alert-danger error-message"
-                                                           th:each="error: ${#fields.errors('description')}"
+                                                           th:each="error: ${#fields.errors('descriptionUz')}"
                                                            th:text="${error}"></p>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label class="form-label">ФИО</label>
+                                                        <label class="form-label" th:text="#{name.oz}"></label>
                                                         <input type="text" class="form-control"
                                                                name="validation-required" id="firstname" placeholder=""
-                                                               th:field="*{fio}" required="required" minlength="3"/>
+                                                               th:field="*{nameOz}" required="required" minlength="3"/>
                                                         <p class="alert-danger error-message"
-                                                           th:each="error: ${#fields.errors('fio')}"
+                                                           th:each="error: ${#fields.errors('nameOz')}"
                                                            th:text="${error}"></p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label class="form-label">Роли</label>
-                                                        <select class="form-control" th:each="teacher:${userEntities}">
+                                                        <label class="form-label" th:text="#{name.uz}"></label>
+                                                        <input type="text" class="form-control"
+                                                               name="validation-required" id="firstname" placeholder=""
+                                                               th:field="*{nameUz}" required="required" minlength="3"/>
+                                                        <p class="alert-danger error-message"
+                                                           th:each="error: ${#fields.errors('nameUz')}"
+                                                           th:text="${error}"></p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="form-label">Укитувчилар</label>
+                                                        <select class="form-control">
                                                             <option value="">Рол ни танланг</option>
-                                                            <option th:value="${teacher.id}" th:text="${teacher.fio}">
-                                                                Админ
+                                                            <option th:text="${teacher.fio}" th:id="${teacher.id}"
+                                                                    th:each="teacher:${teachers}">
+
                                                             </option>
                                                         </select>
                                                     </div>
@@ -99,7 +112,7 @@
 
 
                                             <div class="text-left">
-                                                <a class="btn btn-light" th:href="@{/user/list}">
+                                                <a class="btn btn-light" th:href="@{${back_action}}">
                                                     <i class="feather icon-x"></i> <span>Ортга</span>
                                                 </a>
                                                 <button class="btn btn-primary" type="submit">

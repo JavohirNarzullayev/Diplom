@@ -9,6 +9,8 @@ import uz.narzullayev.javohir.domain.UserEntity;
 import uz.narzullayev.javohir.dto.UserDto;
 import uz.narzullayev.javohir.dto.UserFilterDto;
 
+import java.util.List;
+
 public interface UserService {
     void update(UserDto user);
 
@@ -25,4 +27,6 @@ public interface UserService {
     void userBlockOrUnblockById(Long id);
 
     UserEntity findById(Long id);
+
+    List<UserEntity> findAllTeachers();
 }

@@ -164,8 +164,8 @@
                     "className": "text-right",
                     "fnCreatedCell": function (data, type, row, meta) {
                         var actionsField = '';
-                        actionsField += `<a class="btn-sm badge badge-danger text-white" data-toggle="tooltip" onclick="remove(${row.id})"  data-original-title="${labelView}"><i class="feather icon-file"></i></a>`;
-                        actionsField += `<a class="btn-sm badge badge-light"  data-toggle="tooltip" href="${editLink}?id=${row.id}"  data-original-title="${labelView}"><i class="feather icon-edit-1"></i></a>`;
+                        actionsField += `<a class="btn-sm badge badge-danger text-white" data-toggle="tooltip" onclick="remove(${row.id})"  data-original-title="${labelDelete}"><i class="feather icon-file"></i></a>`;
+                        actionsField += `<a class="btn-sm badge badge-light"  data-toggle="tooltip" href="${editLink}?id=${row.id}"  data-original-title="${labelEdit}"><i class="feather icon-edit-1"></i></a>`;
 
                         $(data).html(actionsField);
                     },
@@ -180,6 +180,7 @@
                 'url': '/static/datatables/lang_oz.json'
             }
         });
+        $('.dataTables_length').addClass('bs-select');
     }
 
 

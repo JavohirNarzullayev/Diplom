@@ -33,4 +33,6 @@ public interface ScienceService {
     List<Science> findAll();
 
     DataTablesOutput<Science> findAll(DataTablesInput input, String scienceName);
+
+    void remove(Long id);
 }

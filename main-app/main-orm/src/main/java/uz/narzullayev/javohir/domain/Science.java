@@ -4,6 +4,7 @@ import com.vladmihalcea.hibernate.type.array.IntArrayType;
 import com.vladmihalcea.hibernate.type.array.StringArrayType;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.Hibernate;
@@ -27,6 +28,7 @@ import java.util.Set;
         @TypeDef(name = "int-array", typeClass = IntArrayType.class),
         @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 })
+@Data
 public class Science extends BaseEntity {
 
     @Type(type = "jsonb")
@@ -37,7 +39,7 @@ public class Science extends BaseEntity {
     @Column(name = "description", columnDefinition = "jsonb")
     private NameEntity description;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinTable(name = "science_teacher",
             joinColumns = @JoinColumn(name = "science_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))

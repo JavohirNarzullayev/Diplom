@@ -1,7 +1,4 @@
-package uz.narzullayev.javohir.web.mvc;/* 
- @author: Javohir
-  Date: 4/12/2022
-  Time: 4:08 PM*/
+package uz.narzullayev.javohir.web.mvc;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
@@ -9,18 +6,19 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import uz.narzullayev.javohir.constant.NameEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uz.narzullayev.javohir.domain.Science;
 import uz.narzullayev.javohir.dto.Breadcrumb;
+import uz.narzullayev.javohir.dto.PlanTeacherDto;
+import uz.narzullayev.javohir.dto.ScienceDto;
 import uz.narzullayev.javohir.service.ScienceService;
 import uz.narzullayev.javohir.service.UserService;
+import uz.narzullayev.javohir.util.ToastNotificationUtils;
 
 import javax.validation.Valid;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/science")
@@ -31,11 +29,6 @@ public class ScienceController {
 
     @GetMapping("/list")
     public String science(Model model) {
-        var name = new NameEntity();
-        name.setOz("JavaOz");
-        name.setUz("JavaUz");
-        var science = new Science(name, name, Set.of(userService.findById(1L)));
-        scienceService.crudScience(science);
         model.addAttribute("breadcrumb", getBreadcrumb("Руйхат", "/user/list"));
         return "science/list";
     }
@@ -46,17 +39,72 @@ public class ScienceController {
         return scienceService.findAll(input, scienceName);
     }
 
+    /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>UPDATE>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+    @GetMapping(value = "/edit")
+    public String edit(
+            Model model,
+            RedirectAttributes redirectAttributes,
+            @RequestParam(name = "id", required = false) Long id
+    ) {
+        var science = scienceService.findById(id);
+        if (science == null) {
+            ToastNotificationUtils.addWarning(redirectAttributes, "Топилмади");
+            return "redirect:/science/list";
+        }
+        model.addAttribute("breadcrumb", getBreadcrumb("Маьлумотни узгартириш", "/science/edit?id=" + id));
+        new ScienceDto();
+        model.addAttribute("object",
+                ScienceDto.builder()
+                        .science(science)
+                        .build());
+        model.addAttribute("back_action", "/science/list");
+        model.addAttribute("post_action", "/science/update");
+        return "science/edit";
+    }
+
+    /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>CREATE>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+    @PostMapping(value = "/update")
+    public String update(
+            @Validated(value = PlanTeacherDto.OnUpdate.class) @ModelAttribute("object") ScienceDto scienceDto,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) return "teacher_plan/edit";
+        if (scienceDto == null) ToastNotificationUtils.addWarning(redirectAttributes, "Топилмади");
+        else scienceService.crudScience(scienceDto.merge());
+        return "redirect:/science/list";
+    }
+
+
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("breadcrumb", getBreadcrumb("Маьлумотни узгартириш", "/science/edit"));
-        model.addAttribute("object", new Science());//TODO
+        model.addAttribute("object", new ScienceDto());
+        model.addAttribute("back_action", "/science/list");
+        model.addAttribute("post_action", "/science/create");
+        model.addAttribute("teachers", userService.findAllTeachers());
         return "science/edit";
     }
 
     @PostMapping("/create")
-    public String create(Science science) {
-        scienceService.crudScience(science);
-        return "redirect:science/list";
+    public String create(
+            @Validated(value = PlanTeacherDto.OnUpdate.class) @ModelAttribute("object") ScienceDto scienceDto,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes
+    ) {
+        if (bindingResult.hasErrors()) return "science/edit";
+        if (scienceDto == null) ToastNotificationUtils.addWarning(redirectAttributes, "Топилмади");
+        else scienceService.crudScience(scienceDto.merge());
+        return "redirect:/science/list";
+    }
+
+    /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>delete>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+    @GetMapping(value = "/delete/{id}")
+    public String delete(@PathVariable(value = "id") Long id,
+                         RedirectAttributes redirectAttributes) {
+        var science = scienceService.findById(id);
+        if (science == null) ToastNotificationUtils.addWarning(redirectAttributes, "Топилмади");
+        else scienceService.remove(id);
+        return "redirect:/science/list";
     }
 
     private Breadcrumb getBreadcrumb(String name, String url) {

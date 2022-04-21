@@ -80,4 +80,9 @@ public class ScienceServiceImpl implements ScienceService {
             }
         });
     }
+
+    @Override
+    public void remove(@NotNull Long id) {
+        scienceRepository.deleteById(id);
+    }
 }
