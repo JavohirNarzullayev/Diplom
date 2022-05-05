@@ -6,10 +6,12 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import uz.narzullayev.javohir.constant.NameEntity;
 import uz.narzullayev.javohir.domain.Science;
 import uz.narzullayev.javohir.dto.Breadcrumb;
 import uz.narzullayev.javohir.dto.PlanTeacherDto;
@@ -35,7 +37,7 @@ public class ScienceController {
 
     @GetMapping(value = "/list_ajax", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public DataTablesOutput<Science> listAjax(@Valid DataTablesInput input, String scienceName) {
+    public DataTablesOutput<ScienceDto> listAjax(@Valid DataTablesInput input, String scienceName) {
         return scienceService.findAll(input, scienceName);
     }
 
@@ -52,11 +54,11 @@ public class ScienceController {
             return "redirect:/science/list";
         }
         model.addAttribute("breadcrumb", getBreadcrumb("Маьлумотни узгартириш", "/science/edit?id=" + id));
-        new ScienceDto();
         model.addAttribute("object",
                 ScienceDto.builder()
                         .science(science)
                         .build());
+        model.addAttribute("teachers", userService.findAllTeachers());
         model.addAttribute("back_action", "/science/list");
         model.addAttribute("post_action", "/science/update");
         return "science/edit";
@@ -68,9 +70,18 @@ public class ScienceController {
             @Validated(value = PlanTeacherDto.OnUpdate.class) @ModelAttribute("object") ScienceDto scienceDto,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) return "teacher_plan/edit";
+
+        if (bindingResult.hasErrors()) return "science/edit";
         if (scienceDto == null) ToastNotificationUtils.addWarning(redirectAttributes, "Топилмади");
-        else scienceService.crudScience(scienceDto.merge());
+        else {
+            Science science = scienceService.findById(scienceDto.getId());
+            science.setName(new NameEntity(scienceDto.getNameUz(), scienceDto.getNameOz()));
+            science.setDescription(new NameEntity(scienceDto.getDescriptionUz(), scienceDto.getDescriptionOz()));
+            if (!CollectionUtils.isEmpty(scienceDto.getTeachers())) {
+                science.setUserEntities(userService.findByIdIn(scienceDto.getTeachers()));
+            }
+            scienceService.crudScience(science);
+        }
         return "redirect:/science/list";
     }
 
@@ -93,7 +104,13 @@ public class ScienceController {
     ) {
         if (bindingResult.hasErrors()) return "science/edit";
         if (scienceDto == null) ToastNotificationUtils.addWarning(redirectAttributes, "Топилмади");
-        else scienceService.crudScience(scienceDto.merge());
+        else {
+            Science science = new Science();
+            science.setName(new NameEntity(scienceDto.getNameUz(), scienceDto.getNameOz()));
+            science.setDescription(new NameEntity(scienceDto.getDescriptionUz(), scienceDto.getDescriptionOz()));
+            science.setUserEntities(userService.findByIdIn(scienceDto.getTeachers()));
+            scienceService.crudScience(science);
+        }
         return "redirect:/science/list";
     }
 

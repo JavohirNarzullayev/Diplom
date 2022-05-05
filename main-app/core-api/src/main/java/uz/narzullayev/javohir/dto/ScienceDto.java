@@ -7,10 +7,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import uz.narzullayev.javohir.constant.NameEntity;
 import uz.narzullayev.javohir.domain.Science;
 import uz.narzullayev.javohir.domain.UserEntity;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -28,7 +28,8 @@ public class ScienceDto {
     private String nameOz;
     private String descriptionUz;
     private String descriptionOz;
-    private Set<UserEntity> teachers;
+    private Set<Long> teachers = new HashSet<>();
+    private Set<UserEntity> teachersEntity = new HashSet<>();
 
     @Builder
     public ScienceDto(Science science) {
@@ -37,15 +38,10 @@ public class ScienceDto {
         this.nameOz = science.getName().getOz();
         this.descriptionUz = science.getDescription().getUz();
         this.descriptionOz = science.getDescription().getOz();
-        this.teachers = science.getUserEntities();
-    }
-
-    public Science merge() {
-        Science science = new Science();
-        science.setId(this.id);
-        science.setName(new NameEntity(this.nameUz, this.nameOz));
-        science.setDescription(new NameEntity(this.descriptionUz, this.descriptionOz));
-        science.setUserEntities(this.teachers);
-        return science;
+        this.teachers = science.getUserEntities()
+                .stream()
+                .map(UserEntity::getId)
+                .collect(java.util.stream.Collectors.toSet());
+        this.teachersEntity = science.getUserEntities();
     }
 }

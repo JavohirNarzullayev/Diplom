@@ -11,6 +11,7 @@ import uz.narzullayev.javohir.config.auth.ProjectUserDetails;
 
 import javax.annotation.Nullable;
 import java.lang.annotation.Annotation;
+import java.util.Objects;
 
 public class CurrentUserArgResolver implements HandlerMethodArgumentResolver {
 
@@ -27,8 +28,7 @@ public class CurrentUserArgResolver implements HandlerMethodArgumentResolver {
     }
 
     private <T extends Annotation> T findMethodAnnotation(@Nullable Class<T> annotationClass, MethodParameter parameter) {
-        assert annotationClass != null;
-        T annotation = parameter.getParameterAnnotation(annotationClass);
+        T annotation = parameter.getParameterAnnotation(Objects.requireNonNull(annotationClass));
         if (annotation != null) {
             return annotation;
         }

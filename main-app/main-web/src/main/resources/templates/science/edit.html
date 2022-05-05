@@ -44,7 +44,8 @@
 
 
                                     <div class="card-block">
-                                        <form id="validation-form123" action="" th:object="${object}" method="post">
+                                        <form id="validation-form123" th:action="@{${post_action}}"
+                                              th:object="${object}" method="post">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
@@ -73,7 +74,7 @@
                                                     <div class="form-group">
                                                         <label class="form-label" th:text="#{name.oz}"></label>
                                                         <input type="text" class="form-control"
-                                                               name="validation-required" id="firstname" placeholder=""
+                                                               name="validation-required" placeholder=""
                                                                th:field="*{nameOz}" required="required" minlength="3"/>
                                                         <p class="alert-danger error-message"
                                                            th:each="error: ${#fields.errors('nameOz')}"
@@ -84,7 +85,7 @@
                                                     <div class="form-group">
                                                         <label class="form-label" th:text="#{name.uz}"></label>
                                                         <input type="text" class="form-control"
-                                                               name="validation-required" id="firstname" placeholder=""
+                                                               name="validation-required" placeholder=""
                                                                th:field="*{nameUz}" required="required" minlength="3"/>
                                                         <p class="alert-danger error-message"
                                                            th:each="error: ${#fields.errors('nameUz')}"
@@ -94,11 +95,12 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="form-label">Укитувчилар</label>
-                                                        <select class="form-control">
+                                                        <select class="form-control selectpicker" multiple
+                                                                name="teachers[]">
                                                             <option value="">Рол ни танланг</option>
-                                                            <option th:text="${teacher.fio}" th:id="${teacher.id}"
-                                                                    th:each="teacher:${teachers}">
-
+                                                            <option th:each="teacher:${teachers}"
+                                                                    th:text="${teacher.fio}"
+                                                                    th:value="${teacher.id}">
                                                             </option>
                                                         </select>
                                                     </div>
@@ -141,4 +143,12 @@
 
 <div th:include="fragments/includes_bottom :: bottom" th:remove="tag"></div>
 </body>
+<script th:inline="javascript">
+
+    /*]]>*/
+    $(document).ready(function () {
+        $('select').selectpicker();
+    });
+
+</script>
 </html>

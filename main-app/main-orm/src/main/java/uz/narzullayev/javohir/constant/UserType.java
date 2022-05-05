@@ -11,11 +11,11 @@ import java.util.List;
 public enum UserType {
     ADMIN,
     STUDENT,
-    TEACHER;
+    TEACHER,
+    ANTONYM;
 
 
-
-    public static List<UserType> getUserTypes(){
-        return List.of(STUDENT,TEACHER);
+    public static List<UserType> getUserTypes() {
+        return List.of(STUDENT, TEACHER);
     }
 }

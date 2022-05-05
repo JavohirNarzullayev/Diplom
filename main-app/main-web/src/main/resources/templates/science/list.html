@@ -88,7 +88,9 @@
                                                    style="width:100%">
                                                 <thead>
                                                 <tr>
+                                                    <th class="text-center">ID</th>
                                                     <th class="text-center">Фан номи</th>
+                                                    <th class="text-center">Фан хакида маьлумот</th>
                                                     <th class="text-center">Фан хакида маьлумот</th>
                                                     <th></th>
                                                 </tr>
@@ -156,8 +158,20 @@
 
                 },
                 {
-                    "data": "id",
-                    "render": renderRegistered
+                    "data": "nameUz",
+                },
+                {
+                    "data": "descriptionUz",
+                },
+                {
+                    "data": "teachersEntity",
+                    render: function (data, type, row) {
+                        let html = '';
+                        data.forEach(function (item, i, arr) {
+                            html += item.fio + '<br>';
+                        });
+                        return html;
+                    }
                 },
                 {
                     "data": "id",
@@ -234,7 +248,7 @@
                 confirmCallback: function () {
                     console.log("delete")
                     window.location.href = deleteLink + "/" + id;
-                    ;
+
                 }
             },
             'delete'

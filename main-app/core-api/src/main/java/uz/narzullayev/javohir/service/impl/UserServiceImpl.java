@@ -19,6 +19,7 @@ import uz.narzullayev.javohir.specification.UserSpecification;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -79,5 +80,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserEntity> findAllTeachers() {
         return userRepository.findByRole(UserType.TEACHER);
+    }
+
+    @Override
+    public Set<UserEntity> findByIdIn(Set<Long> teachers) {
+        return userRepository.findByIdIn(teachers);
     }
 }

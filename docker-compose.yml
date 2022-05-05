@@ -40,6 +40,8 @@ services:
       HOME_LOG: /app-log
     ports:
       - "8091:8091"
+    depends_on:
+      - postgres
     command: --spring.profiles.active=prod
 
 volumes:

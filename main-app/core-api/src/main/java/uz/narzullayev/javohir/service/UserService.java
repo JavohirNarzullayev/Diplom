@@ -10,6 +10,7 @@ import uz.narzullayev.javohir.dto.UserDto;
 import uz.narzullayev.javohir.dto.UserFilterDto;
 
 import java.util.List;
+import java.util.Set;
 
 public interface UserService {
     void update(UserDto user);
@@ -29,4 +30,6 @@ public interface UserService {
     UserEntity findById(Long id);
 
     List<UserEntity> findAllTeachers();
+
+    Set<UserEntity> findByIdIn(Set<Long> teachers);
 }

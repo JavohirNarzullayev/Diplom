@@ -18,7 +18,6 @@ import java.util.Optional;
 public class GuiApplication extends SpringBootServletInitializer {
     public static void main(String[] args) {
         var run = SpringApplication.run(GuiApplication.class, args);
-
         initApplication(run.getEnvironment(), run.getBean(AppProperties.class));
     }
 

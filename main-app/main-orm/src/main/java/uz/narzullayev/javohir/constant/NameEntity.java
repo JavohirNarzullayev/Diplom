@@ -5,9 +5,11 @@ package uz.narzullayev.javohir.constant;/*
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class NameEntity {
     private String uz;
     private String oz;

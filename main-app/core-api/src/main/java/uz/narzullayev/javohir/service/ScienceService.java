@@ -6,6 +6,7 @@ package uz.narzullayev.javohir.service;/*
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import uz.narzullayev.javohir.domain.Science;
+import uz.narzullayev.javohir.dto.ScienceDto;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -32,7 +33,7 @@ public interface ScienceService {
 
     List<Science> findAll();
 
-    DataTablesOutput<Science> findAll(DataTablesInput input, String scienceName);
+    DataTablesOutput<ScienceDto> findAll(DataTablesInput input, String scienceName);
 
     void remove(Long id);
 }
