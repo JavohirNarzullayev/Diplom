@@ -29,6 +29,7 @@ public class ScienceTest extends MockExtension {
     @Autowired
     private ScienceRepository repository;
     @Autowired
+
     private UserService userService;
     private NameEntity name;
     private Set<UserEntity> userEntities;
