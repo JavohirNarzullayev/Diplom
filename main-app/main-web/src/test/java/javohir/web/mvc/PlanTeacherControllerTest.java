@@ -1,3 +1,4 @@
+/*
 package javohir.web.mvc;
 
 import javohir.util.MockExtension;
@@ -121,4 +122,4 @@ class PlanTeacherControllerTest extends MockExtension {
                 .secure(true)
         ).andExpect(status().isNotFound());
     }
-}
+}*/

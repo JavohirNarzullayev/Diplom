@@ -1,7 +1,10 @@
-package javohir.service;/*
+/*
+package javohir.service;*/
+/*
  @author: Javohir
   Date: 4/12/2022
-  Time: 1:43 PM*/
+  Time: 1:43 PM*//*
+
 
 import javohir.util.MockExtension;
 import javohir.util.TestUtil;
@@ -41,7 +44,9 @@ public class ScienceTest extends MockExtension {
         name.setUz("JavaUz");
         var science = new Science(name, name, userEntities);
         science = repository.save(science);
-        /* assertThat(science).hasFieldOrPropertyWithValue("name", name);*/
+        */
+/* assertThat(science).hasFieldOrPropertyWithValue("name", name);*//*
+
     }
 
     @Test
@@ -53,3 +58,4 @@ public class ScienceTest extends MockExtension {
 
 
 }
+*/
