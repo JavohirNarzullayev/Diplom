@@ -10,6 +10,7 @@
 
     <modules>
         <module>main-app</module>
+        <module>notification-service</module>
     </modules>
 
     <parent>
