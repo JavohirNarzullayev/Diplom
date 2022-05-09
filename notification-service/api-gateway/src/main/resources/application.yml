@@ -4,17 +4,17 @@ server:
 spring:
   application:
     name: API-GATEWAY
-  cloud:
-    gateway:
-      routes:
-        - id: TELEGRAM-SERVICE
-          uri: lb://TELEGRAM-SERVICE
-          predicates:
-            - Path=/api/v1/telegram/**
-        - id: EMAIL-SERVICE
-          uri: lb://EMAIL-SERVICE
-          predicates:
-            - Path=/api/v1/email/**
+  #  cloud:
+  #    gateway:
+  #      routes:
+  #        - id: TELEGRAM-SERVICE
+  #          uri: lb://TELEGRAM-SERVICE
+  #          predicates:
+  #            - Path=/api/v1/telegram/**
+  #        - id: EMAIL-SERVICE
+  #          uri: lb://EMAIL-SERVICE
+  #          predicates:
+  #            - Path=/api/v1/email/**
 
   zipkin:
     base-url: http://localhost:9411
