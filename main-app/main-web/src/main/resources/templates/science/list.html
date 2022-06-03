@@ -124,9 +124,11 @@
     let ajaxRequestLink = '/science/list_ajax';
 
     let editLink = '/science/edit';
+    let quizLink = '/quiz';
     let deleteLink = '/science/delete';
 
     let labelEdit = [[#{action.edit}]];
+    let labelQuiz = [[#{quiz}]];
     let labelDelete = [[#{action.delete}]], dataTableSelector, thead;
 
 
@@ -180,7 +182,7 @@
                         var actionsField = '';
                         actionsField += `<a class="btn-sm badge badge-danger text-white" data-toggle="tooltip" onclick="remove(${row.id})"  data-original-title="${labelDelete}"><i class="feather icon-file"></i></a>`;
                         actionsField += `<a class="btn-sm badge badge-light"  data-toggle="tooltip" href="${editLink}?id=${row.id}"  data-original-title="${labelEdit}"><i class="feather icon-edit-1"></i></a>`;
-
+                        actionsField += `<a class="btn-sm badge badge-info"  data-toggle="tooltip" href="${quizLink}/${row.id}"  data-original-title="${labelQuiz}"><i class="feather icon-help-circle"></i></a>`;
                         $(data).html(actionsField);
                     },
                     orderable: false,

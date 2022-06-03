@@ -15,9 +15,7 @@ import uz.narzullayev.javohir.constant.NameEntity;
 import uz.narzullayev.javohir.domain.audit.BaseEntity;
 
 import javax.persistence.*;
-import java.util.LinkedHashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 
 @Entity
@@ -46,6 +44,9 @@ public class Science extends BaseEntity {
     @ToString.Exclude
     private Set<UserEntity> userEntities = new LinkedHashSet<>();
 
+
+    @OneToMany(mappedBy = "science")
+    private List<Quiz> items = new LinkedList<>();
 
     @Override
     public boolean equals(Object o) {
