@@ -15,8 +15,12 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 public class EmailResource {
 
+    private final RestTemplate restTemplate;
+
     @Autowired
-    private RestTemplate restTemplate;
+    public EmailResource(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     @GetMapping("/send")
     public String sendEmail() {

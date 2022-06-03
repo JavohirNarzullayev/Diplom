@@ -1,10 +1,10 @@
 package uz.narzullayev.javohir.config;
 
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.Ordered;
@@ -13,6 +13,7 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import uz.narzullayev.javohir.AppProperties;
 import uz.narzullayev.javohir.config.security.CurrentUserArgResolver;
 
 import java.util.List;
@@ -21,8 +22,8 @@ import java.util.Locale;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "uz.narzullayev.javohir")
 @EnableCaching(proxyTargetClass = true)
+@EnableConfigurationProperties(value = AppProperties.class)
 public class WebMVCConfigs implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -70,7 +71,7 @@ public class WebMVCConfigs implements WebMvcConfigurer {
 
     @Bean
     public FilterRegistrationBean<ReqLogFilter> loggingFilter() {
-        FilterRegistrationBean<ReqLogFilter> registrationBean = new FilterRegistrationBean<>();
+        var registrationBean = new FilterRegistrationBean<ReqLogFilter>();
         registrationBean.setFilter(new ReqLogFilter());
         registrationBean.setOrder((Ordered.HIGHEST_PRECEDENCE));
         return registrationBean;

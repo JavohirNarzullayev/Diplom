@@ -65,7 +65,7 @@ public class LoggingAspect {
         if (env.acceptsProfiles(Profiles.of("dev"))) {
             logger(joinPoint)
                     .error(
-                            "Exception in {}() with cause = \'{}\' and exception = \'{}\'",
+                            "Exception in {}() with cause = '{}' and exception = '{}'",
                             joinPoint.getSignature().getName(),
                             e.getCause() != null ? e.getCause() : "NULL",
                             e.getMessage(),

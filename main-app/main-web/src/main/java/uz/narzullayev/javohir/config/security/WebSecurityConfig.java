@@ -1,6 +1,6 @@
 package uz.narzullayev.javohir.config.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,19 +19,12 @@ import uz.narzullayev.javohir.constant.UserType;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(jsr250Enabled = true, securedEnabled = true, prePostEnabled = true)
+@RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static PasswordEncoder encoder;
     private final CustomSuccessHandler customSuccessHandler;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final UserDetailsServiceImpl userDetailsService;
-
-    @Autowired
-    public WebSecurityConfig(CustomSuccessHandler customSuccessHandler, CustomAccessDeniedHandler customAccessDeniedHandler, UserDetailsServiceImpl userDetailsService) {
-        this.customSuccessHandler = customSuccessHandler;
-        this.customAccessDeniedHandler = customAccessDeniedHandler;
-        this.userDetailsService = userDetailsService;
-    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -60,9 +53,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/registration").permitAll()
                 .antMatchers("/").permitAll()
                 //teacher
-                .antMatchers("/literature/*", "/literature/**", "/teacher_plan/*", "/teacher_plan/**").hasAuthority(UserType.TEACHER.name())
-
-                .antMatchers("/literature/**", "/user/**", "/user/*").hasAuthority(UserType.ADMIN.name())
+                .antMatchers("/literature/*", "/literature/**", "/teacher_plan/*", "/teacher_plan/**").hasAnyAuthority(UserType.TEACHER.name(), UserType.ADMIN.name())
+                //student
+                .antMatchers("/student/*", "/student/**").hasAuthority(UserType.STUDENT.name())
+                //admin
+                .antMatchers("/user/**", "/user/*").hasAuthority(UserType.ADMIN.name())
                 //api
                 .antMatchers("/main/**").permitAll()
                 .antMatchers("/dashboard/**").authenticated();
@@ -84,9 +79,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        if (encoder == null)
-            encoder = new BCryptPasswordEncoder();
-        return encoder;
+        return new BCryptPasswordEncoder();
     }
 
 

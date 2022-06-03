@@ -26,13 +26,23 @@
                         <span class="pcoded-mtext">Кабинет</span>
                     </a>
                 </li>
+                <li class="nav-item pcoded-menu-caption" sec:authorize="hasAnyAuthority('ADMIN')">
+                    <label>Устоз</label>
+                </li>
                 <li class="nav-item">
-                    <a th:href="@{/teacher_plan/list}" class="nav-link" sec:authorize="hasAnyAuthority('TEACHER')">
+                    <a th:href="@{/teacher_plan/list}" class="nav-link"
+                       sec:authorize="hasAnyAuthority('ADMIN','TEACHER')">
                         <span class="pcoded-micon"><i class="mdi mdi-teach"></i></span>
                         <span class="pcoded-mtext">Укув режалар</span>
                     </a>
                 </li>
-                <li class="nav-item" sec:authorize="hasAnyAuthority('TEACHER')">
+                <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN','TEACHER')">
+                    <a th:href="@{/science/list}" class="nav-link">
+                        <span class="pcoded-micon"><i class="feather icon-bookmark"></i></span>
+                        <span class="pcoded-mtext">Фанлар руйхати</span>
+                    </a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN','TEACHER')">
                     <a th:href="@{/literature/list}" class="nav-link">
                         <span class="pcoded-micon"><i class="feather icon-book"></i></span>
                         <span class="pcoded-mtext">Адабиётлар руйхати</span>
@@ -45,12 +55,6 @@
                     <a th:href="@{/user/list}" class="nav-link">
                         <span class="pcoded-micon"><i class="feather icon-users"></i></span>
                         <span class="pcoded-mtext">Фойдаланувчилар руйхати</span>
-                    </a>
-                </li>
-                <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
-                    <a th:href="@{/science/list}" class="nav-link">
-                        <span class="pcoded-micon"><i class="feather icon-bookmark"></i></span>
-                        <span class="pcoded-mtext">Фанлар руйхати</span>
                     </a>
                 </li>
 

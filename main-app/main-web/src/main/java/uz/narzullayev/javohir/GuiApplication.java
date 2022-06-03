@@ -3,7 +3,6 @@ package uz.narzullayev.javohir;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.core.env.Environment;
 
@@ -13,8 +12,7 @@ import java.util.Optional;
 
 
 @Slf4j
-@SpringBootApplication
-@EnableConfigurationProperties(value = AppProperties.class)
+@SpringBootApplication(scanBasePackages = {"uz.narzullayev.javohir.*"})
 public class GuiApplication extends SpringBootServletInitializer {
     public static void main(String[] args) {
         var run = SpringApplication.run(GuiApplication.class, args);

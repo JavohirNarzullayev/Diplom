@@ -13,14 +13,21 @@ public class RoutesConf {
 
     //Cloud Gateway Configuration for routes
 
+
     @Bean
     public RouteLocator myRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route("TELEGRAM-SERVICE",
                         r -> r.path("/api/v1/telegram/**")
-                                .uri("lb://TELEGRAM-SERVICE"))
+                                .filters(gatewayFilterSpec -> gatewayFilterSpec.circuitBreaker(
+                                        config -> config.setName("Hystrix").setFallbackUri("forward:/fallback-telegram")))
+                                .uri("lb://TELEGRAM-SERVICE")
+
+                )
                 .route("EMAIL-SERVICE",
                         r -> r.path("/api/v1/email/**")
+                                .filters(gatewayFilterSpec -> gatewayFilterSpec.circuitBreaker(
+                                        config -> config.setName("Hystrix").setFallbackUri("forward:/fallback-email")))
                                 .uri("lb://EMAIL-SERVICE"))
                 .build();
     }

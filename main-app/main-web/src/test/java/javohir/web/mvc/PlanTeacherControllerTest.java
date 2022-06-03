@@ -1,20 +1,21 @@
-/*
 package javohir.web.mvc;
 
-import javohir.util.MockExtension;
 import javohir.util.TestUtil;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.data.util.Pair;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import uz.narzullayev.javohir.constant.UserType;
@@ -23,6 +24,7 @@ import uz.narzullayev.javohir.dto.UserDto;
 import uz.narzullayev.javohir.repository.PlanTeacherRepository;
 import uz.narzullayev.javohir.service.PlanTeacherService;
 import uz.narzullayev.javohir.service.UserService;
+import uz.narzullayev.javohir.web.mvc.PlanTeacherController;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -31,18 +33,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Transactional
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class PlanTeacherControllerTest extends MockExtension {
+@SpringBootTest(classes = PlanTeacherController.class)
+@WithMockUser(authorities = "ADMIN", username = "admin", password = "12345")
+@AutoConfigureMockMvc
+class PlanTeacherControllerTest {
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
+    @MockBean
     private PlanTeacherService planTeacherService;
-    @Autowired
+    @MockBean
     private PlanTeacherRepository planTeacherRepository;
     private PlanTeacherDto planTeacherDto;
     MultiValueMap<String, String> params;
-    @Autowired
+    @MockBean
     private UserService userService;
 
     @BeforeEach
@@ -75,6 +79,7 @@ class PlanTeacherControllerTest extends MockExtension {
         userDto.setPhone("+9998999999");
         userService.save(userDto);
     }
+
 
     @TestFactory
     @WithUserDetails(value = "admin", userDetailsServiceBeanName = "userDetailsServiceImpl")
@@ -122,4 +127,4 @@ class PlanTeacherControllerTest extends MockExtension {
                 .secure(true)
         ).andExpect(status().isNotFound());
     }
-}*/
+}
