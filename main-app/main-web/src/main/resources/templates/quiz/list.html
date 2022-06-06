@@ -56,14 +56,27 @@
                                             <th>Savol</th>
                                             <th>Variantlar</th>
                                             <th>Fan</th>
+                                            <th></th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr th:each="quiz:${quizzes}">
                                             <td th:text="${quiz.id}"></td>
                                             <td th:text="${quiz.question}"></td>
-                                            <td th:text="${quiz.choices}"></td>
+                                            <td>
+                                                <ul class="list-group list-group-flush">
+                                                    <li class="list-group-item"
+                                                        th:each="choice:${quiz.choices}"
+                                                        th:text="${choice.choice}">
+                                                    </li>
+                                                </ul>
+                                            </td>
                                             <td th:text="${quiz.science.name.uz}"></td>
+                                            <td>
+                                                <a class="btn-sm badge badge-danger text-white" data-toggle="tooltip"
+                                                   th:href="@{/quiz/remove/{id}(id=${quiz.id})}"><i
+                                                        class="feather icon-file"></i></a>
+                                            </td>
                                         </tr>
                                         </tbody>
                                     </table>

@@ -12,7 +12,9 @@ import uz.narzullayev.javohir.domain.Quiz;
 import uz.narzullayev.javohir.repository.QuizRepository;
 import uz.narzullayev.javohir.service.QuizService;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -35,5 +37,15 @@ public class StudentServiceImpl implements QuizService {
     @Override
     public void save(Quiz quiz) {
         quizRepository.save(quiz);
+    }
+
+    @Override
+    public Optional<Quiz> getById(Long id) {
+        return quizRepository.findById(id);
+    }
+
+    @Override
+    public void remove(@NotNull Long id) {
+        quizRepository.deleteById(id);
     }
 }

@@ -5,6 +5,7 @@ package uz.narzullayev.javohir.web.mvc;/*
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
@@ -62,15 +63,13 @@ public class QuizController {
         model.addAttribute("breadcrumb", getBreadcrumb("Tест яратиш", "/quiz/" + id));
         model.addAttribute("quizzes", quizService.list(science.getId()));
         model.addAttribute("back_action", "/quiz/" + id);
-        model.addAttribute("post_action", "/create/quiz/" + id);
+        model.addAttribute("post_action", "/quiz/create/" + id);
         return "quiz/create";
     }
 
-    @PostMapping(value = "/create/{id}",
-            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
-            produces = {MediaType.APPLICATION_ATOM_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody String updateOrCreate(@PathVariable(value = "id") Long science_id,
-                                               @RequestParam MultiValueMap data
+    @PostMapping(value = "/create/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody ResponseEntity<Void> updateOrCreate(@PathVariable(value = "id") Long science_id,
+                                                             @RequestParam MultiValueMap data
 
     ) {
         Map map = data.toSingleValueMap();
@@ -95,8 +94,23 @@ public class QuizController {
         });
         quiz.setChoices(quizChoices);
         quizService.save(quiz);
+        return ResponseEntity
+                .noContent()
+                .build();
 
-        return "redirect: /quiz/" + science_id;
+    }
+    /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>remove>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+
+    @GetMapping(value = "/remove/{id}")
+    public String remove(@PathVariable(value = "id") Long id,
+                         RedirectAttributes redirectAttributes,
+                         Model model
+    ) {
+        Optional<Quiz> quiz = quizService.getById(id);
+        Assert.notNull(quiz.get(), "Quiz object is null");
+        Long science_id = quiz.get().getScience().getId();
+        quizService.remove(id);
+        return "redirect:/quiz/" + science_id;
     }
 
     private Breadcrumb getBreadcrumb(String name, String url) {

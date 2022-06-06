@@ -53,21 +53,23 @@
                                                            th:text="${error}"></p>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-12">
-                                                    <div class="input-group">
-                                                        <div class="container choicediv">
-                                                            <button class="btn btn-outline-primary choiceadd">Yangi
-                                                                variant &nbsp;
-                                                                <span style="font-size:16px; font-weight:bold;">+ </span>
-                                                            </button>
-                                                            <div>
-                                  <span class="input-group-addon">
-                                  <input type="radio" value="" name="answer_1[]" aria-label="answers">
-                                </span>
-                                                                <input type="text" class="form-control"
-                                                                       name="choice_1[]" aria-label="choice">
+                                                <div class="col-md-12 choicediv">
+                                                    <button class="btn btn-outline-primary choiceadd">Yangi variant
+                                                        &nbsp;
+                                                        <span style="font-size:16px; font-weight:bold;">+ </span>
+                                                    </button>
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend ">
+                                                            <div class="input-group-text">
+                                                                <input type="radio" value="" name="answer_1[]"
+                                                                       aria-label="Radio button for following text input">
                                                             </div>
                                                         </div>
+                                                        <input type="text" class="form-control" name="choice_1[]"
+                                                               aria-label="choice">
+                                                        <a class="delete" data-toggle="tooltip"
+                                                           th:data-original-title="#{action.delete}"><i
+                                                                class="feather feather-delete"></i></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -112,7 +114,7 @@
             method: 'post',
             data: $("#validation-form123").serialize(),
             success: function (data) {
-                window.location.href = data;
+                $('form#validation-form123').trigger("reset")
             }
         });
     }
@@ -121,18 +123,20 @@
         let maxChoices = 4;
         let wrapper = $(".choicediv");
         let add_button = $(".choiceadd");
-
         let x = 1;
         $(add_button).click(function (e) {
             e.preventDefault();
             if (x < maxChoices) {
                 x++;
-                let newChoice = `<div >
-                          <span class="input-group-addon">
-                          <input type="radio" value=""  name="answers_${x + 1}[]" aria-label="answers">
-                          </span>
-                          <input type="text" class="form-control" name="choice_${x + 1}[]" aria-label="questions">
-                       </div>`
+                let newChoice = `
+                 <div class="input-group mb-3">
+                   <div class="input-group-prepend ">
+                       <div class="input-group-text">
+                           <input type="radio" value="" name="answers_${x + 1}[]"  aria-label="Radio button for following text input">
+                       </div>
+                   </div>
+                   <input type="text" class="form-control" name="choice_${x + 1}[]" aria-label="choice">
+                 </div>`
                 $(wrapper).append(newChoice); //add input box
             }
         });

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import uz.narzullayev.javohir.domain.Quiz;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface QuizService {
@@ -16,4 +17,8 @@ public interface QuizService {
     List<Quiz> list(Long subject_id);
 
     void save(Quiz quiz);
+
+    Optional<Quiz> getById(Long id);
+
+    void remove(Long id);
 }
