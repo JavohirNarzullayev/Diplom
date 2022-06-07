@@ -120,4 +120,9 @@ public class PlanTeacherServiceImpl implements PlanTeacherService {
     public void remove(Long id) {
         planTeacherRepository.deleteById(id);
     }
+
+    @Override
+    public List<PlanTeacher> findByCreatedId(Long teacher_id) {
+        return planTeacherRepository.findAllByRegisteredById(teacher_id);
+    }
 }

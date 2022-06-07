@@ -30,10 +30,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         var userEntity = userRepository.findByUsername(username);
         if (userEntity == null) {
-            log.info(" User [" + username + "] not found ");
+            log.info(" User [{%s}] not found ", username);
             throw new UsernameNotFoundException(" User [" + username + "] not found ");
         }
-        if (userEntity.getEnabled() != Boolean.TRUE) {
+        if (!userEntity.getEnabled().equals(Boolean.TRUE)) {
             log.info(" Your account have been blocked  ");
             throw new UsernameNotFoundException(" Your account have been blocked ");
         }

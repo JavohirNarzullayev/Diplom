@@ -45,7 +45,7 @@ public class Science extends BaseEntity {
     private Set<UserEntity> userEntities = new LinkedHashSet<>();
 
 
-    @OneToMany(mappedBy = "science")
+    @OneToMany(mappedBy = "science", orphanRemoval = true)
     private List<Quiz> items = new LinkedList<>();
 
     @Override

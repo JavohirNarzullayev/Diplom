@@ -30,6 +30,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     public String determineTargetUrl(Authentication authentication) {
         String url = "/dashboard";
+        //TODO
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         return url;
     }

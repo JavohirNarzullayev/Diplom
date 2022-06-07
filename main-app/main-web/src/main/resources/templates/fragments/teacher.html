@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<main th:fragment="science" th:if="${teachers}" class="container pt-5">
+    <div class="card mb-5">
+        <div class="card-header">TEACHERS</div>
+        <div class="card-block p-0">
+            <table class="table table-bordered table-sm m-0">
+                <thead class="">
+                <tr>
+                    <th>#</th>
+                    <th>Teacher name</th>
+                    <th>Science name</th>
+                    <th>Science description</th>
+                    <th>Teacher Plan</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="teacher: ${teachers.first}">
+                    <td>
+                        <label class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                        </label>
+                    </td>
+                    <td th:text="${teacher.fio}"></td>
+                    <td th:text="${teachers.second.name.uz}"></td>
+                    <td th:text="${teachers.second.description.uz}"></td>
+                    <td><a class="btn-sm badge badge-info" data-toggle="tooltip"
+                           th:href="@{/index/teacher/{id}(id=${teacher.id})}">
+                        <i class="feather icon-help-circle"></i></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+</html>

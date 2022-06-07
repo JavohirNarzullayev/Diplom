@@ -59,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //admin
                 .antMatchers("/user/**", "/user/*").hasAuthority(UserType.ADMIN.name())
                 //api
-                .antMatchers("/main/**").permitAll()
+                .antMatchers("/index/**", "/file/**").permitAll()
                 .antMatchers("/dashboard/**").authenticated();
 
 

@@ -29,8 +29,8 @@ public class PlanTeacher extends BaseAuditingEntity implements Serializable {
 
     @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "science_id", referencedColumnName = "id")
+    @WhereJoinTable(clause = "deleted = false")
     private Science science;
 }
 
 
-//TODO CREATE PLAN_TEACHER NEED TO CHOOSE SCIENCE

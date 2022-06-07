@@ -5,12 +5,13 @@ package uz.narzullayev.javohir.domain;/*
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.*;
 import uz.narzullayev.javohir.constant.QuizChoice;
 import uz.narzullayev.javohir.domain.audit.BaseAuditingEntity;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -31,8 +32,9 @@ public class Quiz extends BaseAuditingEntity implements Serializable {
     private List<QuizChoice> choices;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "science_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Science science;
 
 

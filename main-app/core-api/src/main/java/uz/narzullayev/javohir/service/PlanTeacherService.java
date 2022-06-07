@@ -5,6 +5,8 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import uz.narzullayev.javohir.domain.PlanTeacher;
 import uz.narzullayev.javohir.dto.PlanTeacherDto;
 
+import java.util.List;
+
 public interface PlanTeacherService {
 
     PlanTeacher findById(Long id);
@@ -16,4 +18,6 @@ public interface PlanTeacherService {
     void save(PlanTeacherDto planTeacherDto, Long userId);
 
     void remove(Long id);
+
+    List<PlanTeacher> findByCreatedId(Long teacher_id);
 }
