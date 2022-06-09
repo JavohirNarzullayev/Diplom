@@ -2,20 +2,17 @@ package uz.narzullayev.javohir.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.WhereJoinTable;
 import uz.narzullayev.javohir.domain.audit.BaseAuditingEntity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "plan_teacher")
 @Data
-@Where(clause = "deleted = false")
-@SQLDelete(sql = "update plan_teacher set deleted=true where id=? and version=?")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class PlanTeacher extends BaseAuditingEntity implements Serializable {
     @Column(name = "theme", nullable = false, columnDefinition = "TEXT")

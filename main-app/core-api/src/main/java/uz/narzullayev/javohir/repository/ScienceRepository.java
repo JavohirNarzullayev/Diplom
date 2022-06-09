@@ -1,10 +1,9 @@
 package uz.narzullayev.javohir.repository;
 
-import org.springframework.data.jpa.datatables.repository.DataTablesRepository;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import uz.narzullayev.javohir.domain.Science;
+import uz.narzullayev.javohir.repository.softdeletes.SoftDeletesRepository;
 
 @Repository
-public interface ScienceRepository extends DataTablesRepository<Science, Long>, JpaRepository<Science, Long> {
+public interface ScienceRepository extends SoftDeletesRepository<Science, Long> {
 }

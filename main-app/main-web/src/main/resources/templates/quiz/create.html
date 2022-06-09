@@ -40,7 +40,7 @@
                                         <h5>Узгартириш</h5>
                                     </div>
                                     <div class="card-block">
-                                        <form id="validation-form123" th:object="${object}" method="post">
+                                        <form id="validation-form123" th:object="${object}">
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
@@ -111,6 +111,7 @@
 
         $.ajax({
             url: action,
+            async: false,
             method: 'post',
             data: $("#validation-form123").serialize(),
             success: function (data) {

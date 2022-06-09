@@ -8,12 +8,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-import org.hibernate.annotations.TypeDefs;
+import org.hibernate.annotations.*;
 import uz.narzullayev.javohir.constant.NameEntity;
 import uz.narzullayev.javohir.domain.audit.BaseEntity;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import javax.persistence.*;
 import java.util.*;
 
@@ -27,6 +27,7 @@ import java.util.*;
         @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 })
 @Data
+@ToString
 public class Science extends BaseEntity {
 
     @Type(type = "jsonb")
@@ -45,7 +46,9 @@ public class Science extends BaseEntity {
     private Set<UserEntity> userEntities = new LinkedHashSet<>();
 
 
-    @OneToMany(mappedBy = "science", orphanRemoval = true)
+    @OneToMany(mappedBy = "science", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Quiz> items = new LinkedList<>();
 
     @Override
