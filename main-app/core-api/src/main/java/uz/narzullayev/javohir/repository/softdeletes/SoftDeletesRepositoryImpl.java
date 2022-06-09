@@ -165,6 +165,7 @@ public class SoftDeletesRepositoryImpl<T, ID extends Serializable> extends Simpl
     }
 
 
+
     @Override
     public DataTablesOutput<T> findAll(DataTablesInput input) {
         return findAll(input, null, null, null);
