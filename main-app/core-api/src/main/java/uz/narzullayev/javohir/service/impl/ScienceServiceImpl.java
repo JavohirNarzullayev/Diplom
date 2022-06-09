@@ -98,6 +98,11 @@ public class ScienceServiceImpl implements ScienceService {
     }
 
     @Override
+    public Science getScienceByTeacherId(Long teacher_id) {
+        return scienceRepository.findByTeacherId(teacher_id);
+    }
+
+    @Override
     public void remove(@NotNull Long id) {
         scienceRepository.delete(id);
     }

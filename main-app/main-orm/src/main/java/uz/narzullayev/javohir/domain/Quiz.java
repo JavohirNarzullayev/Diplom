@@ -4,7 +4,9 @@ package uz.narzullayev.javohir.domain;/*
   Time: 12:32 AM*/
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Type;
 import uz.narzullayev.javohir.constant.QuizChoice;
 import uz.narzullayev.javohir.domain.audit.BaseAuditingEntity;
@@ -15,7 +17,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "quiz")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Quiz extends BaseAuditingEntity implements Serializable {
 

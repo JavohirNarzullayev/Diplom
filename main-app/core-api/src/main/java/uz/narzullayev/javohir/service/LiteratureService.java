@@ -9,6 +9,8 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import uz.narzullayev.javohir.domain.Literature;
 import uz.narzullayev.javohir.dto.LiteratureDto;
 
+import java.util.List;
+
 public interface LiteratureService {
 
     DataTablesOutput<Literature> findAll(DataTablesInput input, LiteratureDto filterDto, Long userId);
@@ -21,4 +23,6 @@ public interface LiteratureService {
     void remove(Long id);
 
     void save(LiteratureDto literatureDto, Long userId);
+
+    List<Literature> findAll();
 }

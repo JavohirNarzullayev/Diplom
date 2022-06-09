@@ -15,6 +15,7 @@ import uz.narzullayev.javohir.exception.RecordNotFoundException;
 import uz.narzullayev.javohir.repository.PlanTeacherRepository;
 import uz.narzullayev.javohir.service.FileEntityService;
 import uz.narzullayev.javohir.service.PlanTeacherService;
+import uz.narzullayev.javohir.service.ScienceService;
 
 import javax.persistence.criteria.Predicate;
 import javax.validation.constraints.NotNull;
@@ -25,10 +26,12 @@ import static uz.narzullayev.javohir.constant.FileType.PLAN_TEACHER;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class PlanTeacherServiceImpl implements PlanTeacherService {
 
     private final PlanTeacherRepository planTeacherRepository;
     private final FileEntityService fileEntityService;
+    private final ScienceService scienceService;
 
     @SneakyThrows
     @Override
@@ -76,9 +79,13 @@ public class PlanTeacherServiceImpl implements PlanTeacherService {
     public void update(@NotNull PlanTeacherDto planTeacherDto, Long userId) {
         var multipartFile = planTeacherDto.getFile();
         var theme = planTeacherDto.getTheme();
-        Assert.notNull(theme, "Theme is null");
-
+        var science = scienceService.getScienceByTeacherId(userId);
         var planTeacher = findById(planTeacherDto.getId());
+        Assert.notNull(science, "Science is null");
+        Assert.notNull(theme, "Theme is null");
+        Assert.notNull(planTeacher, "Teacher not found");
+
+
         if (!multipartFile.isEmpty()) {
             fileEntityService.remove(planTeacher.getFileEntity().getId());
             var fileEntity = fileEntityService.uploadFile(
@@ -89,6 +96,7 @@ public class PlanTeacherServiceImpl implements PlanTeacherService {
             planTeacher.setFileEntity(fileEntity);
         }
         planTeacher.setTheme(theme);
+        planTeacher.setScience(science);
         planTeacherRepository.save(planTeacher);
     }
 
@@ -106,13 +114,16 @@ public class PlanTeacherServiceImpl implements PlanTeacherService {
     public void save(@NotNull PlanTeacherDto planTeacherDto, Long userId) {
         var multipartFile = planTeacherDto.getFile();
         var theme = planTeacherDto.getTheme();
+        var science = scienceService.getScienceByTeacherId(userId);
         Assert.notNull(multipartFile, "Multipart file is null");
         Assert.notNull(theme, "Theme is null");
-        var fileEntity = fileEntityService.uploadFile(multipartFile, userId, theme, PLAN_TEACHER);
+        Assert.notNull(science, "Science is null");
 
+        var fileEntity = fileEntityService.uploadFile(multipartFile, userId, theme, PLAN_TEACHER);
         var planTeacher = new PlanTeacher();
         planTeacher.setFileEntity(fileEntity);
         planTeacher.setTheme(theme);
+        planTeacher.setScience(science);
         planTeacherRepository.save(planTeacher);
     }
 

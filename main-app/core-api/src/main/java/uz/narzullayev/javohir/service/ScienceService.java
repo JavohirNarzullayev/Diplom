@@ -35,5 +35,8 @@ public interface ScienceService {
 
     DataTablesOutput<ScienceDto> findAll(DataTablesInput input, String scienceName);
 
+
+    Science getScienceByTeacherId(@NotNull Long teacher_id);
+
     void remove(Long id);
 }

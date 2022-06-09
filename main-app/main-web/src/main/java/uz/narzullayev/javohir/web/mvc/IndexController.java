@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import uz.narzullayev.javohir.domain.PlanTeacher;
 import uz.narzullayev.javohir.domain.Science;
 import uz.narzullayev.javohir.domain.UserEntity;
+import uz.narzullayev.javohir.service.LiteratureService;
 import uz.narzullayev.javohir.service.PlanTeacherService;
 import uz.narzullayev.javohir.service.ScienceService;
 
@@ -24,10 +25,12 @@ import java.util.Set;
 public class IndexController {
     private final ScienceService scienceService;
     private final PlanTeacherService planTeacherService;
+    private final LiteratureService literatureService;
 
     @GetMapping
     public String index(Model model) {
         model.addAttribute("sciences", scienceService.findAll());
+        model.addAttribute("literatures", literatureService.findAll());
         return "index";
     }
 

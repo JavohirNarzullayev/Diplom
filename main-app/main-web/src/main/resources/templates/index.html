@@ -115,7 +115,7 @@
   </div>
 
   <div id="plan" class="plan section">
-    <!--  fanlar-->
+    <!--  plan techer-->
     <main th:if="${plans_teacher}" class="container pt-5">
       <div class="card mb-5">
         <div class="card-header">TEACHERS</div>
@@ -154,11 +154,56 @@
       </div>
     </main>
   </div>
+  <div id="literature" class="container pt-5 literature section">
+    <!-- Table with panel -->
+    <div class="card card-cascade narrower">
+      <a href="" class="white-text mx-3">Адабиётлар</a>
+      <div class="px-4">
+
+        <div class="table-wrapper">
+          <!--Table-->
+          <table class="table table-hover mb-0">
+            <!--Table head-->
+            <thead>
+            <tr>
+              <th class="th-lg">
+                <a href="">Китоб номи
+                  <i class="fas fa-sort ml-1"></i>
+                </a>
+              </th>
+              <th class="th-lg">
+                <a href="">Юклаш
+                  <i class="fas fa-sort ml-1"></i>
+                </a>
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="literature:${literatures}">
+              <td th:text="${literature.bookName}"></td>
+              <td>
+                <a class="btn-sm badge badge-info text-white"
+                   th:href="${'/file/download?id='+literature?.fileEntity?.uuid}"
+                   data-toggle="tooltip">
+                  <i class="feather icon-download"></i>
+                </a>
+              </td>
+            </tr>
+            </tbody>
+            <!--Table body-->
+          </table>
+          <!--Table-->
+        </div>
+
+      </div>
+
+    </div>
+  </div>
 
 
   <!-- Scripts -->
   <script th:src="@{/static/plugins/js/jquery.min.js}"></script>
-  <script th:scr="@{/static/plugins/bootstrap/bootstrap.bundle.min.js}"></script>
+  <script src="/static/plugins/bootstrap/bootstrap.bundle.min.js"></script>
   <script src="/static/css/assets/js/owl-carousel.js"></script>
   <script src="/static/css/assets/js/animation.js"></script>
   <script src="/static/css/assets/js/imagesloaded.js"></script>

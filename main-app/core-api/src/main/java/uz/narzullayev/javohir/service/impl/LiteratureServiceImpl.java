@@ -121,6 +121,11 @@ public class LiteratureServiceImpl implements LiteratureService {
     }
 
     @Override
+    public List<Literature> findAll() {
+        return literatureRepository.findAll();
+    }
+
+    @Override
     @Transactional
     public void remove(final Long id) {
         literatureRepository.deleteById(id);

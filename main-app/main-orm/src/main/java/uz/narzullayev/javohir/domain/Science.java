@@ -8,12 +8,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 import uz.narzullayev.javohir.constant.NameEntity;
 import uz.narzullayev.javohir.domain.audit.BaseEntity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
 import javax.persistence.*;
 import java.util.*;
 
@@ -41,14 +41,14 @@ public class Science extends BaseEntity {
     @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinTable(name = "science_teacher",
             joinColumns = @JoinColumn(name = "science_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
+            inverseJoinColumns = @JoinColumn(name = "user_id", unique = true))
     @ToString.Exclude
     private Set<UserEntity> userEntities = new LinkedHashSet<>();
 
 
-    @OneToMany(mappedBy = "science", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "science", orphanRemoval = true,
+            cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @ToString.Exclude
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Quiz> items = new LinkedList<>();
 
     @Override
