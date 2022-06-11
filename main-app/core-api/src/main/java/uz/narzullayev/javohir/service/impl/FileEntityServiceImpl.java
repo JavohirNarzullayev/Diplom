@@ -11,7 +11,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -26,8 +25,6 @@ import uz.narzullayev.javohir.exception.RecordNotFoundException;
 import uz.narzullayev.javohir.repository.FileEntityRepository;
 import uz.narzullayev.javohir.service.FileEntityService;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -38,7 +35,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.UUID;
 
-import static uz.narzullayev.javohir.service.impl.FileEntityServiceImpl.FileContentType.*;
+import static uz.narzullayev.javohir.service.impl.FileEntityServiceImpl.FileContentType.findByName;
 
 @Service
 @Slf4j
@@ -62,14 +59,16 @@ public class FileEntityServiceImpl implements FileEntityService {
         DOC("application/msword"),
         DOCX("application/vnd.openxmlformats-officedocument.wordprocessingml.document"),
         XLS("application/vnd.ms-excel"),
-        XLSX("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        XLSX("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"),
+        MP4("video/mp4"),
+        OTHER("application/octet-stream");
 
         private String mediaType;
 
         public static FileContentType findByName(String extension) {
             return Arrays.stream(values())
                     .filter(fileContentType -> fileContentType.name().equals(extension.toUpperCase()))
-                    .findAny().get();
+                    .findAny().orElse(FileContentType.OTHER);
 
         }
 
