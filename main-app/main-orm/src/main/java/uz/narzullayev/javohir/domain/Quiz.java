@@ -3,6 +3,7 @@ package uz.narzullayev.javohir.domain;/*
   Date: 6/4/2022
   Time: 12:32 AM*/
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -33,6 +34,7 @@ public class Quiz extends BaseAuditingEntity implements Serializable {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "science_id", referencedColumnName = "id", nullable = false)
+    @JsonIgnore
     private Science science;
 
 

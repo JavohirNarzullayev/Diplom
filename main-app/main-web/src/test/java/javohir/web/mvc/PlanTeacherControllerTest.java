@@ -1,5 +1,6 @@
 package javohir.web.mvc;
 
+import javohir.config.TestWebSecurityConfig;
 import javohir.util.TestUtil;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.*;
@@ -10,19 +11,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.data.util.Pair;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import uz.narzullayev.javohir.constant.UserType;
-import uz.narzullayev.javohir.dto.PlanTeacherDto;
 import uz.narzullayev.javohir.dto.UserDto;
 import uz.narzullayev.javohir.repository.PlanTeacherRepository;
-import uz.narzullayev.javohir.service.PlanTeacherService;
 import uz.narzullayev.javohir.service.UserService;
 import uz.narzullayev.javohir.web.mvc.PlanTeacherController;
 
@@ -31,31 +27,23 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@SpringBootTest(classes = PlanTeacherController.class)
-@WithMockUser(authorities = "ADMIN", username = "admin", password = "12345")
+@SpringBootTest(classes = {PlanTeacherController.class, TestWebSecurityConfig.class})
 @AutoConfigureMockMvc
 class PlanTeacherControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private PlanTeacherService planTeacherService;
-    @MockBean
     private PlanTeacherRepository planTeacherRepository;
-    private PlanTeacherDto planTeacherDto;
     MultiValueMap<String, String> params;
     @MockBean
     private UserService userService;
 
     @BeforeEach
     void setUp() {
-        MockMultipartFile jsonFile = new MockMultipartFile("json", "", "application/json", "{\"json\": \"someValue\"}".getBytes());
-        planTeacherDto = PlanTeacherDto.builder()
-                .theme("Test theme")
-                .file(jsonFile)
-                .build();
         params = new LinkedMultiValueMap<>();
         params.add("draw", "1");
         params.add("length", "2");
@@ -82,7 +70,7 @@ class PlanTeacherControllerTest {
 
 
     @TestFactory
-    @WithUserDetails(value = "admin", userDetailsServiceBeanName = "userDetailsServiceImpl")
+    @WithUserDetails("admin")
     @DisplayName("test view/templates")
     @Order(1)
     Stream<DynamicTest> dynamicTestsWithCollection() {
@@ -104,22 +92,29 @@ class PlanTeacherControllerTest {
     @SneakyThrows
     @DisplayName("Ajax result of planTeacher dao")
     @Order(2)
+    @WithUserDetails("admin")
     void listAjax() {
         long count = planTeacherRepository.count();
-        ResultActions resultActions = mockMvc.perform(
-                        get("/teacher_plan/list_ajax").params(params))
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
 
-        MvcResult result = resultActions
+        MvcResult result = this.mockMvc.perform(get("/teacher_plan/list_ajax")
+                        .params(params)
+                        .secure(true)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        DataTablesOutput<?> output = TestUtil.convertStringToObject(result.getResponse().getContentAsString(), DataTablesOutput.class);
+
+        String contentAsString = result.getResponse().getContentAsString();
+        if (contentAsString.isEmpty()) return;
+        DataTablesOutput<?> output = TestUtil.convertStringToObject(contentAsString, DataTablesOutput.class);
+
+        assertThat(output.getDraw()).isEqualTo(1);
         assertThat(output.getData().size()).isGreaterThanOrEqualTo(0);
         assertThat(output.getRecordsTotal()).isGreaterThanOrEqualTo(count);
     }
 
     @Test
     @Order(3)
+    @WithUserDetails("admin")
     void edit() throws Exception {
         //If not found
         mockMvc.perform(get("/plan_teacher/edit")

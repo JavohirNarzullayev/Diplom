@@ -56,10 +56,15 @@ public class FileEntityServiceImpl implements FileEntityService {
         JPEG("image/jpeg"),
         PNG("image/png"),
         GIF("image/gif"),
+        //Document WORD,EXCEL,POWERPOINT
         DOC("application/msword"),
         DOCX("application/vnd.openxmlformats-officedocument.wordprocessingml.document"),
         XLS("application/vnd.ms-excel"),
         XLSX("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"),
+        PPT("application/vnd.ms-powerpoint"),
+        PPTX("application/vnd.openxmlformats-officedocument.presentationml.presentation"),
+        PPTM("application/vnd.ms-powerpoint.presentation.macroEnabled.12"),
+
         MP4("video/mp4"),
         OTHER("application/octet-stream");
 

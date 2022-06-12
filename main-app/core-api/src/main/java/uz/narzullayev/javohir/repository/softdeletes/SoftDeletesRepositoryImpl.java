@@ -205,8 +205,8 @@ public class SoftDeletesRepositoryImpl<T, ID extends Serializable> extends Simpl
             }
 
             //check deleted=false
-            additionalSpecification = additionalSpecification.and(notDeleted());
-            if (preFilteringSpecification != null) {
+            if (isFieldDeletedExist()) additionalSpecification = additionalSpecification.and(notDeleted());
+            if (preFilteringSpecification != null && isFieldDeletedExist()) {
                 preFilteringSpecification = preFilteringSpecification.and(notDeleted());
             }
             output.setRecordsTotal(recordsTotal);

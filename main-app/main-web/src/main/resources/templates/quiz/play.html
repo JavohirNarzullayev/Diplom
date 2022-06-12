@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <object th:replace="fragments/includes_top :: top" th:remove="tag"></object>
+</head>
+<body class="layout-6"
+      style="background: rgba(0, 0, 0, 0) linear-gradient(to right, rgb(79, 172, 254) 0%, rgb(0, 242, 254) 100%) repeat scroll 0% 0%;">
+
+<!-- [ Pre-loader ] start -->
+<object th:replace="fragments/preloader :: body" th:remove="tag"></object>
+<!-- [ Pre-loader ] End -->
+
+<!-- [ navigation menu ] start -->
+<object th:replace="fragments/navbar :: body" th:remove="tag"></object>
+<!-- [ navigation menu ] end -->
+
+<!-- [ Header ] start -->
+<object th:replace="fragments/topbar :: body" th:remove="tag"></object>
+<!-- [ Header ] end -->
+
+
+<!-- [ Main Content ] start -->
+<div class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ breadcrumb ] start -->
+                <div th:replace="fragments/breadcrumb :: breadcrumb"></div>
+                <!-- [ breadcrumb ] end -->
+
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <!-- [ light-layout ] start -->
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Узгартириш</h5>
+                                    </div>
+                                    <div class="card-block">
+                                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                                                        data-bs-target="#home" type="button" role="tab"
+                                                        aria-controls="home" aria-selected="true">Home
+                                                </button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                                                        data-bs-target="#profile" type="button" role="tab"
+                                                        aria-controls="profile" aria-selected="false">Profile
+                                                </button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
+                                                        data-bs-target="#contact" type="button" role="tab"
+                                                        aria-controls="contact" aria-selected="false">Contact
+                                                </button>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content" id="myTabContent">
+                                            <div class="tab-pane fade" id="home" role="tabpanel"
+                                                 aria-labelledby="home-tab">home-ta
+                                            </div>
+                                            <div class="tab-pane fade" id="profile" role="tabpanel"
+                                                 aria-labelledby="profile-tab">profile-ta
+                                            </div>
+                                            <div class="tab-pane fade" id="contact" role="tabpanel"
+                                                 aria-labelledby="contact-tab">contact
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <!-- [ light-layout ] end -->
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ Main Content ] end -->
+
+
+<div th:include="fragments/includes_bottom :: bottom" th:remove="tag"></div>
+<script th:inline="javascript">
+    function formSubmit() {
+        let action = [[${post_action}]]
+
+        $.ajax({
+            url: action,
+            async: false,
+            method: 'post',
+            data: $("#validation-form123").serialize(),
+            success: function (data) {
+                $('form#validation-form123').trigger("reset")
+            }
+        });
+    }
+</script>
+</body>
+</html>

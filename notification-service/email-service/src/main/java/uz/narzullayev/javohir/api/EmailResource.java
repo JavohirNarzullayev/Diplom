@@ -3,29 +3,26 @@ package uz.narzullayev.javohir.api;/*
   Date: 5/6/2022
   Time: 4:11 PM*/
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
+import uz.narzullayev.javohir.service.EmailService;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/email")
-@Slf4j
+@RequiredArgsConstructor
 public class EmailResource {
 
-    private final RestTemplate restTemplate;
+    private final EmailService emailService;
 
-    @Autowired
-    public EmailResource(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
 
-    @GetMapping("/send")
+    @GetMapping(value = "/send", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public String sendEmail() {
-        String forObject = restTemplate.getForObject("http://TELEGRAM-SERVICE/api/v1/telegram/send", String.class);
-        log.warn("Telegram sent:-> {}", forObject);
+        emailService.send("narzullayevj999@gmail.com", "Blyyaaaaaaa");
         return "Email sent";
     }
 

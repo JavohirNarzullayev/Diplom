@@ -45,7 +45,7 @@ public class PlanTeacherServiceImpl implements PlanTeacherService {
 
     @Override
     public DataTablesOutput<PlanTeacher> findAll(DataTablesInput input, PlanTeacherDto filterDto, Long currentUserId) {
-        return planTeacherRepository.findAll(input, byFilterDto(filterDto, currentUserId));
+        return planTeacherRepository.findAll(input /*byFilterDto(filterDto, currentUserId)*/);
     }
 
     public Specification<PlanTeacher> byFilterDto(PlanTeacherDto filterDto, Long currentUserId) {

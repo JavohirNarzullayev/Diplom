@@ -4,6 +4,7 @@ package uz.narzullayev.javohir.config.security;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import uz.narzullayev.javohir.config.auth.ProjectUserDetails;
@@ -42,6 +43,9 @@ public class SecurityUtils {
 
     public static boolean isCurrentUserHasRole(String authority) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication != null && authentication.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(authority));
+        return authentication != null && authentication.getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch(authority::equals);
     }
 }

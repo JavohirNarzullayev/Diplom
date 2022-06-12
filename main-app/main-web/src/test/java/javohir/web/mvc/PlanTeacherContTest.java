@@ -8,7 +8,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
 import org.springframework.test.web.servlet.MockMvc;
 import uz.narzullayev.javohir.service.PlanTeacherService;
 import uz.narzullayev.javohir.web.mvc.PlanTeacherController;
@@ -19,8 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest(classes = PlanTeacherController.class)
 public class PlanTeacherContTest {
 
-    @Autowired
-    private ApplicationContext applicationContext;
+
     @Autowired
     private MockMvc mockMvc;
 

@@ -2,6 +2,7 @@ package uz.narzullayev.javohir.config.auth;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 @AllArgsConstructor
+@Builder
 public class ProjectUserDetails implements UserDetails {
 
     private UserEntity userEntity;
