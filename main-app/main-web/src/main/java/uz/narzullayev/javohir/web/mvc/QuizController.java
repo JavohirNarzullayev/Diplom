@@ -83,13 +83,15 @@ public class QuizController {
         quiz.setQuestion(question);
         List<QuizChoice> quizChoices = new LinkedList<>();
         IntStream.rangeClosed(1, 4).forEach(value -> {
-            String choice = Optional.ofNullable(map.get("choice_" + value + "[]"))
+            boolean isCorrectAnswer = Optional.ofNullable(map.get("choice"))
+                    .map(String.class::cast)
+                    .filter(checked -> checked.equals("choice_" + value + "[]"))
+                    .isPresent();
+
+            String answer = Optional.ofNullable(map.get("answer_" + value + "[]"))
                     .map(String.class::cast)
                     .orElse("");
-            Boolean answer = Optional.ofNullable(map.get("answers_" + value + "[]"))
-                    .map(String.class::isInstance)
-                    .orElse(false);
-            if (!choice.isEmpty()) quizChoices.add(new QuizChoice(answer, choice));
+            quizChoices.add(new QuizChoice(isCorrectAnswer, answer));
 
         });
         quiz.setChoices(quizChoices);

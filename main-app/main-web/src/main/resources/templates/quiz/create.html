@@ -5,7 +5,7 @@
     <object th:replace="fragments/includes_top :: top" th:remove="tag"></object>
 </head>
 <body class="layout-6"
-      style="background: rgba(0, 0, 0, 0) linear-gradient(to right, rgb(79, 172, 254) 0%, rgb(0, 242, 254) 100%) repeat scroll 0% 0%;">
+      style="background: rgba(0, 0, 0, 0) linear-gradient(to right, rgb(79, 172, 254) 0%, rgb(0, 242, 254) 100%) repeat scroll 0 0;">
 
 <!-- [ Pre-loader ] start -->
 <object th:replace="fragments/preloader :: body" th:remove="tag"></object>
@@ -37,7 +37,7 @@
                             <div class="col-sm-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>Узгартириш</h5>
+                                        <h5>Яратиш</h5>
                                     </div>
                                     <div class="card-block">
                                         <form id="validation-form123" th:object="${object}">
@@ -61,12 +61,13 @@
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-prepend ">
                                                             <div class="input-group-text">
-                                                                <input type="radio" value="" name="answer_1[]"
-                                                                       aria-label="Radio button for following text input">
+                                                                <input type="radio" value="answer_1" name="choice"
+                                                                       aria-label="Radio button for following text input"
+                                                                       required>
                                                             </div>
                                                         </div>
-                                                        <input type="text" class="form-control" name="choice_1[]"
-                                                               aria-label="choice">
+                                                        <input type="text" class="form-control" name="answer_1[]"
+                                                               aria-label="answer">
                                                         <a class="delete" data-toggle="tooltip"
                                                            th:data-original-title="#{action.delete}"><i
                                                                 class="feather feather-delete"></i></a>
@@ -108,14 +109,23 @@
 <script th:inline="javascript">
     function formSubmit() {
         let action = [[${post_action}]]
-
+        $('#validation-form123').validate()
         $.ajax({
             url: action,
             async: false,
             method: 'post',
             data: $("#validation-form123").serialize(),
-            success: function (data) {
-                $('form#validation-form123').trigger("reset")
+            success: function () {
+                swal({
+                    title: "Тест яратилди!",
+                    text: "Янги тест кушинг",
+                    icon: "success",
+                });
+                let millisecondsToWait = 70000;
+                setTimeout(function () {
+                    $('form#validation-form123').trigger("reset");
+                }, millisecondsToWait);
+
             }
         });
     }
@@ -129,24 +139,20 @@
             e.preventDefault();
             if (x < maxChoices) {
                 x++;
+                // language=HTML
                 let newChoice = `
-                 <div class="input-group mb-3">
-                   <div class="input-group-prepend ">
-                       <div class="input-group-text">
-                           <input type="radio" value="" name="answers_${x + 1}[]"  aria-label="Radio button for following text input">
-                       </div>
-                   </div>
-                   <input type="text" class="form-control" name="choice_${x + 1}[]" aria-label="choice">
-                 </div>`
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend ">
+                            <div class="input-group-text">
+                                <input type="radio" name="choice" value="choice_${x}[]"
+                                       aria-label="Radio button for following text input">
+                            </div>
+                        </div>
+                        <input type="text" class="form-control" name="answer_${x}[]" aria-label="answer">
+                    </div>`
                 $(wrapper).append(newChoice); //add input box
             }
         });
-
-        $(wrapper).on("click", ".delete", function (e) {
-            e.preventDefault();
-            $(this).parent('div').remove();
-            x--;
-        })
     });
 </script>
 </body>
