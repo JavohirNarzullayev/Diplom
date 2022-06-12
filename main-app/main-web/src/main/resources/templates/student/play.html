@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <object th:replace="fragments/includes_top :: top" th:remove="tag"></object>
+</head>
+<body class="layout-6"
+      style="background: rgba(0, 0, 0, 0) linear-gradient(to right, rgb(79, 172, 254) 0%, rgb(0, 242, 254) 100%) repeat scroll 0 0;">
+
+<!-- [ Pre-loader ] start -->
+<object th:replace="fragments/preloader :: body" th:remove="tag"></object>
+<!-- [ Pre-loader ] End -->
+
+<!-- [ navigation menu ] start -->
+<object th:replace="fragments/navbar :: body" th:remove="tag"></object>
+<!-- [ navigation menu ] end -->
+
+<!-- [ Header ] start -->
+<object th:replace="fragments/topbar :: body" th:remove="tag"></object>
+<!-- [ Header ] end -->
+
+
+<!-- [ Main Content ] start -->
+<div class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ breadcrumb ] start -->
+                <div th:replace="fragments/breadcrumb :: breadcrumb"></div>
+                <!-- [ breadcrumb ] end -->
+
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <!-- [ light-layout ] start -->
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Узгартириш</h5>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <div th:if="${percent}" class="alert alert-success" role="alert"
+                                             th:text="${percent}+'%'"></div>
+                                        <div class="table-overflow">
+                                            <form th:action="@{${post_url}}" method="post">
+                                                <table class="table table-borderless" style="min-width: 900px;">
+                                                    <thead class="thead-info text-center">
+                                                    <tr>
+                                                        <th scope="col">Savol</th>
+                                                        <th scope="col">Variant</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <div th:remove="tag" th:each="quiz:${quizzes}">
+                                                        <tr>
+                                                            <td style="border:1px solid #c0c0c0; vertical-align : middle;text-align:center;"
+                                                                class="text-center" th:text="${quiz.question}"
+                                                                th:rowspan="${quiz.choices.size()}+1"></td>
+                                                        </tr>
+                                                        <tr style="border:1px solid #c0c0c0;"
+                                                            th:each="choice:${quiz.choices}">
+                                                            <td class="text-left" th:text="${choice.choice}"></td>
+                                                            <td class="text-left">
+                                                                <div class="mg-sm-l-20 custom-control custom-radio">
+                                                                    <input type="radio" class="custom-control-input"
+                                                                           th:value="${choice.choice}"
+                                                                           th:id="${'inputcheck_'+quiz.id+'_'+choiceStat.index}"
+                                                                           th:name="${'inputcheck_'+quiz.id}"/>
+                                                                    <label class="custom-control-label"
+                                                                           th:for="${'inputcheck_'+quiz.id+'_'+choiceStat.index}"></label>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </div>
+                                                    </tbody>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                                <input type="hidden" id="global_csrf" th:name="${_csrf.parameterName}"
+                                                       th:value="${_csrf.token}"/>
+                                                <button type="submit" class="btn btn-primary" th:unless="${percent}"
+                                                        th:text="#{action.download}">Маълумотларга ўзгартириш киритиш
+                                                </button>
+                                                <a th:href="@{${back_url}}" class="btn btn-outline-info"
+                                                   th:if="${percent}" th:text="#{action.back}">Маълумотларга ўзгартириш
+                                                    киритиш</a>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <!-- [ light-layout ] end -->
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ Main Content ] end -->
+
+
+<div th:include="fragments/includes_bottom :: bottom" th:remove="tag"></div>
+</body>
+</html>

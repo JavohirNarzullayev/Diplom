@@ -21,4 +21,6 @@ public interface QuizService {
     Optional<Quiz> getById(Long id);
 
     void remove(Long id);
+
+    Long count(Long science_id);
 }

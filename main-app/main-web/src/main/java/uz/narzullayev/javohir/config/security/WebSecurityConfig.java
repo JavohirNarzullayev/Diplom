@@ -55,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //teacher
                 .antMatchers("/literature/*", "/literature/**", "/teacher_plan/*", "/teacher_plan/**").hasAnyAuthority(UserType.TEACHER.name(), UserType.ADMIN.name())
                 //student
-                .antMatchers("/student/*", "/student/**").hasAuthority(UserType.STUDENT.name())
+                .antMatchers("/student/*", "/student/**").hasAnyAuthority(UserType.STUDENT.name(), UserType.ADMIN.name())
                 //admin
                 .antMatchers("/user/**", "/user/*").hasAuthority(UserType.ADMIN.name())
                 //api

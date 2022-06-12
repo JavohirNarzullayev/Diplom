@@ -120,11 +120,4 @@ public class QuizController {
         return breadcrumb;
     }
 
-
-    @GetMapping(value = "/play/{id}")
-    public String play(
-            @PathVariable("id") Integer science_id) {
-        return "quiz/play";
-    }
-
 }

@@ -64,12 +64,18 @@
                                             <td th:text="${quiz.id}"></td>
                                             <td th:text="${quiz.question}"></td>
                                             <td>
-                                                <ul class="list-group list-group-flush">
-                                                    <li class="list-group-item"
-                                                        th:each="choice:${quiz.choices}"
-                                                        th:text="${choice.choice}">
-                                                    </li>
-                                                </ul>
+                                                <div class="list-group list-group-flush">
+                                                    <div class="list-group-item"
+                                                         th:each="choice:${quiz.choices}">
+                                                        &nbsp;
+                                                        <label>
+                                                            <input type="checkbox" name="correct_answer" disabled
+                                                                   th:checked="${choice.correct_answer}"><span
+                                                                class="list-group-item-text" th:text="${choice.choice}"><i
+                                                                class="fa fa-fw"></i> </span>
+                                                        </label>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td th:text="${quiz.science.name.uz}"></td>
                                             <td>

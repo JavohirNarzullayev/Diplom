@@ -37,7 +37,7 @@ public class UserDto {
     public interface Update{};
 
     private Long id;
-    @Size(min = 4,max = 12)
+    @Size(min = 4, max = 20)
     private String username;
 
     @NotBlank(message = "Парол ёзиш талаб етилади!",groups = {Create.class})

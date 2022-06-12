@@ -48,4 +48,9 @@ public class StudentServiceImpl implements QuizService {
     public void remove(@NotNull Long id) {
         quizRepository.deleteById(id);
     }
+
+    @Override
+    public Long count(@NotNull Long science_id) {
+        return quizRepository.count((root, query, builder) -> builder.and(builder.equal(root.get("science").get("id"), science_id)));
+    }
 }
