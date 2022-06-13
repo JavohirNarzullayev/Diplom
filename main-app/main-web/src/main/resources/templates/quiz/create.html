@@ -109,7 +109,6 @@
 <script th:inline="javascript">
     function formSubmit() {
         let action = [[${post_action}]]
-        $('#validation-form123').validate()
         $.ajax({
             url: action,
             async: false,

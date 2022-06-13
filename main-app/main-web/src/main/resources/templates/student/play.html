@@ -66,7 +66,8 @@
                                                                     <input type="radio" class="custom-control-input"
                                                                            th:value="${choice.choice}"
                                                                            th:id="${'inputcheck_'+quiz.id+'_'+choiceStat.index}"
-                                                                           th:name="${'inputcheck_'+quiz.id}"/>
+                                                                           th:name="${'inputcheck_'+quiz.id}"
+                                                                           required/>
                                                                     <label class="custom-control-label"
                                                                            th:for="${'inputcheck_'+quiz.id+'_'+choiceStat.index}"></label>
                                                                 </div>
