@@ -29,6 +29,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Validated(UserDto.Create.class)
     public UserEntity save(@Valid UserDto user) {
+        if (user.getUserType().equals(UserType.TEACHER)) {
+            user.setEnabled(false);
+        }
         return userRepository.save(user.merge(new UserEntity()));
     }
 

@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class PlanTeacherControllerTest {
     @Autowired
     private MockMvc mockMvc;
-    //Todo asosiy oynada tarjima and amaliy ishlar buyicha fan qushish kerak,mavzular nomlarini tug`irlash
+    //Todo  amaliy ishlar buyicha fan qushish kerak
     //Texnika Qodirov Fazliddin
     @MockBean
     private PlanTeacherRepository planTeacherRepository;
