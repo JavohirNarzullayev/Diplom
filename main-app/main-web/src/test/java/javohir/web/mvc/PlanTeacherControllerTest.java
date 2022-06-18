@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.data.util.Pair;
 import org.springframework.http.MediaType;
@@ -16,10 +17,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import uz.narzullayev.javohir.constant.UserType;
-import uz.narzullayev.javohir.dto.UserDto;
 import uz.narzullayev.javohir.repository.PlanTeacherRepository;
-import uz.narzullayev.javohir.service.UserService;
+import uz.narzullayev.javohir.service.PlanTeacherService;
 import uz.narzullayev.javohir.web.mvc.PlanTeacherController;
 
 import java.util.List;
@@ -31,16 +30,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@SpringBootTest(classes = {PlanTeacherController.class, TestWebSecurityConfig.class})
+@SpringBootTest(classes = {PlanTeacherController.class, PlanTeacherRepository.class})
+@Import(TestWebSecurityConfig.class)
 @AutoConfigureMockMvc
 class PlanTeacherControllerTest {
     @Autowired
     private MockMvc mockMvc;
+    //Todo asosiy oynada tarjima and amaliy ishlar buyicha fan qushish kerak,mavzular nomlarini tug`irlash
+    //Texnika Qodirov Fazliddin
     @MockBean
     private PlanTeacherRepository planTeacherRepository;
-    MultiValueMap<String, String> params;
     @MockBean
-    private UserService userService;
+    private PlanTeacherService planTeacherService;
+
+    MultiValueMap<String, String> params;
+
 
     @BeforeEach
     void setUp() {
@@ -54,18 +58,6 @@ class PlanTeacherControllerTest {
         params.add("columns[0].search.value", "");
         params.add("order[0].column", "0");
         params.add("order[0].dir", "asc");
-
-        var userDto = new UserDto();
-        userDto.setUsername("admin");
-        userDto.setUserType(UserType.ADMIN);
-        userDto.setPassword("12345");
-        userDto.setConfirmPassword("12345");
-        userDto.setFio("narzullayev");
-        userDto.setEmail("narzullayevj@gmail.com");
-        userDto.setId(1L);
-        userDto.setEnabled(true);
-        userDto.setPhone("+9998999999");
-        userService.save(userDto);
     }
 
 

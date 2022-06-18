@@ -1,7 +1,9 @@
-package uz.narzullayev.javohir.web.mvc;/* 
+package uz.narzullayev.javohir.web.mvc;
+/*
  @author: Javohir
   Date: 6/6/2022
-  Time: 3:50 PM*/
+  Time: 3:50 PM
+  */
 
 
 import lombok.RequiredArgsConstructor;
@@ -17,8 +19,10 @@ import uz.narzullayev.javohir.service.LiteratureService;
 import uz.narzullayev.javohir.service.PlanTeacherService;
 import uz.narzullayev.javohir.service.ScienceService;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -45,6 +49,9 @@ public class IndexController {
     @GetMapping("/index/teacher/{id}")
     public String planTeacher(@PathVariable("id") Long teacher_id, Model model) {
         List<PlanTeacher> plansTeacher = planTeacherService.findByCreatedId(teacher_id);
+        plansTeacher = plansTeacher.stream()
+                .sorted(Comparator.comparing(PlanTeacher::getId))
+                .collect(Collectors.toList());
         model.addAttribute("plans_teacher", plansTeacher);
         return "index";
     }
