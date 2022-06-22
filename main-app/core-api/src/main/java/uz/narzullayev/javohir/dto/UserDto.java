@@ -76,8 +76,7 @@ public class UserDto {
         } else {
             user.setEnabled(this.enabled);
         }
-        UserType userType1 = this.userType;
-        user.setRole(userType1);
+        user.setRole(this.userType);
         user.setFio(this.fio);
         user.setPhone(this.phone);
         user.setEmail(this.email);

@@ -54,10 +54,9 @@ public class ScienceController {
             return "redirect:/science/list";
         }
         model.addAttribute("breadcrumb", getBreadcrumb("Маьлумотни узгартириш", "/science/edit?id=" + id));
-        model.addAttribute("object",
-                ScienceDto.builder()
-                        .science(science)
-                        .build());
+        model.addAttribute("object", ScienceDto.builder()
+                .science(science)
+                .build());
         model.addAttribute("teachers", userService.findAllTeachers());
         model.addAttribute("back_action", "/science/list");
         model.addAttribute("post_action", "/science/update");

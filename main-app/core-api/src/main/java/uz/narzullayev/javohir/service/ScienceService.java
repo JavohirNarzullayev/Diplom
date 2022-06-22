@@ -25,8 +25,6 @@ public interface ScienceService {
 
     void update(Science science);
 
-    void delete(Long id);
-
     Science findById(Long id);
 
     DataTablesOutput<Science> findAll(DataTablesInput input);

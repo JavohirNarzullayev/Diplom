@@ -36,14 +36,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class PlanTeacherControllerTest {
     @Autowired
     private MockMvc mockMvc;
-    //Todo  amaliy ishlar buyicha fan qushish kerak
+    //Todo  amaliy ishlar buyicha fan qushish kerak,diplom ishiga qushimcha yozish kerak
     //Texnika Qodirov Fazliddin
     @MockBean
     private PlanTeacherRepository planTeacherRepository;
     @MockBean
     private PlanTeacherService planTeacherService;
 
-    MultiValueMap<String, String> params;
+    private MultiValueMap<String, String> params;
 
 
     @BeforeEach
@@ -106,6 +106,7 @@ class PlanTeacherControllerTest {
 
     @Test
     @Order(3)
+    @DisplayName("If not found should result not found")
     @WithUserDetails("admin")
     void edit() throws Exception {
         //If not found

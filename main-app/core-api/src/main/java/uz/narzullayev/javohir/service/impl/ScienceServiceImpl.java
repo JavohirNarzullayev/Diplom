@@ -4,6 +4,7 @@ package uz.narzullayev.javohir.service.impl;/*
   Time: 2:11 PM*/
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
@@ -22,6 +23,7 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -39,14 +41,11 @@ public class ScienceServiceImpl implements ScienceService {
         scienceRepository.save(science);
     }
 
-    @Override
-    public void delete(Long id) {
-        scienceRepository.deleteById(id);
-    }
 
     @Override
     @Transactional(readOnly = true)
     public Science findById(Long id) {
+        log.info("Find science by  id: {}", id);
         return scienceRepository.findById(id)
                 .orElseThrow(() ->
                         new RecordNotFoundException("No science found with id: " + id, "Science", "id"));
@@ -92,11 +91,13 @@ public class ScienceServiceImpl implements ScienceService {
 
     @Override
     public Science getScienceByTeacherId(Long teacher_id) {
+        log.info("Find science by  teacher_id: {}", teacher_id);
         return scienceRepository.findByTeacherId(teacher_id);
     }
 
     @Override
     public void remove(@NotNull Long id) {
+        log.info("Remove science by  id: {}", id);
         scienceRepository.deleteById(id);
     }
 }
