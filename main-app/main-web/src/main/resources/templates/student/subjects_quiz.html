@@ -134,6 +134,7 @@
             ajax: function (dataToSend, callback, settings) {
                 dataToSend.scienceName = $("#scienceName").val();
                 $.get(ajaxRequestLink, dataToSend, function (data) {
+                    console.log(data)
                     callback(data);
                 });
             },
@@ -145,13 +146,13 @@
 
                 },
                 {
-                    "data": "nameUz",
+                    "data": "name_uzz",
                 },
                 {
-                    "data": "descriptionUz",
+                    "data": "description_uz",
                 },
                 {
-                    "data": "teachersEntity",
+                    "data": "teachers_entity",
                     render: function (data, type, row) {
                         let html = '';
                         data.forEach(function (item, i, arr) {
