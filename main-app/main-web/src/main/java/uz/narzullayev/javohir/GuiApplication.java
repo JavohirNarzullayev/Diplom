@@ -17,6 +17,7 @@ public class GuiApplication extends SpringBootServletInitializer {
     public static void main(String[] args) {
         var run = SpringApplication.run(GuiApplication.class, args);
         initApplication(run.getEnvironment(), run.getBean(AppProperties.class));
+        run.getBean(DataCreator.class).initData();
     }
 
     private static void initApplication(Environment env, AppProperties appProperties) {
