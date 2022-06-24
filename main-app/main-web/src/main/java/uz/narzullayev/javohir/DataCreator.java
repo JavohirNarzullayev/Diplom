@@ -28,7 +28,6 @@ public class DataCreator {
     }
 
     public void initData() {
-
         log.info("Context Refreshed !!, Initializing environment (db, folders etc)... ");
 
         File uploadFolder = new File(appProperties.getFileStorage().getUploadFolder());
