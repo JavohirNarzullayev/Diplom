@@ -111,7 +111,7 @@
         let action = [[${post_action}]]
         $.ajax({
             url: action,
-            async: false,
+            async: true,
             method: 'post',
             data: $("#validation-form123").serialize(),
             success: function () {
