@@ -4,7 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
+import uz.narzullayev.javohir.service.UserService;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -17,7 +19,11 @@ public class GuiApplication extends SpringBootServletInitializer {
     public static void main(String[] args) {
         var run = SpringApplication.run(GuiApplication.class, args);
         initApplication(run.getEnvironment(), run.getBean(AppProperties.class));
-        run.getBean(DataCreator.class).initData();
+    }
+
+    @Bean
+    public DataCreator dataCreator(UserService userService, AppProperties appProperties) {
+        return new DataCreator(userService, appProperties);
     }
 
     private static void initApplication(Environment env, AppProperties appProperties) {
