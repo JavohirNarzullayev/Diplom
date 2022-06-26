@@ -19,10 +19,10 @@ import uz.narzullayev.javohir.service.LiteratureService;
 import uz.narzullayev.javohir.service.PlanTeacherService;
 import uz.narzullayev.javohir.service.ScienceService;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 @RequiredArgsConstructor
@@ -49,10 +49,22 @@ public class IndexController {
     @GetMapping("/index/teacher/{id}")
     public String planTeacher(@PathVariable("id") Long teacher_id, Model model) {
         List<PlanTeacher> plansTeacher = planTeacherService.findByCreatedId(teacher_id);
-        plansTeacher = plansTeacher.stream()
-                .sorted(Comparator.comparing(PlanTeacher::getId))
-                .collect(Collectors.toList());
+        plansTeacher.sort((o1, o2) -> {
+            Integer index1 = stripNonDigits(o1.getTheme());
+            Integer index2 = stripNonDigits(o2.getTheme());
+            return index1.compareTo(index2);
+        });
         model.addAttribute("plans_teacher", plansTeacher);
         return "index";
+    }
+
+    public static Integer stripNonDigits(CharSequence input) {
+        Pattern isInt = Pattern.compile("\\d+");
+
+        Matcher intMatcher = isInt.matcher(input);
+        if (intMatcher.find()) {
+            return Integer.parseInt(intMatcher.group());
+        }
+        return 0;
     }
 }
