@@ -47,7 +47,7 @@
     <!--<root level="INFO">
         <appender-ref ref="EMAIL"/>
     </root>-->
-
+    <logger name="org.flywaydb" level="DEBUG"/>
     <logger name="javax.activation" level="ERROR"/>
     <logger name="javax.management.remote" level="ERROR"/>
     <logger name="javax.xml.bind" level="ERROR"/>
